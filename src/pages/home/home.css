@@ -10,7 +10,7 @@
 .mhk-logo {
     width: 220px;
     height: auto;
-    margin-left: 10vh;
+    margin-left: 30px;
 }
 nav{
     display: flex;
@@ -18,7 +18,7 @@ nav{
     align-items: center;
     padding: 10px 20px;
     background-color: #05377e;
-    height: 10vh;
+    height: 70px;
 }
 nav a {
     color: white;
@@ -41,7 +41,7 @@ nav li a:hover {
     color: darkgrey;
 }
 header{
-    height: 5vh;
+    height: 50px;
     display: flex;
     justify-content: space-between;
     align-items: center;
