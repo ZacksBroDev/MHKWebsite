@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
+import './NavBar.css';
 const NavBar = () => {
   return (
     <>
     <header>
         <h4 className='title'>Martial Arts Classes at Mile High Karate</h4>
-        <img src="/src/assets/img/FB-Logo.png" alt="FB-Logo" className='fb-logo'/>
+        <Link to='https://www.facebook.com/MHKThornton'><img src="/src/assets/img/FB-Logo.png" alt="FB-Logo" className='fb-logo'/></Link>
       </header>
       <nav>
         <img src="/src/assets/img/logo.png" alt="Mile High Karate Logo" className='mhk-logo'/>
