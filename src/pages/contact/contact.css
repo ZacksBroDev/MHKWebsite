@@ -1,17 +1,15 @@
 .submit-button {
-  background-color: #b70001;
+  background-image: linear-gradient(to right, red, blue);
   font-weight: bolder;
   color: white;
   padding: 0.5rem 1rem;
   border: none;
-  border-radius: 5px;
-  width: 100px;
-  position: absolute;
-  top: 70%;
-  left:45%;
+  border-radius: 10px;
+  cursor: pointer;
+  align-self: start;
 }
 .submit-button:hover{
-  background-color: red;
+  background-image: linear-gradient(to right, darkred, darkblue);
 }
 h1 {
   text-align: center;
@@ -19,40 +17,56 @@ h1 {
 }
 div div input, div div textarea{
   background-color: lightblue;
-  font-size: 25px;
-  border-radius: 3px;
-  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.1);
+  font-size: 20px;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.9);
   border: none;
   width:100%;
-  height: 100%;
+  
   padding:5px;
+  box-sizing: border-box;
+
 }
 
-#input1{
-  grid-area: input1;
+#name{
+  grid-area: name;
 }
-#input2{
-  grid-area: input2;
+#email{
+  grid-area: email;
 }
-#input3{
-  grid-area: input3;
+#phone{
+  grid-area: phone;
 }
-#input4{
-  grid-area: input4;
+#subject{
+  grid-area: subject;
 }
-#input5{
-  grid-area: input5;
+#message{
+  grid-area: message;
+  width:100%;
+  height: 100%;
+  align-self: stretch;
+  justify-self: stretch;
   resize: none;
+}
+#submit{
+  grid-area: submit;
 }
 .contact-form{
   display: grid;
   grid-template-columns: 1fr 1fr;
-  grid-template-rows: 1fr 1fr 5fr;
+  grid-template-rows: 1fr 1fr 5fr 0.5fr;
+  grid-template-areas:
+    "name email"
+    "phone subject"
+    "message message"
+    "submit submit";
+  gap: 1rem;
   border:#b70001 solid;
-  max-height: 500px;
-  border-radius: 5px;
-  gap: 10px;
-  margin: 40px;
+  border-radius: 10px;
+  padding: 1rem;
+  width: 80%;
+  max-width: 800px;
+  margin: 0 auto;
 }
 div img{
   width:300px;
