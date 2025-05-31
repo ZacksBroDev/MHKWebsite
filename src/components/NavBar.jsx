@@ -9,7 +9,7 @@ const NavBar = () => {
         <Link to='https://www.facebook.com/MHKThornton'><img src="/src/assets/img/FB-Logo.png" alt="FB-Logo" className='fb-logo'/></Link>
       </header>
       <nav>
-        <img src="/src/assets/img/logo.png" alt="Mile High Karate Logo" className='mhk-logo'/>
+        <a href="https://thorntonmhk.com/"><img src="/src/assets/img/logo.png" alt="Mile High Karate Logo" className='mhk-logo'/></a>
         <ul>
           <li><Link to="/">Home</Link></li>
           <li><Link to="/about">About</Link></li>
