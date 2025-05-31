@@ -31,18 +31,15 @@ const Contact = () => {
   return (
     <>
       <h1>Contact Form</h1>
-      <div>
         <form  onSubmit={handleSubmit} className="contact-form">
-          <div><input name="name" id="input1" type="text" placeholder="Your Name" required/></div>
-          <div><input name="email" id="input2" type="email" placeholder="Your Email" required/></div>
-          <div><input name="phone" id="input3" type="phone" placeholder="Your Phone" required/></div>
-          <div><input name="subject" id="input4" type="text" placeholder="Subject" required/></div>
-          <div><textarea name="message" id="input5" placeholder="Your Message" required></textarea></div>
-          <img src="/src/assets/img/MHK-family.png"/>
-          <button className="submit-button" type="submit">SUBMIT</button>
+          <input name="name" id="name" type="text" placeholder="Your Name" required/>
+          <input name="email" id="email" type="email" placeholder="Your Email" required/>
+          <input name="phone" id="phone" type="phone" placeholder="Your Phone" required/>
+          <input name="subject" id="subject" type="text" placeholder="Subject" required/>
+          <textarea name="message" id="message" placeholder="Your Message" required></textarea>
+          <button id="submit" type="submit" className="submit-button">SUBMIT</button>
         </form>
-       
-      </div>
+      <img src="/src/assets/img/MHK-family.png"/>
     </>
   );
 };
