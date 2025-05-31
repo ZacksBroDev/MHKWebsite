@@ -1,36 +1,54 @@
-.userLabel{
-    padding-right: 10px;
-}
-.pwLabel{
-    padding-right: 10px;
-}
-
-.logIn {
-    border: red 2px solid;
+.submit-button {
+    background-image: linear-gradient(to right, red, blue);
+    font-weight: bolder;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
     border-radius: 10px;
-    padding: 20px;
-    
+    cursor: pointer;
+    align-self: start;
 }
+.submit-button:hover{
+    background-image: linear-gradient(to right, darkred, darkblue);
+}
+h2 {
+    text-align: center;
+    color: black;
+}
+input{
+    background-color: lightblue;
+    font-size: 20px;
+    border-radius: 5px;
+    box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.9);
+    border: none;
+    width:100%;
 
-.usern{
-    padding-right: 10px;
+    padding:5px;
+    box-sizing: border-box;
+
 }
-.pwLabel{
-    padding-right: 10px;
+#check1{
+    margin: 0 auto;
 }
-.SUB{
-    text-align: center;
-    padding-top: 2rem;
-}
-.SIL{
-    text-align: center;
-    padding-top: 2rem;
-    color: black;
+   
+#check2{
     
 }
-.userLabel{
-    color: black;
+.logIn{
+   
 }
-.cred-label{
-    color: black;
+.signUp{
+    
+}
+.login-form{
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 1rem;
+
+    border:#b70001 solid;
+    border-radius: 10px;
+    padding: 1rem;
+    width: 80%;
+    max-width: 800px;
+    margin: 0 auto;
 }
