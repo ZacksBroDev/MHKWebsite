@@ -1,12 +1,11 @@
 import React from "react";
 import '/src/pages/home/home.css'
+import css from '/src/assets/css/style.module.css';
 
 function Home() {
   return (
     <>
-      <h1 className="home">Home</h1>
-      <p>Welcome to the Martial Arts Classes at Mile High Karate!</p>
-      <p>We offer a variety of classes for all ages and skill levels.</p>
+      <h1>Current Curriculum</h1>
       <table>
         <tr>
           <th>Class Name</th>
@@ -31,6 +30,24 @@ function Home() {
           <td>Sensei Mike</td>
           <td>4:00 PM</td>
           <td>Room 103</td>
+        </tr>
+        <tr>
+          <td>Self-Defense</td>
+          <td>Sensei Sarah</td>
+          <td>7:00 PM</td>
+          <td>Room 104</td>
+        </tr>
+        <tr>
+          <td>Kickboxing</td>
+          <td>Sensei Alex</td>
+          <td>8:00 PM</td>
+          <td>Room 105</td>
+        </tr>
+        <tr>
+          <td>Weapons Training</td>
+          <td>Sensei Tom</td>
+          <td>9:00 PM</td>
+          <td>Room 106</td>
         </tr>
       </table>
     </>
