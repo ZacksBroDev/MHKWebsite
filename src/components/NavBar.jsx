@@ -4,20 +4,19 @@ import './NavBar.css';
 const NavBar = () => {
   return (
     <>
-    <header>
-        <h4 className='title'>Martial Arts Classes at Mile High Karate</h4>
-        <Link to='https://www.facebook.com/MHKThornton'><img src="/src/assets/img/FB-Logo.png" alt="FB-Logo" className='fb-logo'/></Link>
+      <header>
+        <nav>
+          <ul className='nav-links'>
+            <li><Link className="nav-link" to="/">Home</Link></li>
+            <li><Link className="nav-link" to="/about">About</Link></li>
+            <li><Link className="nav-link" to="/classes">Classes</Link></li>
+            <li><Link className="nav-link" to="/contact">Contact</Link></li>
+          </ul>
+        </nav>
+        <div className="login-container">
+          <Link to="/login" className="login-link">Login</Link>
+        </div>
       </header>
-      <nav>
-        <a href="https://thorntonmhk.com/"><img src="/src/assets/img/logo.png" alt="Mile High Karate Logo" className='mhk-logo'/></a>
-        <ul>
-          <li><Link to="/">Home</Link></li>
-          <li><Link to="/about">About</Link></li>
-          <li><Link to="/classes">Classes</Link></li>
-          <li><Link to="/contact">Contact</Link></li>
-          <li><Link to="/login">Login</Link></li>
-        </ul>
-      </nav>
     </>
   );
 }
