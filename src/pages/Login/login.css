@@ -1,5 +1,5 @@
 .submit-button {
-    background-image: linear-gradient(to right, red, blue);
+    background-image: linear-gradient(to right, var(--primary), var(--secondary));
     font-weight: bolder;
     color: white;
     padding: 0.5rem 1rem;
@@ -9,14 +9,15 @@
     align-self: start;
 }
 .submit-button:hover{
-    background-image: linear-gradient(to right, darkred, darkblue);
+    background-image: linear-gradient(to right, var(--accent), var(--header));
 }
-h2 {
+h1 {
     text-align: center;
-    color: black;
+    color: var(--text);
+    margin-top: 1rem;
 }
 input{
-    background-color: lightblue;
+    background-color: var(--pure-mist);
     font-size: 20px;
     border-radius: 5px;
     box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.9);
@@ -45,7 +46,7 @@ input{
     grid-template-columns: 1fr;
     gap: 1rem;
 
-    border:#b70001 solid;
+    border: var(--accent) solid;
     border-radius: 10px;
     padding: 1rem;
     width: 80%;
