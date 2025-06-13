@@ -35,33 +35,37 @@ table{
 }
 th, td {
     padding: 12px 15px;
-    border: 1px solid var(--urban-gray);
 }
 th {
-    background-color: var(--secondary);
+    background-color: var(--urban-gray);
     color: var(--text);
 }
 td {
-    background-color: var(--pure-mist);
+
     color: var(--text);
 }
 table tr:first-child th:first-child {
     border-top-left-radius: 20px; 
-    border-left: none;
-    border-top: none;
+
 }
 table tr:first-child th:last-child {
     border-top-right-radius: 20px; 
-    border-right: none;
-    border-top: none;
+
 }
 table tr:last-child td:first-child {
     border-bottom-left-radius: 20px; 
-    border-left: none;
-    border-bottom: none;
+
 }
 table tr:last-child td:last-child {
     border-bottom-right-radius: 20px; 
-    border-right: none;
-    border-bottom: none;
+
+}
+
+table tr:nth-child(even) th,
+table tr:nth-child(even) td {
+    background-color: var(--pure-mist);
+}
+
+table tr:nth-child(odd) td {
+    background-color: var(--secondary);
 }
