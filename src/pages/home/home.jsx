@@ -26,6 +26,12 @@ function Home() {
           <td>6:00 PM</td>
           <td>Room 102</td>
         </tr>
+        <tr>
+          <td>Kids Karate</td>
+          <td>Sensei Mike</td>
+          <td>4:00 PM</td>
+          <td>Room 103</td>
+        </tr>
       </table>
     </>
   );
