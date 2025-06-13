@@ -11,12 +11,9 @@
 .submit-button:hover{
   background-image: linear-gradient(to right, darkred, darkblue);
 }
-h1 {
-  text-align: center;
-  color: #b70001;
-}
+
 input,textarea{
-  background-color: lightblue;
+  background-color: var(--pure-mist);
   font-size: 20px;
   border-radius: 5px;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.9);
@@ -61,7 +58,7 @@ input,textarea{
     "message message"
     "submit submit";
   gap: 1rem;
-  border:#b70001 solid;
+  border: var(--accent) solid;
   border-radius: 10px;
   padding: 1rem;
   width: 80%;
