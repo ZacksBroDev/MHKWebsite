@@ -15,7 +15,7 @@ h1 {
   text-align: center;
   color: #b70001;
 }
-div div input, div div textarea{
+input,textarea{
   background-color: lightblue;
   font-size: 20px;
   border-radius: 5px;
@@ -68,7 +68,7 @@ div div input, div div textarea{
   max-width: 800px;
   margin: 0 auto;
 }
-div img{
+img{
   width:300px;
   margin: auto;
   background-color: lightblue;
