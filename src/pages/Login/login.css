@@ -7,6 +7,7 @@
     border-radius: 10px;
     cursor: pointer;
     align-self: start;
+    width: 100%;
 }
 .submit-button:hover{
     background-image: linear-gradient(to right, var(--accent), var(--header));
@@ -32,15 +33,6 @@ input{
     margin: 0 auto;
 }
    
-#check2{
-    
-}
-.logIn{
-   
-}
-.signUp{
-    
-}
 .login-form{
     display: grid;
     grid-template-columns: 1fr;
