@@ -7,6 +7,7 @@ function Home() {
     <>
       <h1>Current Curriculum</h1>
       <table>
+      <tbody>
         <tr>
           <th>Class Name</th>
           <th>Instructor</th>
@@ -49,6 +50,7 @@ function Home() {
           <td>9:00 PM</td>
           <td>Room 106</td>
         </tr>
+        </tbody>
       </table>
     </>
   );
