@@ -1,0 +1,101 @@
+@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@100;300;400;500;800&display=swap");
+
+.schedule {
+  display: flex;
+  flex-flow: column;
+  align-items: center;
+  font-family: "Poppins", serif;
+  background: rgb(238, 174, 202);
+  background: radial-gradient(
+    circle,
+    rgba(238, 174, 202, 1) 0%,
+    rgba(148, 187, 233, 1) 100%
+  );
+  padding: 2rem;
+}
+
+.calendar-nav {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.nav-button {
+  background: rgba(255, 255, 255, 0.3);
+  border: none;
+  border-radius: 50%;
+  width: 3rem;
+  height: 3rem;
+  cursor: pointer;
+  font-size: 1.2rem;
+  color: var(--text);
+}
+
+.nav-button:hover {
+  background: rgba(255, 255, 255, 0.5);
+}
+
+h1 {
+  font-size: 2rem;
+  font-weight: 700;
+  color: var(--text);
+  margin: 1rem 0;
+  text-align: center;
+  background-color: transparent;
+}
+
+.schedule-list {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr);
+  gap: 0.25rem;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.schedule-list li {
+  display: flex;
+  width: 10rem;
+  height: 10rem;
+  flex-flow: column;
+  border-radius: 10px;
+  padding: 1rem;
+  font-weight: 300;
+  font-size: 0.8rem;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.day-header {
+  background: rgba(255, 255, 255, 0.4) !important;
+  justify-content: center;
+  align-items: center;
+  font-weight: 600;
+}
+
+.empty-day {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+}
+
+.calendar-day:hover {
+  background: rgba(255, 255, 255, 0.4);
+  transform: translateY(-2px);
+  transition: all 0.3s ease;
+}
+
+.date {
+  font-weight: 600;
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.events {
+  font-size: 0.7rem;
+  color: var(--text);
+}
