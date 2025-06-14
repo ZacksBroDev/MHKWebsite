@@ -137,6 +137,36 @@ const Schedule = () => {
       <ul className="schedule-list">
         {generateCalendarDays()}
       </ul>
+
+      <div className="event-form">
+        <h2>Add Event</h2>
+        <input type="text" placeholder="Event Title" />
+        <input type="time" placeholder="Event Time" />
+        <select>
+          <option value="class">Class</option>
+          <option value="test">Test</option>
+          <option value="tournament">Tournament</option>
+        </select>
+        <button>Add Event</button>
+      </div>
+      
+      <div className="event-list">
+        <h2>Events</h2>
+        <ul>
+          {Object.entries(events).map(([date, dayEvents]) => (
+            <li key={date}>
+              <strong>{date}</strong>
+              <ul>
+                {dayEvents.map((event, index) => (
+                  <li key={index}>
+                    {event.title} - {event.time} ({event.type})
+                  </li>
+                ))}
+              </ul>
+            </li>
+          ))}
+        </ul>
+      </div>
     </div>
   );
 };
