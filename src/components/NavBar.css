@@ -21,12 +21,10 @@ nav li .nav-link{
   text-decoration: underline;
 }
 nav li {
-  background-color: var(--header);
   float: left;
 }
 nav ul {
   list-style: none;
-  background-color: var(--header);
 }
 header{
   display: flex;
@@ -34,7 +32,19 @@ header{
   align-items: center;
   background-color: var(--header);
 }
-img .login{
-  width: 10px;
-  background-color: transparent;
+header .login-container{
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
+.login{
+  width: 50px;
+  background-color: var(--header);
+  margin-right: 2rem;
+  border-radius: 50px;
+}
+.login-link{
+  background-color: var(--header);
+  padding: 1rem;
+}
+
