@@ -71,9 +71,11 @@ h1 {
 }
 
 .day-header {
-  background: rgba(255, 255, 255, 0.4) !important;
+  background: var(--accent) !important;
   justify-content: center;
   align-items: center;
+  font-weight: 600;
+  height: 2rem !important;
 }
 
 .empty-day {
@@ -92,6 +94,7 @@ h1 {
   font-weight: 600;
   font-size: 1rem;
   margin-bottom: 0.5rem;
+  background-color: transparent;
 }
 
 .events {
@@ -144,6 +147,7 @@ time {
   flex-direction: column;
   gap: 1rem;
   background-color: transparent;
+  margin-top: 2rem;
 }
 .event-form input,
 .event-form textarea {
@@ -160,9 +164,10 @@ time {
   background-color: var(--accent);
   color: var(--text);
   cursor: pointer;
+  margin-bottom: 2rem;
 }
 .event-form button:hover {
-  background-color: var(--accent-hover);
+  background-color: var(--primary);
 }
 .event-form h2{
   font-size: 1.5rem;
@@ -170,4 +175,16 @@ time {
   color: var(--text);
   margin-bottom: 0.5rem;
   background-color: transparent;
+}
+.day-header{
+  height:20px;
+}
+select{
+  padding: 0.5rem;
+  border-radius: 5px;
+  border: 1px solid var(--text);
+  background-color: var(--pure-mist);
+  color: var(--text);
+  font-size: 1rem;
+  font-weight: 500;
 }
