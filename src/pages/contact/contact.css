@@ -1,5 +1,5 @@
 .submit-button {
-  background-image: linear-gradient(to right, red, blue);
+  background-image: linear-gradient(to right, var(--primary), var(--secondary));
   font-weight: bolder;
   color: white;
   padding: 0.5rem 1rem;
@@ -9,7 +9,7 @@
   align-self: start;
 }
 .submit-button:hover{
-  background-image: linear-gradient(to right, darkred, darkblue);
+  background-image: linear-gradient(to right, var(--accent), var(--header));
 }
 
 input,textarea{
