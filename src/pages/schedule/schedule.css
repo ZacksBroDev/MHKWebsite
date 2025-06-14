@@ -19,6 +19,7 @@
   align-items: center;
   gap: 1rem;
   margin-bottom: 1rem;
+  background-color: transparent;
 }
 
 .nav-button {
@@ -50,8 +51,7 @@ h1 {
   grid-template-columns: repeat(7, 1fr);
   gap: 0.25rem;
   list-style: none;
-  padding: 0;
-  margin: 0;
+  background-color: transparent;
 }
 
 .schedule-list li {
@@ -74,7 +74,6 @@ h1 {
   background: rgba(255, 255, 255, 0.4) !important;
   justify-content: center;
   align-items: center;
-  font-weight: 600;
 }
 
 .empty-day {
@@ -98,4 +97,22 @@ h1 {
 .events {
   font-size: 0.7rem;
   color: var(--text);
+}
+
+.event-list{
+  background-color: var(--header);
+  width: 100%;
+  border-radius: 20px;
+}
+.event-list li {
+  padding: 0.5rem;
+  list-style: none;
+}
+li strong{
+  font-weight: 600;
+  color: var(--text);
+  background-color: transparent;
+}
+time {
+  background-color: transparent;
 }
