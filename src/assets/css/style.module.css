@@ -15,9 +15,6 @@
   --pure-mist:#f5f5f5;
   --urban-gray:#a0a0a0;
 }
-
-h1
-
 p {
   color: var(--text);
   font-size: 1.2rem;
