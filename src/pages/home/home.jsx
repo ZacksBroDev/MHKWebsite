@@ -56,10 +56,10 @@ function Home() {
 
 
 
-      <div className="curriculum">
+      <div className={css.curriculum}>
         <h1>Full Curriculum</h1>
         <h2>Under Belt</h2>
-        <div className="level">
+        <div className={css.level}>
           <h3>Level 1</h3>
           <h4>Forms</h4>
           <ul>
@@ -74,7 +74,7 @@ function Home() {
             <li><Link to="/Level1">American Karate Combination Set</Link></li>
           </ul>
         </div>
-        <div className="level">
+        <div className={css.level}>
           <h3>Level 2</h3>
           <h4>Forms</h4>
           <ul>
@@ -90,7 +90,7 @@ function Home() {
             <li><Link to="/Level2">American Tae Kwon Do Combination Set</Link></li>
           </ul>
         </div>
-        <div className="level">
+        <div className={css.level}>
           <h3>Level 3</h3>
           <h4>Forms</h4>
           <ul>
@@ -106,7 +106,7 @@ function Home() {
           </ul>
         </div>
         <h2>Black Belt</h2>
-        <div className="level">
+        <div className={css.level}>
           <h3>Conditional</h3>
           <h4>Forms</h4>
           <ul>
@@ -115,7 +115,7 @@ function Home() {
             <li><Link to="/Conditionals">Beethoeven</Link></li>
           </ul>
         </div>
-        <div className="level">
+        <div className={css.level}>
           <h3>1st Degree</h3>
           <h4>Forms</h4>
           <ul>
@@ -133,7 +133,7 @@ function Home() {
             <li><Link to="/Deg1">Nunchaku Basics</Link></li>
           </ul>
         </div>
-        <div className="level">
+        <div className={css.level}>
           <h3>2nd Degree</h3>
           <h4>Forms</h4>
           <ul>
