@@ -1,14 +1,15 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import '/src/pages/home/home.css'
+import css from '/src/assets/css/style.module.css';
 
 function Level1() {
   return (
     <>
-    <div className="curriculum">
+    <div className={css.curriculum}>
       <h1>Level 1</h1>
       <h2>Forms</h2>
-      <div className="level">
+      <div className={css.level}>
         <h2>Chon Ji Hyung</h2>
         <h3><a href="https://vimeo.com/838866958?share=copy">Link to Video</a></h3>
         <p>Ready stance</p>
@@ -24,6 +25,8 @@ function Level1() {
           <li>16. Right fist aim, left foot step forward into Left front stance, front punch (left hand) 17. Right foot step into right front stance, right front punch</li>
           <li>18. Right step back into left front stance, left front punch.</li>
         </ul>
+      </div>
+      <div className={css.level}>
         <h2>Kama 1</h2>
         <h3><a href="https://vimeo.com/844692127?share=copy">Link to Video</a></h3>
         <p>Ready stance (feet shoulder width. Kamas crossed at waist level, right hand on top)</p>
@@ -48,6 +51,8 @@ function Level1() {
           <li>18. Step back (right foot backward) into left front stance north. Left chop at chest level, right high block.</li>
           <li>19. Left step back into right front stance, right front punch. Yell</li>
         </ul>
+      </div>
+      <div className={css.level}>
         <h2>Tan-Gun Hyung</h2>
         <h3><a href="https://vimeo.com/838866763?share=copy">Link to Video</a></h3>
         <p>Ready Stance</p>
@@ -73,6 +78,8 @@ function Level1() {
           <li>20. Swing right foot right into right back stance east, (chamber: cross right arm on top) right chop</li>
           <li>21. left fist aim (eye level) right foot step forward into right front stance East, left front punch (eye level) Yell</li>
         </ul>
+      </div>
+      <div className={css.level}>
         <h2>To-San Hyung</h2>
         <h3><a href="https://vimeo.com/838866814?share=copy">Link to Video</a></h3>
         <p>Ready position (Feet should width apart, arms tense (tight muscles) fists bellybutton)</p>
@@ -96,6 +103,8 @@ function Level1() {
           <li>23. Pivot left on right foot into horse stance north. Cross left arm on top. Chop.</li>
           <li>24. Step feet together (left to right). Step out (right) into horse stance north. Cross right arm on top. Chop. Yell.</li>
         </ul>
+      </div>
+      <div className={css.level}>
         <h2>Won-Hyo Hyung</h2>
         <h3><a href="https://vimeo.com/838866896?share=copy">Link to Video</a></h3>
         <p>Ready stance (Feet together. Left hand grabbing right fist at chin level)</p>
@@ -126,7 +135,9 @@ function Level1() {
           <li>27. Pivot on right foot (turning left) bringing left foot into right back stance west closed hand sudo.</li>
           <li>28. Step feet together (left to right). Then stepping right foot into left back stance east. Closed hand sudo. Yell.</li>
         </ul>
-        <h1>Combos</h1>
+      </div>
+      <h2>Combos</h2>
+      <div className={css.level}>
         <h2>Karate Combination Set</h2>
         <h3><a href="https://vimeo.com/853551821?share=copy">Link to Video 1-4</a></h3>
         <h3><a href="https://vimeo.com/844088253?share=copy">Link to Video 5-8</a></h3>
@@ -140,6 +151,8 @@ function Level1() {
           <li>7. Front punch, Round kick, Side kick, back punch.</li>
           <li>8. Front Punch, back punch, Back leg round kick, Reverse side kick, back punch.</li>
         </ul>
+      </div>
+      <div className={css.level}>
         <h2>American Karate Combination Set</h2>
         <h3><a href="https://vimeo.com/844692582?share=copy">Link to Video 1-4</a></h3>
         <h3><a href="https://vimeo.com/844693036?share=copy">Link to Video 5-8</a></h3>

@@ -1,34 +1,43 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import css from '/src/assets/css/style.module.css';
 
 function Level3() {
   return (
     <>
-      <div className="curriculum">
+      <div className={css.curriculum}>
         <h1>Level 3</h1>
         <h2>Forms</h2>
-        <div className="level">
+        <div className={css.level}>
           <h2>Chung Mu</h2>
           <h3><a href="https://vimeo.com/853564229?share=copy">Link to Video</a></h3>
           <ul>
             <li>1</li>
           </ul>
+        </div>
+        <div className={css.level}>
           <h2>Po Eun</h2>
           <h3><a href="https://vimeo.com/853563473?share=copy">Link to Video</a></h3>
           <ul>
             <li>1</li>
           </ul>
+        </div>
+        <div className={css.level}>
           <h2>Might For Right</h2>
           <h3><a href="https://vimeo.com/862546959?share=copy">Link to Video</a></h3>
           <ul>
             <li>1</li>
           </ul>
+        </div>
+        <div className={css.level}>
           <h2>Bo 3</h2>
           <h3><a href="https://vimeo.com/853565688?share=copy">Link to Video</a></h3>
           <ul>
             <li>1</li>
           </ul>
-          <h1>Combos</h1>
+        </div>  
+        <h2>Combos</h2>
+        <div className={css.level}>
           <h2>Kickboxing Combination Set</h2>
           <h3><a href="https://vimeo.com/892779060">Link to Video 1-4</a></h3>
           <ul>
@@ -37,6 +46,8 @@ function Level3() {
             <li>3. Front punch, Hook kick/round kick, Reverse side kick, Reverse back fist, back punch.</li>
             <li>4. 360° Round kick, Reverse hook kick, Back leg round kick, Back ridge hand.</li>
           </ul>
+        </div>
+        <div className={css.level}>
           <h2>American Kickboxing Combination Set - (Offensive only)</h2>
           <h3><a href="https://vimeo.com/853567562?share=copy">Link to Video 1-5</a></h3>
           <h3><a href="https://vimeo.com/853568289?share=copy">Link to Video 6-9</a></h3>
