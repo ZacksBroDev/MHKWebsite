@@ -16,17 +16,17 @@ const Schedule = () => {
   // Sample events data - you can modify this or load from an API
   useEffect(() => {
     setEvents({
-      '2025-01-15': [
-        { title: 'Karate Class', time: '6:00 PM', type: 'class' },
-        { title: 'Belt Test', time: '7:30 PM', type: 'test' }
-      ],
-      '2025-01-16': [
-        { title: 'Kids Class', time: '4:00 PM', type: 'class' }
-      ],
-      '2025-01-20': [
-        { title: 'Tournament', time: '10:00 AM', type: 'tournament' }
-      ],
-      // Add more events here
+      // '2025-01-15': [
+      //   { title: 'Karate Class', time: '6:00 PM', type: 'class' },
+      //   { title: 'Belt Test', time: '7:30 PM', type: 'test' }
+      // ],
+      // '2025-01-16': [
+      //   { title: 'Kids Class', time: '4:00 PM', type: 'class' }
+      // ],
+      // '2025-01-20': [
+      //   { title: 'Tournament', time: '10:00 AM', type: 'tournament' }
+      // ],
+      // // Add more events here
     });
   }, []);
 
