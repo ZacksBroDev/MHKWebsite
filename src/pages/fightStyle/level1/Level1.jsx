@@ -15,14 +15,22 @@ function Level1() {
         <p>Ready stance</p>
         <ul>
           <li>1. Step left foot to the left (west) front stance down block, Yell</li>
-          <li>2. Left fist aim, right foot step forward into right front stance, front punch (right hand) 3. Swing right foot into right front stance east, right down block</li>
-          <li>4. Right fist aim, left foot, step forward into left front stance east, front punch (left hand) 5. Shift into left front stand north, left down block</li>
-          <li>6. Left fist aim, right foot, step forward into Right front stance, front punch (right hand) 7. Swing right foot into right front stance South, right down block</li>
-          <li>8. Right fist aim, left foot, step forward into left front stance east, front punch (left hand). Yell 9. Swinging left foot left, shift into right back stance east, left side block.</li>
-          <li>10. Left fist aim, right foot step forward into Right front stance, front punch (right hand) 11. Swing right foot into left back stance west, right side block</li>
-          <li>12. Right fist aim, left foot step forward into Left front stance, front punch (left hand) 13. Swing left foot into right back stance South, left side block</li>
-          <li>14. Left fist aim, Right foot step forward into right front stance, front punch (right hand) 15. Swing right foot into left back stance North, right side block</li>
-          <li>16. Right fist aim, left foot step forward into Left front stance, front punch (left hand) 17. Right foot step into right front stance, right front punch</li>
+          <li>2. Left fist aim, right foot step forward into right front stance, front punch (right hand)</li>
+          <li>3. Swing right foot into right front stance east, right down block</li>
+          <li>4. Right fist aim, left foot, step forward into left front stance east, front punch (left hand) </li>
+          <li>5. Shift into left front stand north, left down block</li>
+          <li>6. Left fist aim, right foot, step forward into Right front stance, front punch (right hand) </li>
+          <li>7. Swing right foot into right front stance South, right down block</li>
+          <li>8. Right fist aim, left foot, step forward into left front stance east, front punch (left hand). Yell</li>
+          <li>9. Swinging left foot left, shift into right back stance east, left side block.</li>
+          <li>10. Left fist aim, right foot step forward into Right front stance, front punch (right hand) </li>
+          <li>11. Swing right foot into left back stance west, right side block</li>
+          <li>12. Right fist aim, left foot step forward into Left front stance, front punch (left hand) </li>
+          <li>13. Swing left foot into right back stance South, left side block</li>
+          <li>14. Left fist aim, Right foot step forward into right front stance, front punch (right hand) </li>
+          <li>15. Swing right foot into left back stance North, right side block</li>
+          <li>16. Right fist aim, left foot step forward into Left front stance, front punch (left hand) </li>
+          <li>17. Right foot step into right front stance, right front punch</li>
           <li>18. Right step back into left front stance, left front punch.</li>
         </ul>
       </div>
