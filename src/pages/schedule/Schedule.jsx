@@ -8,6 +8,13 @@ const Schedule = () => {
   const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth());
   const [events, setEvents] = useState({});
   const [loading, setLoading] = useState(true);
+  const [showForm, setShowForm] = useState(false);
+  const [formData, setFormData] = useState({
+    date: '',
+    title: '',
+    time: '',
+    type: 'class'
+  });
 
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const monthNames = [
@@ -16,47 +23,84 @@ const Schedule = () => {
   ];
 
   // Load CSV data
-  useEffect(() => {
-    const loadScheduleData = async () => {
-      try {
-        const response = await fetch('/data/schedule.csv');
-        const csvText = await response.text();
-        
-        Papa.parse(csvText, {
-          header: true,
-          skipEmptyLines: true,
-          complete: (results) => {
-            const eventsData = {};
-            results.data.forEach(row => {
-              if (row.date && row.title) {
-                const dateKey = row.date.trim();
-                if (!eventsData[dateKey]) {
-                  eventsData[dateKey] = [];
-                }
-                eventsData[dateKey].push({
-                  title: row.title.trim(),
-                  time: row.time ? row.time.trim() : '',
-                  type: row.type ? row.type.trim() : 'class'
-                });
+  const loadScheduleData = async () => {
+    try {
+      const response = await fetch('/data/schedule.csv');
+      const csvText = await response.text();
+      
+      Papa.parse(csvText, {
+        header: true,
+        skipEmptyLines: true,
+        complete: (results) => {
+          const eventsData = {};
+          results.data.forEach(row => {
+            if (row.date && row.title) {
+              const dateKey = row.date.trim();
+              if (!eventsData[dateKey]) {
+                eventsData[dateKey] = [];
               }
-            });
-            
-            setEvents(eventsData);
-            setLoading(false);
-          },
-          error: (error) => {
-            console.error('CSV parsing error:', error);
-            setLoading(false);
-          }
-        });
-      } catch (error) {
-        console.error('Error loading schedule:', error);
-        setLoading(false);
-      }
-    };
+              eventsData[dateKey].push({
+                title: row.title.trim(),
+                time: row.time ? row.time.trim() : '',
+                type: row.type ? row.type.trim() : 'class'
+              });
+            }
+          });
+          
+          setEvents(eventsData);
+          setLoading(false);
+        },
+        error: (error) => {
+          console.error('CSV parsing error:', error);
+          setLoading(false);
+        }
+      });
+    } catch (error) {
+      console.error('Error loading schedule:', error);
+      setLoading(false);
+    }
+  };
 
+  useEffect(() => {
     loadScheduleData();
   }, []);
+
+  // Handle form input changes
+  const handleFormChange = (e) => {
+    setFormData({
+      ...formData,
+      [e.target.name]: e.target.value
+    });
+  };
+
+  // Handle form submission
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    
+    try {
+      // Change this line to include the full URL
+      const response = await fetch('http://localhost:3001/api/add-event', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(formData),
+      });
+  
+      if (response.ok) {
+        alert('Event added successfully!');
+        setFormData({ date: '', title: '', time: '', type: 'class' });
+        setShowForm(false);
+        loadScheduleData(); // Reload events
+      } else {
+        const errorData = await response.json();
+        alert(`Error adding event: ${errorData.error}`);
+      }
+    } catch (error) {
+      console.error('Error:', error);
+      alert(`Network error: ${error.message}`);
+    }
+  };
 
   // Filter events for current month only
   const getCurrentMonthEvents = () => {
@@ -69,7 +113,6 @@ const Schedule = () => {
       }
     });
     
-    // Sort dates
     const sortedDates = Object.keys(monthEvents).sort();
     const sortedEvents = {};
     sortedDates.forEach(date => {
@@ -162,31 +205,92 @@ const Schedule = () => {
 
   const currentMonthEvents = getCurrentMonthEvents();
 
-
   return (
     <div className="schedule">
       <div className="calendar-nav">
         <button className="nav-button" onClick={previousMonth}>‹</button>
         <h1>{monthNames[currentMonth]} {currentYear}</h1>
         <button className="nav-button" onClick={nextMonth}>›</button>
-      </div>
-      <ul className="schedule-list">
-        {generateCalendarDays()}
-      </ul>
-
-      <div className="event-form">
-        <h2>Add Event</h2>
-        <input type="text" placeholder="Event Title" />
-        <input type="time" placeholder="Event Time" />
-        <select>
-          <option value="class">Class</option>
-          <option value="test">Test</option>
-          <option value="tournament">Tournament</option>
-        </select>
-        <button>Add Event</button>
+        <button className="add-event-btn" onClick={() => setShowForm(!showForm)}>
+          {showForm ? 'Hide Form' : 'Add Event'}
+        </button>
       </div>
       
-      <div className="events-section">
+      {/* Event Form */}
+      {showForm && (
+        <div className="event-form-container">
+          <h2>Add New Event</h2>
+          <form onSubmit={handleFormSubmit} className="event-form">
+            <div className="form-group">
+              <label htmlFor="date">Date:</label>
+              <input
+                type="date"
+                id="date"
+                name="date"
+                value={formData.date}
+                onChange={handleFormChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="title">Event Title:</label>
+              <input
+                type="text"
+                id="title"
+                name="title"
+                value={formData.title}
+                onChange={handleFormChange}
+                placeholder="Enter event title"
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="time">Time:</label>
+              <input
+                type="time"
+                id="time"
+                name="time"
+                value={formData.time}
+                onChange={handleFormChange}
+                required
+              />
+            </div>
+
+            <div className="form-group">
+              <label htmlFor="type">Event Type:</label>
+              <select
+                id="type"
+                name="type"
+                value={formData.type}
+                onChange={handleFormChange}
+              >
+                <option value="class">Class</option>
+                <option value="test">Belt Test</option>
+                <option value="tournament">Tournament</option>
+                <option value="seminar">Seminar</option>
+                <option value="special">Special Event</option>
+              </select>
+            </div>
+
+            <button type="submit" className="submit-btn">
+              Add Event
+            </button>
+          </form>
+        </div>
+      )}
+      
+      <div className="schedule-container">
+        {/* Calendar */}
+        <div className="calendar-section">
+          <ul className="schedule-list">
+            {generateCalendarDays()}
+          </ul>
+        </div>
+        
+        {/* Event List for Current Month */}
+        <div className="events-section">
           <h2>Events for {monthNames[currentMonth]} {currentYear}</h2>
           {Object.keys(currentMonthEvents).length === 0 ? (
             <p className="no-events-message">No events this month</p>
@@ -211,6 +315,7 @@ const Schedule = () => {
             </div>
           )}
         </div>
+      </div>
     </div>
   );
 };
