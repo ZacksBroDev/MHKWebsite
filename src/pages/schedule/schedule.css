@@ -132,6 +132,17 @@ h1 {
   margin-bottom: 0.5rem;
   background-color: transparent;
 }
+.event-title{
+  background-color: transparent;
+}
+.events{
+  background-color: transparent;
+  color: var(--text);
+  font-size: 0.9rem;
+}
+.event{
+  background-color: transparent;
+}
 
 li strong{
   font-weight: 600;
@@ -187,4 +198,54 @@ select{
   color: var(--text);
   font-size: 1rem;
   font-weight: 500;
+}
+
+
+.events-section{
+  width: 100%;
+  margin-top: 2rem;
+  background-color: var(--secondary);
+  padding: 1rem;
+  border-radius: 10px;
+}
+.events-section h2{
+  font-size: 1.5rem;
+  font-weight: 600;
+  color: var(--text);
+  margin-bottom: 0.5rem;
+  background-color: transparent;
+}
+.date-group{
+  background-color: transparent;
+  padding: 0.5rem;
+  margin-bottom: 1.5rem;
+}
+.events-list{
+  background-color: var(--primary);
+  padding: 1rem;
+  border-radius: 10px;
+
+}
+.event-details{
+  background-color: transparent;
+}
+.event-title{
+  background-color: transparent;
+}
+.date-header{
+  background-color: transparent;
+}
+.events-for-date{
+  background-color: transparent;
+}
+.event-item{
+  background-color: transparent;
+}
+.event-time{
+  background-color: transparent;
+  padding-left: .5rem;
+}
+.event-type{
+  background-color: transparent;
+  padding-left: .5rem;
 }
