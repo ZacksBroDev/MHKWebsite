@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from "react";
 import './schedule.css';
+import Papa from 'papaparse';
 
 const Schedule = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentYear, setCurrentYear] = useState(currentDate.getFullYear());
   const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth());
   const [events, setEvents] = useState({});
+  const [loading, setLoading] = useState(true);
 
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const monthNames = [
@@ -13,36 +15,68 @@ const Schedule = () => {
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
 
-  // Sample events data - you can modify this or load from an API
+  // Load CSV data
   useEffect(() => {
-    setEvents({
-      // '2025-01-15': [
-      //   { title: 'Karate Class', time: '6:00 PM', type: 'class' },
-      //   { title: 'Belt Test', time: '7:30 PM', type: 'test' }
-      // ],
-      // '2025-01-16': [
-      //   { title: 'Kids Class', time: '4:00 PM', type: 'class' }
-      // ],
-      // '2025-01-20': [
-      //   { title: 'Tournament', time: '10:00 AM', type: 'tournament' }
-      // ],
-      // // Add more events here
-    });
+    const loadScheduleData = async () => {
+      try {
+        const response = await fetch('/data/schedule.csv');
+        const csvText = await response.text();
+        
+        Papa.parse(csvText, {
+          header: true,
+          skipEmptyLines: true,
+          complete: (results) => {
+            const eventsData = {};
+            results.data.forEach(row => {
+              if (row.date && row.title) {
+                const dateKey = row.date.trim();
+                if (!eventsData[dateKey]) {
+                  eventsData[dateKey] = [];
+                }
+                eventsData[dateKey].push({
+                  title: row.title.trim(),
+                  time: row.time ? row.time.trim() : '',
+                  type: row.type ? row.type.trim() : 'class'
+                });
+              }
+            });
+            
+            setEvents(eventsData);
+            setLoading(false);
+          },
+          error: (error) => {
+            console.error('CSV parsing error:', error);
+            setLoading(false);
+          }
+        });
+      } catch (error) {
+        console.error('Error loading schedule:', error);
+        setLoading(false);
+      }
+    };
+
+    loadScheduleData();
   }, []);
 
-  // Function to add a new event
-  const addEvent = (dateString, event) => {
-    setEvents(prevEvents => ({
-      ...prevEvents,
-      [dateString]: prevEvents[dateString] 
-        ? [...prevEvents[dateString], event] 
-        : [event]
-    }));
-  };
-
-  // Function to get events for a specific date
-  const getEventsForDate = (dateString) => {
-    return events[dateString] || [];
+  // Filter events for current month only
+  const getCurrentMonthEvents = () => {
+    const currentMonthKey = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`;
+    
+    const monthEvents = {};
+    Object.keys(events).forEach(dateKey => {
+      if (dateKey.startsWith(currentMonthKey)) {
+        monthEvents[dateKey] = events[dateKey];
+      }
+    });
+    
+    // Sort dates
+    const sortedDates = Object.keys(monthEvents).sort();
+    const sortedEvents = {};
+    sortedDates.forEach(date => {
+      sortedEvents[date] = monthEvents[date];
+    });
+    
+    return sortedEvents;
   };
 
   const generateCalendarDays = () => {
@@ -62,7 +96,7 @@ const Schedule = () => {
       );
     });
 
-    // Add empty cells for days before month starts
+    // Add empty cells
     for (let i = 0; i < startingDayOfWeek; i++) {
       calendarDays.push(
         <li key={`empty-${i}`} className="empty-day"></li>
@@ -72,10 +106,10 @@ const Schedule = () => {
     // Add days of the month
     for (let day = 1; day <= daysInMonth; day++) {
       const dateString = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-      const dayEvents = getEventsForDate(dateString);
+      const dayEvents = events[dateString] || [];
       
       calendarDays.push(
-        <li key={`day-${day}`} className="calendar-day" onClick={() => handleDayClick(dateString)}>
+        <li key={`day-${day}`} className="calendar-day">
           <time dateTime={dateString}>
             <div className="date">{day}</div>
             <div className="events">
@@ -94,19 +128,14 @@ const Schedule = () => {
     return calendarDays;
   };
 
-  // Handle clicking on a day (could open a modal to add events)
-  const handleDayClick = (dateString) => {
-    const eventTitle = prompt('Enter event title:');
-    const eventTime = prompt('Enter event time:');
-    const eventType = prompt('Enter event type (class/test/tournament):') || 'class';
-    
-    if (eventTitle && eventTime) {
-      addEvent(dateString, {
-        title: eventTitle,
-        time: eventTime,
-        type: eventType
-      });
-    }
+  const formatDate = (dateString) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('en-US', { 
+      weekday: 'long', 
+      year: 'numeric', 
+      month: 'long', 
+      day: 'numeric' 
+    });
   };
 
   const previousMonth = () => {
@@ -126,6 +155,13 @@ const Schedule = () => {
       setCurrentMonth(currentMonth + 1);
     }
   };
+
+  if (loading) {
+    return <div className="schedule">Loading schedule...</div>;
+  }
+
+  const currentMonthEvents = getCurrentMonthEvents();
+
 
   return (
     <div className="schedule">
@@ -150,23 +186,31 @@ const Schedule = () => {
         <button>Add Event</button>
       </div>
       
-      <div className="event-list">
-        <h2>Events</h2>
-        <ul>
-          {Object.entries(events).map(([date, dayEvents]) => (
-            <li key={date}>
-              <strong>{date}</strong>
-              <ul>
-                {dayEvents.map((event, index) => (
-                  <li key={index}>
-                    {event.title} - {event.time} ({event.type})
-                  </li>
-                ))}
-              </ul>
-            </li>
-          ))}
-        </ul>
-      </div>
+      <div className="events-section">
+          <h2>Events for {monthNames[currentMonth]} {currentYear}</h2>
+          {Object.keys(currentMonthEvents).length === 0 ? (
+            <p className="no-events-message">No events this month</p>
+          ) : (
+            <div className="events-list">
+              {Object.entries(currentMonthEvents).map(([date, dayEvents]) => (
+                <div key={date} className="date-group">
+                  <h3 className="date-header">{formatDate(date)}</h3>
+                  <div className="events-for-date">
+                    {dayEvents.map((event, index) => (
+                      <div key={index} className={`event-item event-${event.type}`}>
+                        <div className="event-details">
+                          <span className="event-title">{event.title}</span>
+                          <span className="event-time">{event.time}</span>
+                          <span className="event-type">{event.type}</span>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
     </div>
   );
 };
