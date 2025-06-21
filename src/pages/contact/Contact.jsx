@@ -39,7 +39,6 @@ const Contact = () => {
           <textarea name="message" id="message" placeholder="Your Message" required></textarea>
           <button id="submit" type="submit" className="submit-button">SUBMIT</button>
         </form>
-      <img src="/src/assets/img/MHK-family.png"/>
     </>
   );
 };
