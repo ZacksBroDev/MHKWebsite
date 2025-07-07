@@ -125,6 +125,18 @@ const AuthForm = () => {
                   required
                 />
               </div>
+              
+              <div className="form-group">
+                <label>Phone:</label>
+                <input
+                  type="tel"
+                  name="phone"
+                  value={formData.phone}
+                  onChange={handleChange}
+                  placeholder="Phone"
+                  required
+                />
+              </div>
 
               <div className="form-group">
                 <label>Password:</label>
