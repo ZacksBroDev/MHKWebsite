@@ -1,20 +1,12 @@
 import React, { useState, useEffect } from "react";
 import './schedule.css';
-import Papa from 'papaparse';
 
 const Schedule = () => {
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentYear, setCurrentYear] = useState(currentDate.getFullYear());
   const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth());
-  const [events, setEvents] = useState({});
+  const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [showForm, setShowForm] = useState(false);
-  const [formData, setFormData] = useState({
-    date: '',
-    title: '',
-    time: '',
-    type: 'class'
-  });
 
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const monthNames = [
@@ -22,41 +14,23 @@ const Schedule = () => {
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
 
-  // Load CSV data
+  // Load events from MongoDB
   const loadScheduleData = async () => {
     try {
-      const response = await fetch('/data/schedule.csv');
-      const csvText = await response.text();
+      setLoading(true);
+      const response = await fetch('http://localhost:3001/api/events');
       
-      Papa.parse(csvText, {
-        header: true,
-        skipEmptyLines: true,
-        complete: (results) => {
-          const eventsData = {};
-          results.data.forEach(row => {
-            if (row.date && row.title) {
-              const dateKey = row.date.trim();
-              if (!eventsData[dateKey]) {
-                eventsData[dateKey] = [];
-              }
-              eventsData[dateKey].push({
-                title: row.title.trim(),
-                time: row.time ? row.time.trim() : '',
-                type: row.type ? row.type.trim() : 'class'
-              });
-            }
-          });
-          
-          setEvents(eventsData);
-          setLoading(false);
-        },
-        error: (error) => {
-          console.error('CSV parsing error:', error);
-          setLoading(false);
-        }
-      });
+      if (response.ok) {
+        const data = await response.json();
+        setEvents(data.events || []);
+      } else {
+        console.error('Failed to load events');
+        setEvents([]);
+      }
     } catch (error) {
       console.error('Error loading schedule:', error);
+      setEvents([]);
+    } finally {
       setLoading(false);
     }
   };
@@ -65,122 +39,7 @@ const Schedule = () => {
     loadScheduleData();
   }, []);
 
-  // Handle form input changes
-  const handleFormChange = (e) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value
-    });
-  };
-
-  // Handle form submission
-  const handleFormSubmit = async (e) => {
-    e.preventDefault();
-    
-    try {
-      // Change this line to include the full URL
-      const response = await fetch('http://localhost:3001/api/add-event', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(formData),
-      });
-  
-      if (response.ok) {
-        alert('Event added successfully!');
-        setFormData({ date: '', title: '', time: '', type: 'class' });
-        setShowForm(false);
-        loadScheduleData(); // Reload events
-      } else {
-        const errorData = await response.json();
-        alert(`Error adding event: ${errorData.error}`);
-      }
-    } catch (error) {
-      console.error('Error:', error);
-      alert(`Network error: ${error.message}`);
-    }
-  };
-
-  // Filter events for current month only
-  const getCurrentMonthEvents = () => {
-    const currentMonthKey = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}`;
-    
-    const monthEvents = {};
-    Object.keys(events).forEach(dateKey => {
-      if (dateKey.startsWith(currentMonthKey)) {
-        monthEvents[dateKey] = events[dateKey];
-      }
-    });
-    
-    const sortedDates = Object.keys(monthEvents).sort();
-    const sortedEvents = {};
-    sortedDates.forEach(date => {
-      sortedEvents[date] = monthEvents[date];
-    });
-    
-    return sortedEvents;
-  };
-
-  const generateCalendarDays = () => {
-    const firstDay = new Date(currentYear, currentMonth, 1);
-    const lastDay = new Date(currentYear, currentMonth + 1, 0);
-    const daysInMonth = lastDay.getDate();
-    const startingDayOfWeek = firstDay.getDay();
-
-    const calendarDays = [];
-
-    // Add day headers
-    daysOfWeek.forEach((day, index) => {
-      calendarDays.push(
-        <li key={`header-${index}`} className="day-header">
-          <strong>{day}</strong>
-        </li>
-      );
-    });
-
-    // Add empty cells
-    for (let i = 0; i < startingDayOfWeek; i++) {
-      calendarDays.push(
-        <li key={`empty-${i}`} className="empty-day"></li>
-      );
-    }
-
-    // Add days of the month
-    for (let day = 1; day <= daysInMonth; day++) {
-      const dateString = `${currentYear}-${String(currentMonth + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
-      const dayEvents = events[dateString] || [];
-      
-      calendarDays.push(
-        <li key={`day-${day}`} className="calendar-day">
-          <time dateTime={dateString}>
-            <div className="date">{day}</div>
-            <div className="events">
-              {dayEvents.map((event, index) => (
-                <div key={index} className={`event event-${event.type}`}>
-                  <div className="event-title">{event.title}</div>
-                  <div className="event-time">{event.time}</div>
-                </div>
-              ))}
-            </div>
-          </time>
-        </li>
-      );
-    }
-
-    return calendarDays;
-  };
-
-  const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      weekday: 'long', 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    });
-  };
-
+  // Navigation functions
   const previousMonth = () => {
     if (currentMonth === 0) {
       setCurrentMonth(11);
@@ -199,113 +58,142 @@ const Schedule = () => {
     }
   };
 
+  // Get calendar data
+  const getCalendarDays = () => {
+    const firstDay = new Date(currentYear, currentMonth, 1);
+    const lastDay = new Date(currentYear, currentMonth + 1, 0);
+    const startDate = new Date(firstDay);
+    startDate.setDate(startDate.getDate() - firstDay.getDay());
+
+    const days = [];
+    const current = new Date(startDate);
+
+    for (let i = 0; i < 42; i++) {
+      days.push(new Date(current));
+      current.setDate(current.getDate() + 1);
+    }
+
+    return days;
+  };
+
+  // Get events for a specific date
+  const getEventsForDate = (date) => {
+    const dateStr = date.toISOString().split('T')[0];
+    return events.filter(event => {
+      const eventDate = new Date(event.date).toISOString().split('T')[0];
+      return eventDate === dateStr;
+    });
+  };
+
+  // Get current month events grouped by date for the list view
+  const getCurrentMonthEvents = () => {
+    const monthEvents = events.filter(event => {
+      const eventDate = new Date(event.date);
+      return eventDate.getMonth() === currentMonth && eventDate.getFullYear() === currentYear;
+    }).sort((a, b) => new Date(a.date) - new Date(b.date));
+
+    // Group events by date
+    const groupedEvents = {};
+    monthEvents.forEach(event => {
+      const dateKey = new Date(event.date).toISOString().split('T')[0];
+      if (!groupedEvents[dateKey]) {
+        groupedEvents[dateKey] = [];
+      }
+      groupedEvents[dateKey].push(event);
+    });
+
+    return groupedEvents;
+  };
+
   if (loading) {
-    return <div className="schedule">Loading schedule...</div>;
+    return <div className="schedule"><div className="schedule-loading">Loading schedule...</div></div>;
   }
 
+  const calendarDays = getCalendarDays();
   const currentMonthEvents = getCurrentMonthEvents();
+  const hasEvents = Object.keys(currentMonthEvents).length > 0;
 
   return (
     <div className="schedule">
-      <div className="calendar-nav">
-        <button className="nav-button" onClick={previousMonth}>‹</button>
-        <h1>{monthNames[currentMonth]} {currentYear}</h1>
-        <button className="nav-button" onClick={nextMonth}>›</button>
-        <button className="add-event-btn" onClick={() => setShowForm(!showForm)}>
-          {showForm ? 'Hide Form' : 'Add Event'}
-        </button>
-      </div>
-      
-      {/* Event Form */}
-      {showForm && (
-        <div className="event-form-container">
-          <h2>Add New Event</h2>
-          <form onSubmit={handleFormSubmit} className="event-form">
-            <div className="form-group">
-              <label htmlFor="date">Date:</label>
-              <input
-                type="date"
-                id="date"
-                name="date"
-                value={formData.date}
-                onChange={handleFormChange}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="title">Event Title:</label>
-              <input
-                type="text"
-                id="title"
-                name="title"
-                value={formData.title}
-                onChange={handleFormChange}
-                placeholder="Enter event title"
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="time">Time:</label>
-              <input
-                type="time"
-                id="time"
-                name="time"
-                value={formData.time}
-                onChange={handleFormChange}
-                required
-              />
-            </div>
-
-            <div className="form-group">
-              <label htmlFor="type">Event Type:</label>
-              <select
-                id="type"
-                name="type"
-                value={formData.type}
-                onChange={handleFormChange}
-              >
-                <option value="class">Class</option>
-                <option value="test">Belt Test</option>
-                <option value="tournament">Tournament</option>
-                <option value="seminar">Seminar</option>
-                <option value="special">Special Event</option>
-              </select>
-            </div>
-
-            <button type="submit" className="submit-btn">
-              Add Event
-            </button>
-          </form>
-        </div>
-      )}
-      
       <div className="schedule-container">
-        {/* Calendar */}
         <div className="calendar-section">
+          <div className="calendar-nav">
+            <button className="nav-button" onClick={previousMonth}>‹</button>
+            <h1>{monthNames[currentMonth]} {currentYear}</h1>
+            <button className="nav-button" onClick={nextMonth}>›</button>
+          </div>
+          
           <ul className="schedule-list">
-            {generateCalendarDays()}
+            {daysOfWeek.map(day => (
+              <li key={day} className="day-header">{day}</li>
+            ))}
+            {calendarDays.map((day, index) => {
+              const dayEvents = getEventsForDate(day);
+              const isCurrentMonth = day.getMonth() === currentMonth;
+              const isToday = day.toDateString() === new Date().toDateString();
+
+              if (!isCurrentMonth) {
+                return <li key={index} className="empty-day"></li>;
+              }
+
+              return (
+                <li
+                  key={index}
+                  className={`calendar-day ${isToday ? 'today' : ''}`}
+                >
+                  <div className="date">{day.getDate()}</div>
+                  <div className="events">
+                    {dayEvents.slice(0, 2).map((event, eventIndex) => (
+                      <div
+                        key={eventIndex}
+                        className="event"
+                        title={`${event.title} - ${event.time}`}
+                      >
+                        <strong>{event.title}</strong>
+                        <time>{event.time}</time>
+                      </div>
+                    ))}
+                    {dayEvents.length > 2 && (
+                      <div className="more-events">+{dayEvents.length - 2} more</div>
+                    )}
+                  </div>
+                </li>
+              );
+            })}
           </ul>
         </div>
-        
-        {/* Event List for Current Month */}
+
+        {/* Events Section */}
         <div className="events-section">
           <h2>Events for {monthNames[currentMonth]} {currentYear}</h2>
-          {Object.keys(currentMonthEvents).length === 0 ? (
-            <p className="no-events-message">No events this month</p>
+          {!hasEvents ? (
+            <div className="no-events">
+              <p>No events scheduled for this month.</p>
+            </div>
           ) : (
             <div className="events-list">
-              {Object.entries(currentMonthEvents).map(([date, dayEvents]) => (
-                <div key={date} className="date-group">
-                  <h3 className="date-header">{formatDate(date)}</h3>
+              {Object.entries(currentMonthEvents).map(([dateKey, dayEvents]) => (
+                <div key={dateKey} className="date-group">
+                  <div className="date-header">
+                    {new Date(dateKey + 'T00:00:00').toLocaleDateString('en-US', {
+                      weekday: 'long',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </div>
                   <div className="events-for-date">
                     {dayEvents.map((event, index) => (
-                      <div key={index} className={`event-item event-${event.type}`}>
+                      <div key={event.id || index} className="event-item">
                         <div className="event-details">
-                          <span className="event-title">{event.title}</span>
-                          <span className="event-time">{event.time}</span>
-                          <span className="event-type">{event.type}</span>
+                          <div className="event-title">{event.title}</div>
+                          <div className="event-time">⏰ {event.time}</div>
+                          {event.location && (
+                            <div className="event-location">📍 {event.location}</div>
+                          )}
+                          {event.description && (
+                            <div className="event-description">{event.description}</div>
+                          )}
+                          <div className="event-type">Type: {event.type}</div>
                         </div>
                       </div>
                     ))}
