@@ -21,16 +21,6 @@ app.use(express.json());
 const JWT_SECRET = process.env.JWT_SECRET || "mhk-secret-key-2025";
 const ADMIN_SECRET = process.env.ADMIN_SECRET || "admin123";
 
-// Utility function to generate random access codes
-const generateRandomAccessCode = (length = 8) => {
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
-  let result = "";
-  for (let i = 0; i < length; i++) {
-    result += characters.charAt(Math.floor(Math.random() * characters.length));
-  }
-  return result;
-};
-
 // Middleware to verify JWT token
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
@@ -84,35 +74,21 @@ initializeDefaultAccessCode();
 // Register new user (requires access code)
 app.post("/api/signup", async (req, res) => {
   try {
-    const {
-      username,
-      email,
-      password,
-      phone,
-      accessCode,
-      firstName,
-      lastName,
-    } = req.body;
+    const { username, email, password, phone, accessCode } = req.body;
 
-    // Validate required fields - access code is MANDATORY
-    if (
-      !username ||
-      !email ||
-      !password ||
-      !phone ||
-      !accessCode ||
-      !firstName ||
-      !lastName
-    ) {
-      return res
-        .status(400)
-        .json({ error: "All fields are required, including access code" });
+    // Validate required fields
+    if (!username || !email || !password || !phone || !accessCode) {
+      return res.status(400).json({ error: "All fields are required" });
     }
 
-    // Trim and validate access code format
-    const cleanAccessCode = accessCode.trim().toUpperCase();
-    if (!cleanAccessCode) {
-      return res.status(400).json({ error: "Access code cannot be empty" });
+    // Check if access code exists and is valid
+    const validAccessCode = await AccessCode.findOne({
+      code: accessCode,
+      isActive: true,
+    });
+
+    if (!validAccessCode) {
+      return res.status(400).json({ error: "Invalid or expired access code" });
     }
 
     // Check if user already exists
@@ -124,42 +100,6 @@ app.post("/api/signup", async (req, res) => {
       return res.status(400).json({ error: "User already exists" });
     }
 
-    // Check if this email/username has already used ANY access code
-    const userWithAccessCode = await User.findOne({
-      $or: [{ username }, { email }],
-      accessCodeUsed: { $exists: true, $ne: null, $ne: "" },
-    });
-
-    if (userWithAccessCode) {
-      return res
-        .status(400)
-        .json({ error: "This user has already used an access code" });
-    }
-
-    // Check if access code exists and is valid
-    const validAccessCode = await AccessCode.findOne({
-      code: cleanAccessCode,
-      isActive: true,
-    });
-
-    if (!validAccessCode) {
-      return res.status(400).json({ error: "Invalid or expired access code" });
-    }
-
-    // Check if access code has reached its usage limit
-    if (
-      validAccessCode.usageLimit &&
-      validAccessCode.usedBy.length >= validAccessCode.usageLimit
-    ) {
-      return res.status(400).json({ error: "Access code usage limit reached" });
-    }
-
-    // Check if this specific access code has already been used by this email/username
-    const alreadyUsedByUser = validAccessCode.usedBy.some((usage) => {
-      // We'll check this after user creation to get the user ID
-      return false; // This check will be done differently below
-    });
-
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
 
@@ -168,21 +108,16 @@ app.post("/api/signup", async (req, res) => {
       username,
       email,
       password: hashedPassword,
-      firstName,
-      lastName,
       phone,
-      accessCodeUsed: cleanAccessCode,
+      accessCodeUsed: accessCode,
       role: "user",
     });
 
     await newUser.save();
 
-    // Update access code usage - add this user to the used list
-    validAccessCode.usedBy.push({
-      user: newUser._id,
-      usedAt: new Date(),
-    });
-    validAccessCode.usedCount = validAccessCode.usedBy.length;
+    // Update access code usage
+    validAccessCode.usedBy.push(newUser._id);
+    validAccessCode.usedCount += 1;
     await validAccessCode.save();
 
     // Generate JWT token
@@ -216,25 +151,10 @@ app.post("/api/signup", async (req, res) => {
 // Register new admin (requires admin password)
 app.post("/api/admin-signup", async (req, res) => {
   try {
-    const {
-      username,
-      email,
-      password,
-      adminPassword,
-      firstName,
-      lastName,
-      phone,
-    } = req.body;
+    const { username, email, password, adminPassword } = req.body;
 
     // Validate required fields
-    if (
-      !username ||
-      !email ||
-      !password ||
-      !adminPassword ||
-      !firstName ||
-      !lastName
-    ) {
+    if (!username || !email || !password || !adminPassword) {
       return res.status(400).json({ error: "All fields are required" });
     }
 
@@ -260,9 +180,7 @@ app.post("/api/admin-signup", async (req, res) => {
       username,
       email,
       password: hashedPassword,
-      firstName,
-      lastName,
-      phone: phone || null, // Optional for admin
+      phone: "", // Optional for admin
       role: "admin",
     });
 
@@ -374,45 +292,6 @@ app.get("/api/profile", authenticateToken, async (req, res) => {
 });
 
 // ACCESS CODE ROUTES (Admin only)
-
-// Generate random access code
-app.get(
-  "/api/generate-access-code",
-  authenticateToken,
-  authenticateAdmin,
-  async (req, res) => {
-    try {
-      let randomCode;
-      let isUnique = false;
-      let attempts = 0;
-      const maxAttempts = 10;
-
-      // Generate a unique code (try up to 10 times)
-      while (!isUnique && attempts < maxAttempts) {
-        randomCode = generateRandomAccessCode();
-        const existingCode = await AccessCode.findOne({ code: randomCode });
-        if (!existingCode) {
-          isUnique = true;
-        }
-        attempts++;
-      }
-
-      if (!isUnique) {
-        return res
-          .status(500)
-          .json({ error: "Failed to generate unique access code" });
-      }
-
-      res.json({
-        code: randomCode,
-        message: "Random access code generated successfully",
-      });
-    } catch (error) {
-      console.error("Generate access code error:", error);
-      res.status(500).json({ error: "Server error" });
-    }
-  }
-);
 
 // Create new access code
 app.post(
@@ -565,7 +444,7 @@ app.post(
           time: newEvent.time,
           location: newEvent.location,
           maxParticipants: newEvent.maxParticipants,
-          currentParticipants: newEvent.registeredParticipants.length,
+          currentParticipants: newEvent.participants.length,
           createdAt: newEvent.createdAt,
         },
       });
@@ -581,7 +460,7 @@ app.get("/api/events", async (req, res) => {
   try {
     const events = await Event.find({})
       .populate("createdBy", "username")
-      .populate("registeredParticipants.user", "username email")
+      .populate("participants", "username email")
       .sort({ date: 1 });
 
     res.json({
@@ -593,12 +472,11 @@ app.get("/api/events", async (req, res) => {
         time: event.time,
         location: event.location,
         maxParticipants: event.maxParticipants,
-        currentParticipants: event.registeredParticipants.length,
-        participants: event.registeredParticipants.map((p) => ({
-          id: p.user._id,
-          username: p.user.username,
-          email: p.user.email,
-          registeredAt: p.registeredAt,
+        currentParticipants: event.participants.length,
+        participants: event.participants.map((p) => ({
+          id: p._id,
+          username: p.username,
+          email: p.email,
         })),
         createdBy: event.createdBy ? event.createdBy.username : "System",
         createdAt: event.createdAt,
@@ -720,76 +598,6 @@ app.get(
     }
   }
 );
-
-// Check if user can use access code (helper endpoint for frontend validation)
-app.post("/api/validate-access-code", async (req, res) => {
-  try {
-    const { accessCode, email, username } = req.body;
-
-    if (!accessCode || (!email && !username)) {
-      return res
-        .status(400)
-        .json({ error: "Access code and user identifier required" });
-    }
-
-    const cleanAccessCode = accessCode.trim().toUpperCase();
-
-    // Check if user already has used any access code
-    const existingUserWithCode = await User.findOne({
-      $or: [...(email ? [{ email }] : []), ...(username ? [{ username }] : [])],
-      accessCodeUsed: { $exists: true, $ne: null, $ne: "" },
-    });
-
-    if (existingUserWithCode) {
-      return res.status(400).json({
-        valid: false,
-        error:
-          "This user has already used an access code and cannot use another",
-      });
-    }
-
-    // Check if access code exists and is valid
-    const validAccessCode = await AccessCode.findOne({
-      code: cleanAccessCode,
-      isActive: true,
-    });
-
-    if (!validAccessCode) {
-      return res.status(400).json({
-        valid: false,
-        error: "Invalid or expired access code",
-      });
-    }
-
-    // Check usage limit
-    if (
-      validAccessCode.usageLimit &&
-      validAccessCode.usedBy.length >= validAccessCode.usageLimit
-    ) {
-      return res.status(400).json({
-        valid: false,
-        error: "Access code usage limit reached",
-      });
-    }
-
-    // Check expiration
-    if (validAccessCode.expiresAt && validAccessCode.expiresAt < new Date()) {
-      return res.status(400).json({
-        valid: false,
-        error: "Access code has expired",
-      });
-    }
-
-    res.json({
-      valid: true,
-      message: "Access code is valid and available for use",
-      description: validAccessCode.description,
-    });
-  } catch (error) {
-    console.error("Validate access code error:", error);
-    res.status(500).json({ error: "Server error" });
-  }
-});
 
 // LEGACY ROUTES (for backward compatibility)
 app.get("/api/schedule", async (req, res) => {
