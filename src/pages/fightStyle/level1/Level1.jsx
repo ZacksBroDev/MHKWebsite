@@ -1,7 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import '/src/pages/home/home.css'
-import css from '/src/assets/css/style.module.css';
+import css from '../../../assets/css/style.module.css';
 
 function Level1() {
   return (

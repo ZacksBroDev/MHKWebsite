@@ -1,9 +1,126 @@
-import React from "react";
-import '/src/pages/home/home.css'
+import React, { useState, useEffect } from "react";
+import './home.css'
 import { Link } from "react-router-dom";
-import css from '/src/assets/css/style.module.css';
+import { useAuth } from '../../contexts/AuthContext';
 
 function Home() {
+  const { user, token } = useAuth();
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+
+  // Fetch users if current user is admin
+  const fetchUsers = async () => {
+    if (!user || user.role !== 'admin') return;
+    
+    try {
+      setLoading(true);
+      const response = await fetch('http://localhost:3001/api/users', {
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (response.ok) {
+        const data = await response.json();
+        setUsers(data.users || []);
+      } else {
+        setError('Failed to load users');
+      }
+    } catch (error) {
+      setError('Error loading users');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (user && user.role === 'admin') {
+      fetchUsers();
+    }
+  }, [user, token]);
+
+  // Admin view - shows users table
+  if (user && user.role === 'admin') {
+    return (
+      <>
+        <div className="admin-home">
+          <h1>Admin Dashboard - User Management</h1>
+          <div className="stats-cards">
+            <div className="stat-card">
+              <h3>Total Users</h3>
+              <p className="stat-number">{users.length}</p>
+            </div>
+            <div className="stat-card">
+              <h3>Regular Users</h3>
+              <p className="stat-number">{users.filter(u => u.role === 'user').length}</p>
+            </div>
+            <div className="stat-card">
+              <h3>Admins</h3>
+              <p className="stat-number">{users.filter(u => u.role === 'admin').length}</p>
+            </div>
+          </div>
+
+          {error && <div className="error-message">{error}</div>}
+          
+          {loading ? (
+            <div className="loading">Loading users...</div>
+          ) : (
+            <div className="users-table-container">
+              <h2>Registered Users</h2>
+              <table className="users-table">
+                <thead>
+                  <tr>
+                    <th>Username</th>
+                    <th>Email</th>
+                    <th>Phone</th>
+                    <th>Role</th>
+                    <th>Access Code Used</th>
+                    <th>Joined</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {users.map(user => (
+                    <tr key={user.id}>
+                      <td className="username">{user.username}</td>
+                      <td>{user.email}</td>
+                      <td>{user.phone || '-'}</td>
+                      <td>
+                        <span className={`role-badge ${user.role}`}>
+                          {user.role}
+                          {user.role === 'admin' && ' 👑'}
+                        </span>
+                      </td>
+                      <td className="access-code">{user.accessCodeUsed || '-'}</td>
+                      <td>{new Date(user.createdAt).toLocaleDateString()}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+              
+              {users.length === 0 && (
+                <p className="no-data">No users found.</p>
+              )}
+            </div>
+          )}
+
+          <div className="quick-actions">
+            <h2>Quick Actions</h2>
+            <div className="action-buttons">
+              <Link to="/admin" className="action-btn primary">
+                🛠️ Full Admin Dashboard
+              </Link>
+              <Link to="/schedule" className="action-btn secondary">
+                📅 View Schedule
+              </Link>
+            </div>
+          </div>
+        </div>
+      </>
+    );
+  }
+
+  // Regular user view - shows current curriculum
   return (
     <>
       <h1>Current Curriculum</h1>
@@ -51,104 +168,37 @@ function Home() {
           <td>9:00 PM</td>
           <td>Room 106</td>
         </tr>
-        </tbody>
+      </tbody>
       </table>
-
-
-
-      <div className={css.curriculum}>
-        <h1>Full Curriculum</h1>
-        <h2>Under Belt</h2>
-        <div className={css.level}>
-          <h3>Level 1</h3>
-          <h4>Forms</h4>
-          <ul>
-            <li><Link to="/Level1">Chon Ji Hyung</Link></li>
-            <li><Link to="/Level1">Tan Gun Hyung</Link></li>
-            <li><Link to="/Level1">To San Hynug</Link></li>
-            <li><Link to="/Level1">Won Hyo Hyung</Link></li>
-          </ul>
-          <h4>Combos</h4>
-          <ul>
-            <li><Link to="/Level1">Karate Combination Set</Link></li>
-            <li><Link to="/Level1">American Karate Combination Set</Link></li>
-          </ul>
+      <br></br>
+      <br></br>
+      <h1>Fighting Styles</h1>
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <Link to='/level1' className="btn">Level 1</Link>
+          </div>
+          <div className="col">
+            <Link to='/level2' className="btn">Level 2</Link>
+          </div>
+          <div className="col">
+            <Link to='/level3' className="btn">Level 3</Link>
+          </div>
         </div>
-        <div className={css.level}>
-          <h3>Level 2</h3>
-          <h4>Forms</h4>
-          <ul>
-            <li><Link to="/Level2">Yul Kuk</Link></li>
-            <li><Link to="/Level2">Chun Gun</Link></li>
-            <li><Link to="/Level2">Toi Gye</Link></li>
-            <li><Link to="/Level2">Hwa Rang</Link></li>
-            <li><Link to="/Level2">Karma 2</Link></li>
-          </ul>
-          <h4>Combos</h4>
-          <ul>
-            <li><Link to="/Level2">Tae Kwon Do Combination Set</Link></li>
-            <li><Link to="/Level2">American Tae Kwon Do Combination Set</Link></li>
-          </ul>
-        </div>
-        <div className={css.level}>
-          <h3>Level 3</h3>
-          <h4>Forms</h4>
-          <ul>
-            <li><Link to="/Level3">Chung Mu</Link></li>
-            <li><Link to="/Level3">Po Eun</Link></li>
-            <li><Link to="/Level3">Might For Right</Link></li>
-            <li><Link to="/Level3">Bo 3</Link></li>
-          </ul>
-          <h4>Combos</h4>
-          <ul>
-            <li><Link to="/Level3">Kickboxing</Link></li>
-            <li><Link to="/Level3">American Tae Kickboxing</Link></li>
-          </ul>
-        </div>
-        <h2>Black Belt</h2>
-        <div className={css.level}>
-          <h3>Conditional</h3>
-          <h4>Forms</h4>
-          <ul>
-            <li><Link to="/Conditionals">Bassai Dai</Link></li>
-            <li><Link to="/Conditionals">Papohaku</Link></li>
-            <li><Link to="/Conditionals">Beethoeven</Link></li>
-          </ul>
-        </div>
-        <div className={css.level}>
-          <h3>1st Degree</h3>
-          <h4>Forms</h4>
-          <ul>
-            <li><Link to="/Deg1">Kwan Gye</Link></li>
-            <li><Link to="/Deg1">Choon Jang</Link></li>
-            <li><Link to="/Deg1">Koryo</Link></li>
-            <li><Link to="/Deg1">The Beauty of Mexico</Link></li>
-            <li><Link to="/Deg1">Sword 4</Link></li>
-            <li><Link to="/Deg1">Kama 4</Link></li>
-            <li><Link to="/Deg1">Bo 4</Link></li>
-            <li><Link to="/Deg1">Nunchaku 4</Link></li>
-            <li><Link to="/Deg1">Sword Basics</Link></li>
-            <li><Link to="/Deg1">Kama Basics</Link></li>
-            <li><Link to="/Deg1">Bo Basics</Link></li>
-            <li><Link to="/Deg1">Nunchaku Basics</Link></li>
-          </ul>
-        </div>
-        <div className={css.level}>
-          <h3>2nd Degree</h3>
-          <h4>Forms</h4>
-          <ul>
-            <li><Link to="/Deg2">Sam II</Link></li>
-            <li><Link to="/Deg2">Se Jong</Link></li>
-            <li><Link to="/Deg2">Tong II</Link></li>
-            <li><Link to="/Deg2">Yoo Shin</Link></li>
-            <li><Link to="/Deg2">Choi Young</Link></li>
-            <li><Link to="/Deg2">Ko Dang</Link></li>
-            <li><Link to="/Deg2">UlJi</Link></li>
-            <li><Link to="/Deg2">Twilight Zone</Link></li>
-          </ul>
+        <div className="row">
+          <div className="col">
+            <Link to='/conditionals' className="btn">Conditionals</Link>
+          </div>
+          <div className="col">
+            <Link to='/deg1' className="btn">1st Degree Black Belt</Link>
+          </div>
+          <div className="col">
+            <Link to='/deg2' className="btn">2nd Degree Black Belt</Link>
+          </div>
         </div>
       </div>
     </>
   );
 }
+
 export default Home;
