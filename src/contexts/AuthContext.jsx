@@ -72,14 +72,40 @@ export const AuthProvider = ({ children }) => {
     }
   };
 
-  const signup = async (username, email, password) => {
+  const signup = async (username, email, password, phone, accessCode, firstName, lastName) => {
     try {
       const response = await fetch('http://localhost:3001/api/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, email, password }),
+        body: JSON.stringify({ username, email, password, phone, accessCode, firstName, lastName }),
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        localStorage.setItem('mhk_token', data.token);
+        setToken(data.token);
+        setUser(data.user);
+        return { success: true };
+      } else {
+        return { success: false, error: data.error };
+      }
+    } catch (error) {
+      return { success: false, error: 'Network error' };
+    }
+  };
+
+  // Add adminSignup function
+  const adminSignup = async (username, email, password, adminPassword, firstName, lastName) => {
+    try {
+      const response = await fetch('http://localhost:3001/api/admin-signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, email, password, adminPassword, firstName, lastName }),
       });
 
       const data = await response.json();
@@ -108,6 +134,7 @@ export const AuthProvider = ({ children }) => {
     token,
     login,
     signup,
+    adminSignup,
     logout,
     loading,
     isAuthenticated: !!user

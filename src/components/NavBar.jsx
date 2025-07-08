@@ -13,16 +13,18 @@ const NavBar = () => {
 
   return (
     <>
-      <header>
-      <nav className="navbar">
+      <header>        <nav className="navbar">
           <ul className='nav-links'>
             <li><Link className="nav-link" to="/">Home</Link></li>
             <li><Link className="nav-link" to="/schedule">Schedule</Link></li>
             <li><Link className="nav-link" to="/contact">Contact</Link></li>
+            {user?.role === 'admin' && (
+              <li><Link className="nav-link admin-link" to="/admin">Admin Dashboard</Link></li>
+            )}
           </ul>
         </nav>
         <div className="nav-user">
-        <span>Welcome, {user?.username}!</span>
+        <span>Welcome, {user?.username}! {user?.role === 'admin' && '👑'}</span>
         <button onClick={handleLogout} className="logout-btn">
           Logout
         </button>
