@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import NavBar from './components/NavBar';
 import AuthForm from './components/AuthForm';
+import ProtectedRoute from './components/ProtectedRoute';
 import Home from './pages/home/home';
 import Schedule from './pages/schedule/Schedule';
 import NotFound from './pages/notFoundPage/NotFound';
@@ -13,6 +14,7 @@ import Level3 from './pages/fightStyle/level3/Level3';
 import Conditional from './pages/fightStyle/blackBelts/conditionals/Conditionals';
 import Deg1 from './pages/fightStyle/blackBelts/deg1/Deg1';
 import Deg2 from './pages/fightStyle/blackBelts/deg2/deg2';
+import AdminDashboard from './pages/admin/AdminDashboard';
 
 const AppContent = () => {
   const { isAuthenticated, loading } = useAuth();
@@ -46,6 +48,11 @@ const AppContent = () => {
         <Route path="/home" element={<Home />} />
         <Route path="/schedule" element={<Schedule />} />
         <Route path="/contact" element={<Contact />} />
+        <Route path="/admin" element={
+          <ProtectedRoute requiredRole="admin">
+            <AdminDashboard />
+          </ProtectedRoute>
+        } />
         <Route path="/level1" element={<Level1 />} />
         <Route path="/level2" element={<Level2 />} />
         <Route path="/level3" element={<Level3 />} />
