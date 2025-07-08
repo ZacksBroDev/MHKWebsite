@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import css from '/src/assets/css/style.module.css';
+import css from '../../../../assets/css/style.module.css';
 
 function Deg2() {
   return (
