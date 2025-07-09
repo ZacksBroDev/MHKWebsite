@@ -10,12 +10,12 @@ const AdminDashboard = () => {
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   
   // New access code form
   const [newCodeForm, setNewCodeForm] = useState({
     code: '',
-    description: '',
-    maxUses: ''
+    description: ''
   });
 
   // New event form
@@ -90,8 +90,15 @@ const AdminDashboard = () => {
     e.preventDefault();
     setLoading(true);
     setError('');
+    setSuccess('');
 
     try {
+      console.log('Creating access code with data:', {
+        code: newCodeForm.code,
+        description: newCodeForm.description
+      });
+      console.log('Using token:', token);
+
       const response = await fetch('http://localhost:3001/api/access-codes', {
         method: 'POST',
         headers: {
@@ -100,21 +107,24 @@ const AdminDashboard = () => {
         },
         body: JSON.stringify({
           code: newCodeForm.code,
-          description: newCodeForm.description,
-          maxUses: newCodeForm.maxUses ? parseInt(newCodeForm.maxUses) : null
+          description: newCodeForm.description
         })
       });
 
       const data = await response.json();
+      console.log('Response status:', response.status);
+      console.log('Response data:', data);
       
       if (response.ok) {
-        setNewCodeForm({ code: '', description: '', maxUses: '' });
+        setNewCodeForm({ code: '', description: '' });
+        setSuccess('Access code created successfully!');
         fetchAccessCodes();
       } else {
-        setError(data.error);
+        setError(data.error || `Server error: ${response.status}`);
       }
     } catch (error) {
-      setError('Failed to create access code');
+      console.error('Create access code error:', error);
+      setError(`Failed to create access code: ${error.message}`);
     }
     
     setLoading(false);
@@ -227,64 +237,56 @@ const AdminDashboard = () => {
       <div className="admin-tabs">
         <button 
           className={activeTab === 'access-codes' ? 'active' : ''}
-          onClick={() => setActiveTab('access-codes')}
+          onClick={() => {
+            setActiveTab('access-codes');
+            setError('');
+            setSuccess('');
+          }}
         >
           Access Codes
         </button>
         <button 
           className={activeTab === 'users' ? 'active' : ''}
-          onClick={() => setActiveTab('users')}
+          onClick={() => {
+            setActiveTab('users');
+            setError('');
+            setSuccess('');
+          }}
         >
           Users
         </button>
         <button 
           className={activeTab === 'events' ? 'active' : ''}
-          onClick={() => setActiveTab('events')}
+          onClick={() => {
+            setActiveTab('events');
+            setError('');
+            setSuccess('');
+          }}
         >
           Events
         </button>
       </div>
 
       {error && <div className="error-message">{error}</div>}
+      {success && <div className="success-message">{success}</div>}
 
       {activeTab === 'access-codes' && (
         <div className="tab-content">
           <div className="section">
             <h2>Create New Access Code</h2>
+
             <form onSubmit={createAccessCode} className="create-form">
-              <div className="form-row">
-                <div className="code-input-group">
-                  <input
-                    type="text"
-                    placeholder="Access Code (e.g., MARTIAL2025)"
-                    value={newCodeForm.code}
-                    onChange={(e) => setNewCodeForm({...newCodeForm, code: e.target.value})}
-                    required
-                  />
-                  <button 
-                    type="button" 
-                    onClick={generateRandomCode}
-                    className="generate-btn"
-                    title="Generate random access code"
-                  >
-                    🎲 Generate
-                  </button>
-                </div>
-                <input
-                  type="text"
-                  placeholder="Description (optional)"
-                  value={newCodeForm.description}
-                  onChange={(e) => setNewCodeForm({...newCodeForm, description: e.target.value})}
-                />
-                <input
-                  type="number"
-                  placeholder="Max uses (optional)"
-                  value={newCodeForm.maxUses}
-                  onChange={(e) => setNewCodeForm({...newCodeForm, maxUses: e.target.value})}
-                />
-                <button type="submit" disabled={loading}>
-                  {loading ? 'Creating...' : 'Create Code'}
-                </button>
+              <div className='code-input'>
+                <input type="text" placeholder="Access Code (e.g., MARTIAL2025)" value={newCodeForm.code}
+                onChange={(e) => {
+                  setNewCodeForm({...newCodeForm, code: e.target.value});
+                  setError('');
+                  setSuccess(''); }} required/>
+                <button type="button" onClick={generateRandomCode} className="generate-btn" title="Generate random access code">🎲 Generate</button>
+              </div>
+              <div className='desc-input'>
+                <input type="text" placeholder="Description (optional)" value={newCodeForm.description} onChange={(e) => setNewCodeForm({...newCodeForm, description: e.target.value})}/>
+                <button type="submit" disabled={loading}>{loading ? 'Creating...' : 'Create Code'}</button>
               </div>
             </form>
           </div>
@@ -298,7 +300,6 @@ const AdminDashboard = () => {
                     <th>Code</th>
                     <th>Description</th>
                     <th>Used</th>
-                    <th>Max Uses</th>
                     <th>Status</th>
                     <th>Created By</th>
                     <th>Actions</th>
@@ -310,7 +311,6 @@ const AdminDashboard = () => {
                       <td className="code-text">{code.code}</td>
                       <td>{code.description || '-'}</td>
                       <td>{code.usedCount}</td>
-                      <td>{code.maxUses || '∞'}</td>
                       <td>
                         <span className={`status ${code.isActive ? 'active' : 'inactive'}`}>
                           {code.isActive ? 'Active' : 'Inactive'}
