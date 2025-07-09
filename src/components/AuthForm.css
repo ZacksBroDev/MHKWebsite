@@ -12,8 +12,7 @@
   backdrop-filter: blur(10px);
   border-radius: 15px;
   padding: 2.5rem;
-  width: 100%;
-  max-width: 450px;
+  width: 80%;
   box-shadow: 0 8px 32px rgba(0, 0, 0, 0.1);
   border: 1px solid rgba(255, 255, 255, 0.2);
 }
@@ -33,6 +32,12 @@
   font-size: 1.2rem;
   font-weight: 500;
 }
+form{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
 .form-group {
   margin-bottom: 1.5rem;
@@ -45,6 +50,10 @@
   font-weight: 600;
   font-size: 0.9rem;
 }
+.form-group label span,.form-group small{
+  background-color: transparent;
+}
+
 
 .form-group input {
   width: 100%;
@@ -78,7 +87,7 @@
   font-weight: 600;
   cursor: pointer;
   transition: all 0.3s ease;
-  margin-bottom: 1rem;
+  margin-bottom: 0 auto;
 }
 
 .submit-btn:hover:not(:disabled) {
@@ -130,6 +139,16 @@ h3{
   background-color: transparent;
 }
 form{
+  background-color: transparent;
+}
+
+.signup-form {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1rem;
+  background-color: transparent;
+}
+.auth-links{
   background-color: transparent;
 }
 

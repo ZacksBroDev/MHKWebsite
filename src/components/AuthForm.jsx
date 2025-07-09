@@ -125,19 +125,19 @@ const AuthForm = () => {
             // Login fields
             <>
               <div className="form-group">
-                <label>Username or Email:</label>
+                <label>Email:<span style={{color: 'red'}}>*</span></label>
                 <input
                   type="text"
                   name="username"
                   value={formData.username}
                   onChange={handleChange}
-                  placeholder="Enter your username or email"
+                  placeholder="Email"
                   required
                 />
               </div>
 
               <div className="form-group">
-                <label>Password:</label>
+                <label>Password:<span style={{color: 'red'}}>*</span></label>
                 <input
                   type="password"
                   name="password"
@@ -150,9 +150,9 @@ const AuthForm = () => {
             </>
           ) : (
             // Signup fields
-            <>
+            <div className='signup-form'>
               <div className="form-group">
-                <label>First Name:</label>
+                <label>First Name:<span style={{color: 'red'}}>*</span></label>
                 <input
                   type="text"
                   name="firstName"
@@ -164,7 +164,7 @@ const AuthForm = () => {
               </div>
 
               <div className="form-group">
-                <label>Last Name:</label>
+                <label>Last Name:<span style={{color: 'red'}}>*</span></label>
                 <input
                   type="text"
                   name="lastName"
@@ -176,7 +176,7 @@ const AuthForm = () => {
               </div>
 
               <div className="form-group">
-                <label>Email:</label>
+                <label>Email:<span style={{color: 'red'}}>*</span></label>
                 <input
                   type="email"
                   name="email"
@@ -188,19 +188,12 @@ const AuthForm = () => {
               </div>
               
               <div className="form-group">
-                <label>Phone:</label>
-                <input
-                  type="tel"
-                  name="phone"
-                  value={formData.phone}
-                  onChange={handleChange}
-                  placeholder="Phone"
-                  required
-                />
+                <label>Phone:<span style={{color: 'red'}}>*</span></label>
+                <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" required/>
               </div>
 
               <div className="form-group">
-                <label>Password:</label>
+                <label>Password:<span style={{color: 'red'}}>*</span></label>
                 <input
                   type="password"
                   name="password"
@@ -257,11 +250,11 @@ const AuthForm = () => {
                     required
                   />
                   <small style={{color: '#f57c00', fontSize: '0.8rem'}}>
-                    🔐 Contact your system administrator for the admin password
+                    Contact your system administrator for the admin password
                   </small>
                 </div>
               )}
-            </>
+            </div>
           )}
 
           <button 
