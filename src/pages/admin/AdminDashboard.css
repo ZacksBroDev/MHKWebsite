@@ -118,6 +118,7 @@
 .create-form input {
   flex: 1;
   min-width: 200px;
+  width: 100%;
   padding: 12px;
   border: 2px solid #e9ecef;
   border-radius: 5px;
@@ -131,7 +132,6 @@
 }
 
 .create-form button {
-
   background: #667eea;
   color: white;
   border: none;
@@ -141,8 +141,6 @@
   font-size: 1rem;
   font-weight: bold;
   transition: background-color 0.3s ease;
-  white-space: nowrap;
-  margin-top: 1rem;
 }
 
 .create-form button:hover:not(:disabled) {
@@ -191,19 +189,24 @@
 .table-container {
   overflow-x: auto;
   margin-top: 20px;
+  background-color: transparent;
 }
 
 table {
   width: 100%;
   border-collapse: collapse;
-  background: white;
-  border-radius: 8px;
+  background-color: transparent;
+  border-radius: 20px;
   overflow: hidden;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 thead {
   background: #f8f9fa;
+  background-color: transparent;
+}
+tbody{
+  background-color: transparent;
 }
 
 th, td {
@@ -219,9 +222,8 @@ th {
   font-size: 0.85rem;
   letter-spacing: 0.5px;
 }
-
-tbody tr:hover {
-  background-color: #f8f9fa;
+tr{
+  background-color: transparent;
 }
 
 .code-text {
