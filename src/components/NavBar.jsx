@@ -19,7 +19,7 @@ const NavBar = () => {
             <li><Link className="nav-link" to="/schedule">Schedule</Link></li>
             <li><Link className="nav-link" to="/contact">Contact</Link></li>
             {user?.role === 'admin' && (
-              <li><Link className="nav-link admin-link" to="/admin">Admin Dashboard</Link></li>
+              <li><Link className="nav-link admin-link" to="/admin">Admin</Link></li>
             )}
           </ul>
         </nav>
