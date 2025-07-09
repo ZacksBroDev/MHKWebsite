@@ -24,11 +24,7 @@ const accessCodeSchema = new mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    usageLimit: {
-      type: Number,
-      default: null, // null means unlimited
-    },
-    usageCount: {
+    usedCount: {
       type: Number,
       default: 0,
     },

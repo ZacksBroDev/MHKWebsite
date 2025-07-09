@@ -146,19 +146,10 @@ app.post("/api/signup", async (req, res) => {
       return res.status(400).json({ error: "Invalid or expired access code" });
     }
 
-    // Check if access code has reached its usage limit
-    if (
-      validAccessCode.usageLimit &&
-      validAccessCode.usedBy.length >= validAccessCode.usageLimit
-    ) {
-      return res.status(400).json({ error: "Access code usage limit reached" });
+    // Check if access code has already been used (one use per code)
+    if (validAccessCode.usedBy && validAccessCode.usedBy.length > 0) {
+      return res.status(400).json({ error: "This access code has already been used" });
     }
-
-    // Check if this specific access code has already been used by this email/username
-    const alreadyUsedByUser = validAccessCode.usedBy.some((usage) => {
-      // We'll check this after user creation to get the user ID
-      return false; // This check will be done differently below
-    });
 
     // Hash password
     const hashedPassword = await bcrypt.hash(password, 10);
@@ -421,7 +412,7 @@ app.post(
   authenticateAdmin,
   async (req, res) => {
     try {
-      const { code, description, maxUses } = req.body;
+      const { code, description } = req.body;
 
       if (!code) {
         return res.status(400).json({ error: "Access code is required" });
@@ -436,7 +427,6 @@ app.post(
       const newAccessCode = new AccessCode({
         code,
         description: description || "",
-        maxUses: maxUses || null,
         createdBy: req.user.userId,
         isActive: true,
       });
@@ -449,7 +439,6 @@ app.post(
           id: newAccessCode._id,
           code: newAccessCode.code,
           description: newAccessCode.description,
-          maxUses: newAccessCode.maxUses,
           usedCount: newAccessCode.usedCount,
           isActive: newAccessCode.isActive,
           createdAt: newAccessCode.createdAt,
@@ -478,7 +467,6 @@ app.get(
           id: code._id,
           code: code.code,
           description: code.description,
-          maxUses: code.maxUses,
           usedCount: code.usedCount,
           isActive: code.isActive,
           createdBy: code.createdBy ? code.createdBy.username : "System",

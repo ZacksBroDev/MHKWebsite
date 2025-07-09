@@ -6,9 +6,12 @@
   "scripts": {
     "dev": "vite",
     "server": "node server.js",
-    "start": "npm run server & npm run dev",
+    "server:dev": "nodemon server.js",
+    "start": "npm run server",
+    "start:dev": "npm run server & npm run dev",
     "build": "vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "deploy:build": "npm run build && npm run server"
   },
   "dependencies": {
     "@web3forms/react": "^1.1.3",
