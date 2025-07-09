@@ -21,7 +21,8 @@
     rgba(238, 174, 202, 1) 0%,
     rgba(148, 187, 233, 1) 100%
   );
-  padding: 2rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
   min-height: 100vh;
 }
 
@@ -42,6 +43,7 @@
   border: 1px solid rgba(255, 255, 255, 0.2);
   box-shadow: 0 8px 32px rgba(31, 38, 135, 0.3);
   width: 95%;
+  margin: 0 auto;
 }
 
 .schedule-list {
@@ -106,7 +108,7 @@ h1 {
   min-height: 180px;
   flex-flow: column;
   border-radius: 15px;
-  padding: 1.5rem;
+  padding: .7rem;
   font-weight: 300;
   font-size: 1.1rem;
   box-sizing: border-box;
@@ -130,10 +132,20 @@ h1 {
 }
 
 .empty-day {
-  background: transparent !important;
-  box-shadow: none !important;
-  border: none !important;
-  backdrop-filter: none !important;
+  display: flex;
+  width: 100%;
+  min-height: 180px;
+  flex-flow: column;
+  border-radius: 15px;
+  padding: .7rem;
+  font-weight: 300;
+  font-size: 1.1rem;
+  box-sizing: border-box;
+  background: rgba(255, 255, 255, 0.25);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  transition: all 0.3s ease;
 }
 
 .calendar-day:hover {
@@ -151,8 +163,8 @@ h1 {
 
 .date {
   font-weight: 700;
-  font-size: 1.3rem;
-  margin-bottom: 1rem;
+  font-size: 1.2rem;
+  margin-bottom: .4rem;
   background-color: transparent;
   color: var(--text);
   text-align: center;
@@ -165,12 +177,13 @@ h1 {
   flex-grow: 1;
   line-height: 1.4;
   overflow-y: auto;
+  height: 100%;
 }
 
 .event {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 8px;
-  padding: 0.6rem;
+  padding: 0.1rem;
   margin-bottom: 0.5rem;
   border-left: 3px solid var(--accent);
   transition: all 0.2s ease;
@@ -187,7 +200,6 @@ h1 {
   color: var(--text);
   background-color: transparent;
   margin-bottom: 0.3rem;
-  font-size: 0.9rem;
 }
 
 .event time {
@@ -215,13 +227,9 @@ h1 {
   background-color: transparent;
   border-radius: 10px;
   box-shadow: 0 4px 16px rgba(31, 38, 135, 0.37);
+  width: 100%;
 }
 
-.event-list {
-  background-color: var(--primary);
-  width: 100%;
-  border-radius: 20px;
-}
 .event-list li {
   padding: 0.5rem;
   list-style: none;
@@ -243,10 +251,14 @@ h1 {
 .events{
   background-color: transparent;
   color: var(--text);
-  font-size: 0.9rem;
+  font-size: 0.6rem;
 }
 .event{
   background-color: transparent;
+}
+.event strong{
+  font-weight: 600;
+  font-size: 0.8rem;
 }
 
 li strong{
@@ -295,22 +307,13 @@ time {
 .day-header{
   height:20px;
 }
-select{
-  padding: 0.5rem;
-  border-radius: 5px;
-  border: 1px solid var(--text);
-  background-color: var(--pure-mist);
-  color: var(--text);
-  font-size: 1rem;
-  font-weight: 500;
-}
-
 
 .events-section{
-  width: 100%;
+  width: 95%;
+  margin: 0 auto;
   margin-top: 2rem;
   background: rgba(255, 255, 255, 0.1);
-  padding: 2rem;
+  padding: 1.3rem;
   border-radius: 20px;
   backdrop-filter: blur(10px);
   border: 1px solid rgba(255, 255, 255, 0.2);
@@ -353,12 +356,11 @@ select{
 
 .date-header{
   background-color: transparent;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   font-weight: 600;
   color: var(--text);
   margin-bottom: 1rem;
   padding-bottom: 0.5rem;
-  border-bottom: 2px solid rgba(255, 255, 255, 0.3);
 }
 
 .events-for-date{
@@ -527,14 +529,11 @@ select{
   background: rgba(255, 255, 255, 0.5);
 }
 
-/* Mobile responsive adjustments */
-@media (max-width: 768px) {
-  .schedule {
-    padding: 1rem;
-  }
-  
-  .schedule-container {
-    width: 100%;
+/* Enhanced responsive grid system */
+@media (max-width: 1170px) {
+  /* Hide the calendar grid on smaller screens */
+  .schedule-list {
+    display: none;
   }
   
   .calendar-section {
@@ -542,9 +541,64 @@ select{
     margin-bottom: 2rem;
   }
   
+  /* Keep the navigation visible and functional */
   .calendar-nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 2rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Add a message indicating mobile view */
+  .calendar-section::after {
+    content: "📱 Calendar grid hidden on smaller screens. View events below.";
+    display: block;
+    text-align: center;
+    padding: 2rem;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 10px;
+    font-size: 1rem;
+    color: var(--text);
+    opacity: 0.8;
+    margin-top: 1rem;
+  }
+}
+
+@media (max-width: 1024px) {
+  /* Additional styling for tablets when grid is hidden */
+  .events-section {
+    margin-top: 1rem;
+    width: 95%;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  
+  .events-section h2 {
+    font-size: 1.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  /* Mobile-specific styling when grid is hidden */
+  .calendar-section {
+    padding: 1rem;
+    width: 98%;
+  }
+  
+  /* Improve calendar navigation for mobile */
+  .calendar-nav {
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
     gap: 1rem;
-    margin-bottom: 1.5rem;
+  }
+  
+  .calendar-nav h1 {
+    order: 2;
+    width: 100%;
+    margin: 0.5rem 0;
+    font-size: 1.8rem;
   }
   
   .nav-button {
@@ -553,44 +607,23 @@ select{
     font-size: 1.2rem;
   }
   
-  h1 {
-    font-size: 1.8rem;
+  .nav-button:first-child {
+    order: 1;
   }
   
-  .schedule-list {
-    gap: 0.5rem;
+  .nav-button:last-child {
+    order: 3;
   }
   
-  .schedule-list li {
-    min-height: 120px;
-    padding: 1rem;
-  }
-  
-  .day-header {
-    height: 3rem !important;
-    min-height: 3rem !important;
+  /* Update the mobile message */
+  .calendar-section::after {
     font-size: 0.9rem;
-  }
-  
-  .date {
-    font-size: 1.1rem;
-    margin-bottom: 0.75rem;
-  }
-  
-  .events {
-    font-size: 0.7rem;
-  }
-  
-  .event {
-    padding: 0.3rem;
-    margin-bottom: 0.2rem;
-  }
-  
-  .event strong {
-    font-size: 0.75rem;
+    padding: 1.5rem;
   }
   
   .events-section {
+    width: 98%;
+    margin: 1rem auto 0;
     padding: 1.5rem;
   }
   
@@ -601,6 +634,7 @@ select{
   
   .date-group {
     padding: 1rem;
+    margin-bottom: 1rem;
   }
   
   .date-header {
@@ -619,33 +653,95 @@ select{
 @media (max-width: 480px) {
   .schedule {
     padding: 0.5rem;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
   }
   
-  .calendar-section, .events-section {
+  .calendar-section {
+    padding: 0.75rem;
+    width: 99%;
+    margin: 1rem auto;
+  }
+  
+  .calendar-nav {
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+  }
+  
+  .nav-button {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 1rem;
+    min-width: 44px;
+    min-height: 44px;
+    touch-action: manipulation;
+  }
+  
+  .calendar-nav h1 {
+    font-size: 1.4rem;
+  }
+  
+  /* Smaller mobile message */
+  .calendar-section::after {
+    content: "📱 View events below";
+    font-size: 0.8rem;
     padding: 1rem;
   }
   
-  h1 {
-    font-size: 1.5rem;
+  .events-section {
+    padding: 1rem;
+    width: 99%;
   }
   
-  .schedule-list li {
-    min-height: 80px;
+  .events-section h2 {
+    font-size: 1.3rem;
+  }
+}
+
+@media (max-width: 320px) {
+  .calendar-section {
     padding: 0.5rem;
+    width: 100%;
   }
   
-  .day-header {
-    height: 2rem !important;
-    min-height: 2rem !important;
-    font-size: 0.7rem;
+  .calendar-nav h1 {
+    font-size: 1.2rem;
   }
   
-  .date {
+  .nav-button {
+    width: 2rem;
+    height: 2rem;
     font-size: 0.9rem;
   }
   
-  .events {
-    font-size: 0.65rem;
+  .calendar-section::after {
+    content: "📱 Events below";
+    font-size: 0.7rem;
+    padding: 0.75rem;
+  }
+  
+  .events-section {
+    padding: 0.75rem;
+  }
+  
+  .events-section h2 {
+    font-size: 1.1rem;
+  }
+  
+  .date-group {
+    padding: 0.75rem;
+  }
+  
+  .date-header {
+    font-size: 1rem;
+  }
+  
+  .event-title {
+    font-size: 1rem;
+  }
+  
+  .event-time, .event-location, .event-description, .event-type {
+    font-size: 0.8rem;
   }
 }
 
