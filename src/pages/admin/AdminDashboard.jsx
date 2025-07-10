@@ -12,6 +12,14 @@ const AdminDashboard = () => {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   
+  // SMS functionality
+  const [smsForm, setSmsForm] = useState({
+    phoneNumber: '',
+    accessCode: '',
+    userName: ''
+  });
+  const [showSmsModal, setShowSmsModal] = useState(false);
+  
   // New access code form
   const [newCodeForm, setNewCodeForm] = useState({
     code: '',
@@ -216,6 +224,43 @@ const AdminDashboard = () => {
     setLoading(false);
   };
 
+  const sendAccessCodeSMS = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    setError('');
+    setSuccess('');
+
+    try {
+      const response = await fetch('http://localhost:3001/api/send-access-code-sms', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          phoneNumber: smsForm.phoneNumber,
+          accessCode: smsForm.accessCode,
+          userName: smsForm.userName
+        })
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        setSuccess(`SMS sent successfully to ${data.phoneNumber}`);
+        setSmsForm({ phoneNumber: '', accessCode: '', userName: '' });
+        setShowSmsModal(false);
+      } else {
+        setError(data.error || 'Failed to send SMS');
+      }
+    } catch (error) {
+      console.error('Send SMS error:', error);
+      setError('Failed to send SMS: ' + error.message);
+    }
+    
+    setLoading(false);
+  };
+
   if (!user || user.role !== 'admin') {
     return (
       <div className="admin-dashboard">
@@ -330,6 +375,37 @@ const AdminDashboard = () => {
                 </tbody>
               </table>
             </div>
+          </div>
+
+          <div className="section">
+            <h2>Send Access Code via SMS</h2>
+            <form onSubmit={sendAccessCodeSMS} className="create-form">
+              <div className="form-row">
+                <input
+                  type="tel"
+                  placeholder="Phone Number (e.g., 1234567890)"
+                  value={smsForm.phoneNumber}
+                  onChange={(e) => setSmsForm({...smsForm, phoneNumber: e.target.value})}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Access Code"
+                  value={smsForm.accessCode}
+                  onChange={(e) => setSmsForm({...smsForm, accessCode: e.target.value.toUpperCase()})}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="User Name (optional)"
+                  value={smsForm.userName}
+                  onChange={(e) => setSmsForm({...smsForm, userName: e.target.value})}
+                />
+                <button type="submit" disabled={loading}>
+                  {loading ? 'Sending...' : '📱 Send SMS'}
+                </button>
+              </div>
+            </form>
           </div>
         </div>
       )}

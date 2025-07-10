@@ -7,6 +7,7 @@ import connectDB from "./config/database.js";
 import User from "./models/User.js";
 import AccessCode from "./models/AccessCode.js";
 import Event from "./models/Event.js";
+import { sendAccessCodeSMS, sendWelcomeSMS } from "./services/smsService.js";
 
 dotenv.config();
 
@@ -148,7 +149,9 @@ app.post("/api/signup", async (req, res) => {
 
     // Check if access code has already been used (one use per code)
     if (validAccessCode.usedBy && validAccessCode.usedBy.length > 0) {
-      return res.status(400).json({ error: "This access code has already been used" });
+      return res
+        .status(400)
+        .json({ error: "This access code has already been used" });
     }
 
     // Hash password
@@ -401,6 +404,66 @@ app.get(
     } catch (error) {
       console.error("Generate access code error:", error);
       res.status(500).json({ error: "Server error" });
+    }
+  }
+);
+
+// Send access code via SMS
+app.post(
+  "/api/send-access-code-sms",
+  authenticateToken,
+  authenticateAdmin,
+  async (req, res) => {
+    try {
+      const { phoneNumber, accessCode, userName } = req.body;
+
+      // Validate required fields
+      if (!phoneNumber || !accessCode) {
+        return res.status(400).json({
+          error: "Phone number and access code are required",
+        });
+      }
+
+      // Format phone number (ensure it starts with +1 for US)
+      let formattedPhone = phoneNumber.replace(/\D/g, ""); // Remove non-digits
+      if (formattedPhone.length === 10) {
+        formattedPhone = "+1" + formattedPhone;
+      } else if (
+        formattedPhone.length === 11 &&
+        formattedPhone.startsWith("1")
+      ) {
+        formattedPhone = "+" + formattedPhone;
+      } else {
+        return res.status(400).json({
+          error: "Invalid phone number format. Use 10-digit US number.",
+        });
+      }
+
+      // Verify the access code exists and is active
+      const validAccessCode = await AccessCode.findOne({
+        code: accessCode.toUpperCase(),
+        isActive: true,
+      });
+
+      if (!validAccessCode) {
+        return res.status(400).json({
+          error: "Access code not found or inactive",
+        });
+      }
+
+      // Send SMS
+      await sendAccessCodeSMS(formattedPhone, accessCode, userName || "");
+
+      res.json({
+        message: "Access code sent successfully via SMS",
+        phoneNumber: formattedPhone,
+        accessCode: accessCode,
+      });
+    } catch (error) {
+      console.error("Send SMS error:", error);
+      res.status(500).json({
+        error: "Failed to send SMS. Check Twilio configuration.",
+      });
     }
   }
 );
