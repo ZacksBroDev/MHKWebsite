@@ -32,7 +32,6 @@ const AdminDashboard = () => {
     description: '',
     date: '',
     time: '',
-    location: '',
     maxParticipants: ''
   });
 
@@ -197,7 +196,6 @@ const AdminDashboard = () => {
           description: newEventForm.description,
           date: newEventForm.date,
           time: newEventForm.time,
-          location: newEventForm.location,
           maxParticipants: newEventForm.maxParticipants ? parseInt(newEventForm.maxParticipants) : null
         })
       });
@@ -210,7 +208,6 @@ const AdminDashboard = () => {
           description: '',
           date: '',
           time: '',
-          location: '',
           maxParticipants: ''
         });
         fetchEvents();
@@ -501,7 +498,6 @@ const AdminDashboard = () => {
                     <th>Title</th>
                     <th>Date</th>
                     <th>Time</th>
-                    <th>Location</th>
                     <th>Participants</th>
                     <th>Created By</th>
                   </tr>
@@ -512,7 +508,6 @@ const AdminDashboard = () => {
                       <td>{event.title}</td>
                       <td>{new Date(event.date).toLocaleDateString()}</td>
                       <td>{event.time}</td>
-                      <td>{event.location || '-'}</td>
                       <td>
                         {event.currentParticipants}
                         {event.maxParticipants && ` / ${event.maxParticipants}`}
