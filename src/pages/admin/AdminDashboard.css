@@ -171,9 +171,19 @@
   width: 100%;
 }
 .code-input{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 15px;
+  width: 40%;
   background-color: transparent;
 }
 .desc-input{
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+  gap: 15px;
+  width: 40%;
   background-color: transparent;
 }
 
@@ -298,6 +308,52 @@ tr{
   background: #c82333;
 }
 
+.title{
+  grid-area: title;
+  width: 100%;
+}
+.participants{
+  grid-area: participants;
+  width: 100%;
+}
+.date{
+  grid-area: date;
+  width: 100%;
+}
+.time{
+  grid-area: time;
+  width: 100%;
+}
+.desc{
+  grid-area: desc;
+  width: 100%;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  grid-template-rows: .5fr .5fr 2fr;
+  grid-template-areas:
+    'title participants'
+    'date time'
+    'desc desc';
+  gap: 20px;
+  width: 40%;
+  background-color: transparent;
+}
+.create-event-btn{
+  background: #667eea;
+  color: white;
+  border: none;
+  padding: 15px 30px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1.1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+  width: 40%;
+}
+
 /* Code input group styling */
 .code-input-group {
   display: flex;
@@ -333,6 +389,21 @@ tr{
 .generate-btn:active {
   transform: translateY(0);
 }
+.form-row {
+  display: flex;
+  gap: 15px;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  width: 40%;
+  background-color: transparent;
+}
+.form-row input,
+.form-row button {
+  width: 100%;
+  margin-bottom: 10px;
+}
+
 
 /* Responsive Design */
 @media (max-width: 768px) {
@@ -359,6 +430,7 @@ tr{
   
   .form-row {
     flex-direction: column;
+    background-color: transparent;
   }
   
   .form-row input,

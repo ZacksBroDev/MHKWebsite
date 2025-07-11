@@ -334,6 +334,35 @@ const AdminDashboard = () => {
                 <button type="submit" disabled={loading}>{loading ? 'Creating...' : 'Create Code'}</button>
               </div>
             </form>
+
+            <h2>Send Access Code via SMS</h2>
+            <form onSubmit={sendAccessCodeSMS} className="create-form">
+              <div className="form-row">
+                <input
+                  type="tel"
+                  placeholder="Phone Number (e.g., 1234567890)"
+                  value={smsForm.phoneNumber}
+                  onChange={(e) => setSmsForm({...smsForm, phoneNumber: e.target.value})}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="Access Code"
+                  value={smsForm.accessCode}
+                  onChange={(e) => setSmsForm({...smsForm, accessCode: e.target.value.toUpperCase()})}
+                  required
+                />
+                <input
+                  type="text"
+                  placeholder="User Name (optional)"
+                  value={smsForm.userName}
+                  onChange={(e) => setSmsForm({...smsForm, userName: e.target.value})}
+                />
+                <button type="submit" disabled={loading}>
+                  {loading ? 'Sending...' : '📱 Send SMS'}
+                </button>
+              </div>
+            </form>
           </div>
 
           <div className="section">
@@ -375,37 +404,6 @@ const AdminDashboard = () => {
                 </tbody>
               </table>
             </div>
-          </div>
-
-          <div className="section">
-            <h2>Send Access Code via SMS</h2>
-            <form onSubmit={sendAccessCodeSMS} className="create-form">
-              <div className="form-row">
-                <input
-                  type="tel"
-                  placeholder="Phone Number (e.g., 1234567890)"
-                  value={smsForm.phoneNumber}
-                  onChange={(e) => setSmsForm({...smsForm, phoneNumber: e.target.value})}
-                  required
-                />
-                <input
-                  type="text"
-                  placeholder="Access Code"
-                  value={smsForm.accessCode}
-                  onChange={(e) => setSmsForm({...smsForm, accessCode: e.target.value.toUpperCase()})}
-                  required
-                />
-                <input
-                  type="text"
-                  placeholder="User Name (optional)"
-                  value={smsForm.userName}
-                  onChange={(e) => setSmsForm({...smsForm, userName: e.target.value})}
-                />
-                <button type="submit" disabled={loading}>
-                  {loading ? 'Sending...' : '📱 Send SMS'}
-                </button>
-              </div>
-            </form>
           </div>
         </div>
       )}
@@ -454,43 +452,39 @@ const AdminDashboard = () => {
             <h2>Create New Event</h2>
             <form onSubmit={createEvent} className="create-form">
               <div className="form-grid">
-                <input
+                <input className='title'
                   type="text"
                   placeholder="Event Title"
                   value={newEventForm.title}
                   onChange={(e) => setNewEventForm({...newEventForm, title: e.target.value})}
                   required
                 />
-                <input
-                  type="text"
-                  placeholder="Description"
-                  value={newEventForm.description}
-                  onChange={(e) => setNewEventForm({...newEventForm, description: e.target.value})}
-                />
-                <input
-                  type="date"
-                  value={newEventForm.date}
-                  onChange={(e) => setNewEventForm({...newEventForm, date: e.target.value})}
-                  required
-                />
-                <input
-                  type="time"
-                  value={newEventForm.time}
-                  onChange={(e) => setNewEventForm({...newEventForm, time: e.target.value})}
-                  required
-                />
-                <input
-                  type="text"
-                  placeholder="Location"
-                  value={newEventForm.location}
-                  onChange={(e) => setNewEventForm({...newEventForm, location: e.target.value})}
-                />
-                <input
+                <input className='participants'
                   type="number"
                   placeholder="Max Participants (optional)"
                   value={newEventForm.maxParticipants}
                   onChange={(e) => setNewEventForm({...newEventForm, maxParticipants: e.target.value})}
                 />
+
+                <input className='date'
+                  type="date"
+                  value={newEventForm.date}
+                  onChange={(e) => setNewEventForm({...newEventForm, date: e.target.value})}
+                  required
+                />
+                <input className='time'
+                  type="time"
+                  value={newEventForm.time}
+                  onChange={(e) => setNewEventForm({...newEventForm, time: e.target.value})}
+                  required
+                />
+                 <input className='desc'
+                  type="text"
+                  placeholder="Description"
+                  value={newEventForm.description}
+                  onChange={(e) => setNewEventForm({...newEventForm, description: e.target.value})}
+                />
+                
               </div>
               <button type="submit" disabled={loading} className="create-event-btn">
                 {loading ? 'Creating...' : 'Create Event'}
