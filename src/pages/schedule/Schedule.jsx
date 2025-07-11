@@ -187,9 +187,6 @@ const Schedule = () => {
                         <div className="event-details">
                           <div className="event-title">{event.title}</div>
                           <div className="event-time">⏰ {event.time}</div>
-                          {event.location && (
-                            <div className="event-location">📍 {event.location}</div>
-                          )}
                           {event.description && (
                             <div className="event-description">{event.description}</div>
                           )}

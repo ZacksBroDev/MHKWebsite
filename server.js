@@ -585,7 +585,7 @@ app.post(
   authenticateAdmin,
   async (req, res) => {
     try {
-      const { title, description, date, time, location, maxParticipants } =
+      const { title, description, date, time, maxParticipants } =
         req.body;
 
       if (!title || !date || !time) {
@@ -599,7 +599,6 @@ app.post(
         description: description || "",
         date: new Date(date),
         time,
-        location: location || "",
         maxParticipants: maxParticipants || null,
         createdBy: req.user.userId,
       });
@@ -614,7 +613,6 @@ app.post(
           description: newEvent.description,
           date: newEvent.date,
           time: newEvent.time,
-          location: newEvent.location,
           maxParticipants: newEvent.maxParticipants,
           currentParticipants: newEvent.registeredParticipants.length,
           createdAt: newEvent.createdAt,
@@ -642,7 +640,6 @@ app.get("/api/events", async (req, res) => {
         description: event.description,
         date: event.date,
         time: event.time,
-        location: event.location,
         maxParticipants: event.maxParticipants,
         currentParticipants: event.registeredParticipants.length,
         participants: event.registeredParticipants.map((p) => ({
@@ -852,7 +849,6 @@ app.get("/api/schedule", async (req, res) => {
         title: event.title,
         date: event.date,
         time: event.time,
-        location: event.location,
       })),
     });
   } catch (error) {

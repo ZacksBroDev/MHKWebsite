@@ -36,10 +36,6 @@ const eventSchema = new mongoose.Schema(
       type: String,
       trim: true,
     },
-    location: {
-      type: String,
-      trim: true,
-    },
     maxParticipants: {
       type: Number,
       default: null,
