@@ -35,6 +35,10 @@ const AdminDashboard = () => {
     maxParticipants: ''
   });
 
+  // Calendar navigation state
+  const [selectedDate, setSelectedDate] = useState(new Date());
+  const [viewMode, setViewMode] = useState('month'); // 'month' or 'year'
+
   useEffect(() => {
     if (user && user.role === 'admin') {
       fetchAccessCodes();
@@ -256,6 +260,43 @@ const AdminDashboard = () => {
     }
     
     setLoading(false);
+  };
+
+  // Calendar navigation functions
+  const getFilteredEvents = () => {
+    if (viewMode === 'year') {
+      return events.filter(event => {
+        const eventDate = new Date(event.date);
+        return eventDate.getFullYear() === selectedDate.getFullYear();
+      });
+    } else {
+      return events.filter(event => {
+        const eventDate = new Date(event.date);
+        return eventDate.getFullYear() === selectedDate.getFullYear() &&
+               eventDate.getMonth() === selectedDate.getMonth();
+      });
+    }
+  };
+
+  const navigateMonth = (direction) => {
+    const newDate = new Date(selectedDate);
+    if (viewMode === 'month') {
+      newDate.setMonth(newDate.getMonth() + direction);
+    } else {
+      newDate.setFullYear(newDate.getFullYear() + direction);
+    }
+    setSelectedDate(newDate);
+  };
+
+  const getDisplayPeriod = () => {
+    if (viewMode === 'year') {
+      return selectedDate.getFullYear().toString();
+    } else {
+      return selectedDate.toLocaleDateString('en-US', { 
+        month: 'long', 
+        year: 'numeric' 
+      });
+    }
   };
 
   if (!user || user.role !== 'admin') {
@@ -491,6 +532,51 @@ const AdminDashboard = () => {
 
           <div className="section">
             <h2>Existing Events</h2>
+            
+            {/* Calendar Navigation */}
+            <div className="calendar-nav">
+              <div className="nav-controls">
+                <button 
+                  className="nav-btn" 
+                  onClick={() => navigateMonth(-1)}
+                  title={viewMode === 'month' ? 'Previous month' : 'Previous year'}
+                >
+                  ◀
+                </button>
+                <div className="current-period">
+                  <span className="period-text">{getDisplayPeriod()}</span>
+                  <div className="view-mode-toggle">
+                    <button 
+                      className={`mode-btn ${viewMode === 'month' ? 'active' : ''}`}
+                      onClick={() => setViewMode('month')}
+                    >
+                      Month
+                    </button>
+                    <button 
+                      className={`mode-btn ${viewMode === 'year' ? 'active' : ''}`}
+                      onClick={() => setViewMode('year')}
+                    >
+                      Year
+                    </button>
+                  </div>
+                </div>
+                <button 
+                  className="nav-btn" 
+                  onClick={() => navigateMonth(1)}
+                  title={viewMode === 'month' ? 'Next month' : 'Next year'}
+                >
+                  ▶
+                </button>
+              </div>
+              
+              <div className="event-summary">
+                <span className="event-count">
+                  {getFilteredEvents().length} event{getFilteredEvents().length !== 1 ? 's' : ''} 
+                  {viewMode === 'month' ? ' this month' : ' this year'}
+                </span>
+              </div>
+            </div>
+
             <div className="table-container">
               <table>
                 <thead>
@@ -503,7 +589,7 @@ const AdminDashboard = () => {
                   </tr>
                 </thead>
                 <tbody>
-                  {events.map(event => (
+                  {getFilteredEvents().map(event => (
                     <tr key={event.id}>
                       <td>{event.title}</td>
                       <td>{new Date(event.date).toLocaleDateString()}</td>
@@ -515,6 +601,13 @@ const AdminDashboard = () => {
                       <td>{event.createdBy}</td>
                     </tr>
                   ))}
+                  {getFilteredEvents().length === 0 && (
+                    <tr>
+                      <td colSpan="5" className="no-events">
+                        No events found for {getDisplayPeriod().toLowerCase()}
+                      </td>
+                    </tr>
+                  )}
                 </tbody>
               </table>
             </div>
