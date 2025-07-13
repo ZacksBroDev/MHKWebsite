@@ -585,8 +585,7 @@ app.post(
   authenticateAdmin,
   async (req, res) => {
     try {
-      const { title, description, date, time, maxParticipants } =
-        req.body;
+      const { title, description, date, time, maxParticipants } = req.body;
 
       if (!title || !date || !time) {
         return res

@@ -18,19 +18,19 @@ const twilioClient = twilio(
 export const sendSMS = async (to, message) => {
   try {
     // Development mode - simulate SMS without actually sending
-    if (process.env.SMS_DEVELOPMENT_MODE === 'true') {
+    if (process.env.SMS_DEVELOPMENT_MODE === "true") {
       console.log(`🧪 [DEV MODE] SMS Simulation:`);
       console.log(`📱 To: ${to}`);
       console.log(`📝 Message: ${message}`);
       console.log(`✅ SMS simulated successfully (development mode)`);
-      
+
       // Return a mock response similar to Twilio's
       return {
-        sid: 'SM' + Math.random().toString(36).substr(2, 32),
-        status: 'delivered',
+        sid: "SM" + Math.random().toString(36).substr(2, 32),
+        status: "delivered",
         to: to,
         from: process.env.TWILIO_PHONE_NUMBER,
-        body: message
+        body: message,
       };
     }
 
