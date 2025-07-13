@@ -402,47 +402,6 @@ const AdminDashboard = () => {
               </div>
             </form>
           </div>
-
-          <div className="section">
-            <h2>Existing Access Codes</h2>
-            <div className="table-container">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Code</th>
-                    <th>Description</th>
-                    <th>Used</th>
-                    <th>Status</th>
-                    <th>Created By</th>
-                    <th>Actions</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {accessCodes.map(code => (
-                    <tr key={code.id}>
-                      <td className="code-text">{code.code}</td>
-                      <td>{code.description || '-'}</td>
-                      <td>{code.usedCount}</td>
-                      <td>
-                        <span className={`status ${code.isActive ? 'active' : 'inactive'}`}>
-                          {code.isActive ? 'Active' : 'Inactive'}
-                        </span>
-                      </td>
-                      <td>{code.createdBy}</td>
-                      <td>
-                        <button 
-                          onClick={() => toggleAccessCode(code.id, code.isActive)}
-                          className={`toggle-btn ${code.isActive ? 'deactivate' : 'activate'}`}
-                        >
-                          {code.isActive ? 'Deactivate' : 'Activate'}
-                        </button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
-          </div>
         </div>
       )}
 
