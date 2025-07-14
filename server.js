@@ -669,7 +669,11 @@ app.post("/api/events/:id/join", authenticateToken, async (req, res) => {
     }
 
     // Check if user is already registered
-    if (event.participants.includes(userId)) {
+    const isAlreadyRegistered = event.registeredParticipants.some(
+      participant => participant.user.toString() === userId
+    );
+    
+    if (isAlreadyRegistered) {
       return res
         .status(400)
         .json({ error: "Already registered for this event" });
@@ -678,21 +682,31 @@ app.post("/api/events/:id/join", authenticateToken, async (req, res) => {
     // Check if event is full
     if (
       event.maxParticipants &&
-      event.participants.length >= event.maxParticipants
+      event.registeredParticipants.length >= event.maxParticipants
     ) {
       return res.status(400).json({ error: "Event is full" });
     }
 
-    // Add user to participants
-    event.participants.push(userId);
-    await event.save();
+    // Add user to participants using findByIdAndUpdate to avoid validation issues
+    const updatedEvent = await Event.findByIdAndUpdate(
+      id,
+      {
+        $push: {
+          registeredParticipants: {
+            user: userId,
+            registeredAt: new Date()
+          }
+        }
+      },
+      { new: true }
+    );
 
     res.json({
       message: "Successfully joined event",
       event: {
-        id: event._id,
-        title: event.title,
-        currentParticipants: event.participants.length,
+        id: updatedEvent._id,
+        title: updatedEvent.title,
+        currentParticipants: updatedEvent.registeredParticipants.length,
       },
     });
   } catch (error) {
@@ -702,7 +716,7 @@ app.post("/api/events/:id/join", authenticateToken, async (req, res) => {
 });
 
 // Leave event
-app.delete("/api/events/:id/leave", authenticateToken, async (req, res) => {
+app.post("/api/events/:id/leave", authenticateToken, async (req, res) => {
   try {
     const { id } = req.params;
     const userId = req.user.userId;
@@ -713,22 +727,31 @@ app.delete("/api/events/:id/leave", authenticateToken, async (req, res) => {
     }
 
     // Check if user is registered
-    if (!event.participants.includes(userId)) {
+    const isRegistered = event.registeredParticipants.some(
+      participant => participant.user.toString() === userId
+    );
+    
+    if (!isRegistered) {
       return res.status(400).json({ error: "Not registered for this event" });
     }
 
-    // Remove user from participants
-    event.participants = event.participants.filter(
-      (p) => p.toString() !== userId
+    // Remove user from participants using findByIdAndUpdate to avoid validation issues
+    const updatedEvent = await Event.findByIdAndUpdate(
+      id,
+      {
+        $pull: {
+          registeredParticipants: { user: userId }
+        }
+      },
+      { new: true }
     );
-    await event.save();
 
     res.json({
       message: "Successfully left event",
       event: {
-        id: event._id,
-        title: event.title,
-        currentParticipants: event.participants.length,
+        id: updatedEvent._id,
+        title: updatedEvent.title,
+        currentParticipants: updatedEvent.registeredParticipants.length,
       },
     });
   } catch (error) {
