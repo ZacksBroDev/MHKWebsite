@@ -1,12 +1,17 @@
 import React, { useState, useEffect } from "react";
+import { useAuth } from '../../contexts/AuthContext';
+import { API_ENDPOINTS } from '../../config/api';
 import './schedule.css';
 
 const Schedule = () => {
+  const { user, token } = useAuth();
   const [currentDate, setCurrentDate] = useState(new Date());
   const [currentYear, setCurrentYear] = useState(currentDate.getFullYear());
   const [currentMonth, setCurrentMonth] = useState(currentDate.getMonth());
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [joinLoading, setJoinLoading] = useState({});
+  const [message, setMessage] = useState({ text: '', type: '' });
 
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const monthNames = [
@@ -18,7 +23,7 @@ const Schedule = () => {
   const loadScheduleData = async () => {
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:3001/api/events');
+      const response = await fetch(API_ENDPOINTS.EVENTS);
       
       if (response.ok) {
         const data = await response.json();
@@ -104,6 +109,100 @@ const Schedule = () => {
 
     return groupedEvents;
   };
+
+  // Join event function
+  const joinEvent = async (eventId) => {
+    if (!user || !token) {
+      setMessage({ text: 'Please log in to join events', type: 'error' });
+      return;
+    }
+
+    setJoinLoading(prev => ({ ...prev, [eventId]: true }));
+    setMessage({ text: '', type: '' });
+
+    try {
+      console.log('Joining event:', eventId, 'with token:', token ? 'present' : 'missing');
+      
+      const response = await fetch(`${API_ENDPOINTS.EVENTS}/${eventId}/join`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+      console.log('Join response:', response.status, data);
+
+      if (response.ok) {
+        setMessage({ text: 'Successfully joined event!', type: 'success' });
+        // Reload events to update participant count
+        loadScheduleData();
+      } else {
+        setMessage({ text: data.error || 'Failed to join event', type: 'error' });
+      }
+    } catch (error) {
+      console.error('Join event error:', error);
+      setMessage({ text: 'Failed to join event', type: 'error' });
+    } finally {
+      setJoinLoading(prev => ({ ...prev, [eventId]: false }));
+    }
+  };
+
+  // Leave event function
+  const leaveEvent = async (eventId) => {
+    if (!user || !token) {
+      setMessage({ text: 'Please log in to leave events', type: 'error' });
+      return;
+    }
+
+    setJoinLoading(prev => ({ ...prev, [eventId]: true }));
+    setMessage({ text: '', type: '' });
+
+    try {
+      console.log('Leaving event:', eventId, 'with token:', token ? 'present' : 'missing');
+      
+      const response = await fetch(`${API_ENDPOINTS.EVENTS}/${eventId}/leave`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+      console.log('Leave response:', response.status, data);
+
+      if (response.ok) {
+        setMessage({ text: 'Successfully left event!', type: 'success' });
+        // Reload events to update participant count
+        loadScheduleData();
+      } else {
+        setMessage({ text: data.error || 'Failed to leave event', type: 'error' });
+      }
+    } catch (error) {
+      console.error('Leave event error:', error);
+      setMessage({ text: 'Failed to leave event', type: 'error' });
+    } finally {
+      setJoinLoading(prev => ({ ...prev, [eventId]: false }));
+    }
+  };
+
+  // Check if user is already registered for an event
+  const isUserRegistered = (event) => {
+    if (!user || !event.participants) return false;
+    return event.participants.some(participant => participant.id === user.id);
+  };
+
+  // Clear message after 5 seconds
+  useEffect(() => {
+    if (message.text) {
+      const timer = setTimeout(() => {
+        setMessage({ text: '', type: '' });
+      }, 5000);
+      return () => clearTimeout(timer);
+    }
+  }, [message]);
 
   if (loading) {
     return <div className="schedule"><div className="schedule-loading">Loading schedule...</div></div>;
@@ -191,7 +290,48 @@ const Schedule = () => {
                             <div className="event-description">{event.description}</div>
                           )}
                           <div className="event-type">Type: {event.type}</div>
+                          
+                          {/* Participant Info */}
+                          <div className="event-participants">
+                            👥 {event.currentParticipants || 0}
+                            {event.maxParticipants && ` / ${event.maxParticipants}`} participants
+                          </div>
                         </div>
+                        
+                        {/* Join/Leave Actions */}
+                        {user ? (
+                          <div className="event-actions">
+                            {isUserRegistered(event) ? (
+                              <button
+                                className="leave-button"
+                                onClick={() => leaveEvent(event.id)}
+                                disabled={joinLoading[event.id]}
+                              >
+                                {joinLoading[event.id] ? 'Leaving...' : '✖ Leave Event'}
+                              </button>
+                            ) : (
+                              <button
+                                className="join-button"
+                                onClick={() => joinEvent(event.id)}
+                                disabled={
+                                  joinLoading[event.id] || 
+                                  (event.maxParticipants && event.currentParticipants >= event.maxParticipants)
+                                }
+                              >
+                                {joinLoading[event.id] 
+                                  ? 'Joining...' 
+                                  : event.maxParticipants && event.currentParticipants >= event.maxParticipants
+                                  ? '🚫 Event Full'
+                                  : '✓ Join Event'
+                                }
+                              </button>
+                            )}
+                          </div>
+                        ) : (
+                          <div className="login-prompt">
+                            <a href="/login" className="login-link">Login to join events</a>
+                          </div>
+                        )}
                       </div>
                     ))}
                   </div>
@@ -200,6 +340,12 @@ const Schedule = () => {
             </div>
           )}
         </div>
+
+        {message.text && (
+          <div className={`message ${message.type}`}>
+            {message.text}
+          </div>
+        )}
       </div>
     </div>
   );
