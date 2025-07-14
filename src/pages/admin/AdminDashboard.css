@@ -517,6 +517,12 @@ tr{
 .event-summary{
   background-color: transparent;
 }
+.action-buttons {
+  background-color: transparent;
+}
+.admin-home{
+  background-color: transparent;
+}
 
 /* Responsive Design */
 @media (max-width: 768px) {
