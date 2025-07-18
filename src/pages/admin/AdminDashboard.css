@@ -108,6 +108,9 @@
   border-bottom: 2px solid #667eea;
   padding-bottom: 10px;
 }
+.section table span{
+  background-color: transparent;
+}
 
 .create-form {
   margin-bottom: 30px;
@@ -632,6 +635,9 @@ tr{
   z-index: 1000;
   animation: fadeIn 0.3s ease-out;
 }
+.modal-overlay strong{
+  background-color: transparent;
+}
 
 .modal-content {
   background: white;
@@ -654,6 +660,7 @@ tr{
 
 .delete-warning {
   margin-bottom: 25px;
+  background-color: transparent;
 }
 
 .user-details {
@@ -678,6 +685,7 @@ tr{
   gap: 15px;
   justify-content: center;
   margin-top: 25px;
+  background-color: transparent;
 }
 
 .cancel-btn {
@@ -771,7 +779,12 @@ tr{
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
-
+.stat-number {
+  background-color: transparent;
+}
+.stat-label{
+  background-color: transparent;
+}
 .stat-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
