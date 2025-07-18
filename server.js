@@ -21,6 +21,7 @@ app.use(express.json());
 // JWT Secret
 const JWT_SECRET = process.env.JWT_SECRET || "mhk-secret-key-2025";
 const ADMIN_SECRET = process.env.ADMIN_SECRET || "admin123";
+const DEFAULT_ACCESS_CODE = process.env.DEFAULT_ACCESS_CODE || "MARTIAL2025";
 
 // Utility function to generate random access codes
 const generateRandomAccessCode = (length = 8) => {
@@ -592,9 +593,12 @@ app.delete(
       }
 
       // Prevent deletion of the default access code
-      if (accessCode.code === DEFAULT_ACCESS_CODE || accessCode.code === ADMIN_SECRET) {
-        return res.status(400).json({ 
-          error: "Cannot delete default system access codes" 
+      if (
+        accessCode.code === DEFAULT_ACCESS_CODE ||
+        accessCode.code === ADMIN_SECRET
+      ) {
+        return res.status(400).json({
+          error: "Cannot delete default system access codes",
         });
       }
 
@@ -602,7 +606,7 @@ app.delete(
 
       res.json({
         message: "Access code deleted successfully",
-        deletedCode: accessCode.code
+        deletedCode: accessCode.code,
       });
     } catch (error) {
       console.error("Delete access code error:", error);
