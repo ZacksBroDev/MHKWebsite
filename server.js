@@ -256,8 +256,9 @@ app.post("/api/admin-signup", async (req, res) => {
       password: hashedPassword,
       firstName,
       lastName,
-      phone: phone || null, // Optional for admin
+      phone: phone || "Admin - No Phone Set", // Default placeholder for admin
       role: "admin",
+      accessCodeUsed: ADMIN_SECRET, // Record the admin secret as their access code
     });
 
     await newAdmin.save();
@@ -576,6 +577,40 @@ app.patch(
   }
 );
 
+// Delete access code (Admin only)
+app.delete(
+  "/api/access-codes/:id",
+  authenticateToken,
+  authenticateAdmin,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      const accessCode = await AccessCode.findById(id);
+      if (!accessCode) {
+        return res.status(404).json({ error: "Access code not found" });
+      }
+
+      // Prevent deletion of the default access code
+      if (accessCode.code === DEFAULT_ACCESS_CODE || accessCode.code === ADMIN_SECRET) {
+        return res.status(400).json({ 
+          error: "Cannot delete default system access codes" 
+        });
+      }
+
+      await AccessCode.findByIdAndDelete(id);
+
+      res.json({
+        message: "Access code deleted successfully",
+        deletedCode: accessCode.code
+      });
+    } catch (error) {
+      console.error("Delete access code error:", error);
+      res.status(500).json({ error: "Server error" });
+    }
+  }
+);
+
 // EVENT ROUTES
 
 // Add new event (admin only)
@@ -641,12 +676,14 @@ app.get("/api/events", async (req, res) => {
         time: event.time,
         maxParticipants: event.maxParticipants,
         currentParticipants: event.registeredParticipants.length,
-        participants: event.registeredParticipants.map((p) => ({
-          id: p.user._id,
-          username: p.user.username,
-          email: p.user.email,
-          registeredAt: p.registeredAt,
-        })),
+        participants: event.registeredParticipants
+          .filter((p) => p.user) // Filter out null users
+          .map((p) => ({
+            id: p.user._id,
+            username: p.user.username,
+            email: p.user.email,
+            registeredAt: p.registeredAt,
+          })),
         createdBy: event.createdBy ? event.createdBy.username : "System",
         createdAt: event.createdAt,
       })),
@@ -670,9 +707,9 @@ app.post("/api/events/:id/join", authenticateToken, async (req, res) => {
 
     // Check if user is already registered
     const isAlreadyRegistered = event.registeredParticipants.some(
-      participant => participant.user.toString() === userId
+      (participant) => participant.user.toString() === userId
     );
-    
+
     if (isAlreadyRegistered) {
       return res
         .status(400)
@@ -694,9 +731,9 @@ app.post("/api/events/:id/join", authenticateToken, async (req, res) => {
         $push: {
           registeredParticipants: {
             user: userId,
-            registeredAt: new Date()
-          }
-        }
+            registeredAt: new Date(),
+          },
+        },
       },
       { new: true }
     );
@@ -728,9 +765,9 @@ app.post("/api/events/:id/leave", authenticateToken, async (req, res) => {
 
     // Check if user is registered
     const isRegistered = event.registeredParticipants.some(
-      participant => participant.user.toString() === userId
+      (participant) => participant.user.toString() === userId
     );
-    
+
     if (!isRegistered) {
       return res.status(400).json({ error: "Not registered for this event" });
     }
@@ -740,8 +777,8 @@ app.post("/api/events/:id/leave", authenticateToken, async (req, res) => {
       id,
       {
         $pull: {
-          registeredParticipants: { user: userId }
-        }
+          registeredParticipants: { user: userId },
+        },
       },
       { new: true }
     );
@@ -761,6 +798,68 @@ app.post("/api/events/:id/leave", authenticateToken, async (req, res) => {
 });
 
 // USER MANAGEMENT ROUTES (Admin only)
+
+// Update existing admin users to show admin secret (one-time fix)
+app.post(
+  "/api/update-admin-access-codes",
+  authenticateToken,
+  authenticateAdmin,
+  async (req, res) => {
+    try {
+      // Update all admin users that don't have an accessCodeUsed field
+      const result = await User.updateMany(
+        {
+          role: "admin",
+          $or: [
+            { accessCodeUsed: { $exists: false } },
+            { accessCodeUsed: null },
+            { accessCodeUsed: "" },
+          ],
+        },
+        {
+          $set: { accessCodeUsed: ADMIN_SECRET },
+        }
+      );
+
+      res.json({
+        message: `Updated ${result.modifiedCount} admin users with access code`,
+        modifiedCount: result.modifiedCount,
+      });
+    } catch (error) {
+      console.error("Update admin access codes error:", error);
+      res.status(500).json({ error: "Server error" });
+    }
+  }
+);
+
+// Update admin users without phone numbers (one-time fix)
+app.post(
+  "/api/update-admin-phones",
+  authenticateToken,
+  authenticateAdmin,
+  async (req, res) => {
+    try {
+      // Update all admin users that don't have phone numbers
+      const result = await User.updateMany(
+        {
+          role: "admin",
+          $or: [{ phone: { $exists: false } }, { phone: null }, { phone: "" }],
+        },
+        {
+          $set: { phone: "Admin - No Phone Set" },
+        }
+      );
+
+      res.json({
+        message: `Updated ${result.modifiedCount} admin users with phone placeholder`,
+        modifiedCount: result.modifiedCount,
+      });
+    } catch (error) {
+      console.error("Update admin phones error:", error);
+      res.status(500).json({ error: "Server error" });
+    }
+  }
+);
 
 // Get all users
 app.get(
@@ -786,6 +885,46 @@ app.get(
       });
     } catch (error) {
       console.error("Get users error:", error);
+      res.status(500).json({ error: "Server error" });
+    }
+  }
+);
+
+// Delete user (Admin only)
+app.delete(
+  "/api/users/:id",
+  authenticateToken,
+  authenticateAdmin,
+  async (req, res) => {
+    try {
+      const { id } = req.params;
+
+      // Prevent admin from deleting themselves
+      if (id === req.user.userId) {
+        return res.status(400).json({
+          error: "You cannot delete your own account",
+        });
+      }
+
+      const user = await User.findById(id);
+      if (!user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      // Delete the user
+      await User.findByIdAndDelete(id);
+
+      res.json({
+        message: `User ${user.username} has been permanently deleted`,
+        deletedUser: {
+          id: user._id,
+          username: user.username,
+          email: user.email,
+          role: user.role,
+        },
+      });
+    } catch (error) {
+      console.error("Delete user error:", error);
       res.status(500).json({ error: "Server error" });
     }
   }
