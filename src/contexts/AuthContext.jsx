@@ -98,14 +98,14 @@ export const AuthProvider = ({ children }) => {
   };
 
   // Add adminSignup function
-  const adminSignup = async (username, email, password, adminPassword, firstName, lastName) => {
+  const adminSignup = async (username, email, password, adminPassword, firstName, lastName, phone) => {
     try {
       const response = await fetch('http://localhost:3001/api/admin-signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ username, email, password, adminPassword, firstName, lastName }),
+        body: JSON.stringify({ username, email, password, adminPassword, firstName, lastName, phone }),
       });
 
       const data = await response.json();

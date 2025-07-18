@@ -77,7 +77,7 @@ const AuthForm = () => {
     } else if (isAdminSignup) {
       // Admin signup
       const username = `${formData.firstName.toLowerCase()}${formData.lastName.toLowerCase()}`;
-      result = await adminSignup(username, formData.email, formData.password, formData.adminPassword, formData.firstName, formData.lastName);
+      result = await adminSignup(username, formData.email, formData.password, formData.adminPassword, formData.firstName, formData.lastName, formData.phone);
     } else {
       // Regular user signup (requires access code)
       const username = `${formData.firstName.toLowerCase()}${formData.lastName.toLowerCase()}`;

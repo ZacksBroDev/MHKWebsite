@@ -4,7 +4,7 @@ import './AdminDashboard.css';
 
 const AdminDashboard = () => {
   const { user, token } = useAuth();
-  const [activeTab, setActiveTab] = useState('access-codes');
+  const [activeTab, setActiveTab] = useState('users');
   const [accessCodes, setAccessCodes] = useState([]);
   const [users, setUsers] = useState([]);
   const [events, setEvents] = useState([]);
@@ -38,6 +38,14 @@ const AdminDashboard = () => {
   // Calendar navigation state
   const [selectedDate, setSelectedDate] = useState(new Date());
   const [viewMode, setViewMode] = useState('month'); // 'month' or 'year'
+
+  // Delete user confirmation state
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
+  const [userToDelete, setUserToDelete] = useState(null);
+
+  // Delete access code confirmation state
+  const [showDeleteAccessCodeModal, setShowDeleteAccessCodeModal] = useState(false);
+  const [accessCodeToDelete, setAccessCodeToDelete] = useState(null);
 
   useEffect(() => {
     if (user && user.role === 'admin') {
@@ -149,7 +157,7 @@ const AdminDashboard = () => {
           'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
         },
-        body: JSON.stringify({ isActive: !isActive })
+        body: JSON.stringify({ isActive: isActive })
       });
 
       if (response.ok) {
@@ -260,6 +268,98 @@ const AdminDashboard = () => {
     }
     
     setLoading(false);
+  };
+
+  // Delete user functions
+  const handleDeleteUser = (userToDelete) => {
+    setUserToDelete(userToDelete);
+    setShowDeleteModal(true);
+  };
+
+  const confirmDeleteUser = async () => {
+    if (!userToDelete) return;
+
+    setLoading(true);
+    setError('');
+    setSuccess('');
+
+    try {
+      const response = await fetch(`http://localhost:3001/api/users/${userToDelete.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccess(`User ${userToDelete.username} has been permanently deleted`);
+        setShowDeleteModal(false);
+        setUserToDelete(null);
+        // Refresh the users list
+        fetchUsers();
+      } else {
+        setError(data.error || 'Failed to delete user');
+      }
+    } catch (error) {
+      console.error('Delete user error:', error);
+      setError('Failed to delete user: ' + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const cancelDeleteUser = () => {
+    setShowDeleteModal(false);
+    setUserToDelete(null);
+  };
+
+  // Delete access code functions
+  const handleDeleteAccessCode = (accessCodeToDelete) => {
+    setAccessCodeToDelete(accessCodeToDelete);
+    setShowDeleteAccessCodeModal(true);
+  };
+
+  const confirmDeleteAccessCode = async () => {
+    if (!accessCodeToDelete) return;
+
+    setLoading(true);
+    setError('');
+    setSuccess('');
+
+    try {
+      const response = await fetch(`http://localhost:3001/api/access-codes/${accessCodeToDelete.id}`, {
+        method: 'DELETE',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        }
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        setSuccess(`Access code "${accessCodeToDelete.code}" has been permanently deleted`);
+        setShowDeleteAccessCodeModal(false);
+        setAccessCodeToDelete(null);
+        // Refresh the access codes list
+        fetchAccessCodes();
+      } else {
+        setError(data.error || 'Failed to delete access code');
+      }
+    } catch (error) {
+      console.error('Delete access code error:', error);
+      setError('Failed to delete access code: ' + error.message);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const cancelDeleteAccessCode = () => {
+    setShowDeleteAccessCodeModal(false);
+    setAccessCodeToDelete(null);
   };
 
   // Calendar navigation functions
@@ -401,44 +501,129 @@ const AdminDashboard = () => {
                 </button>
               </div>
             </form>
+
+            <h2>Manage Access Codes</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Code</th>
+                  <th>Description</th>
+                  <th>Status</th>
+                  <th>Created</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {accessCodes.map(code => (
+                  <tr key={code.id}>
+                    <td className="access-code-cell">{code.code}</td>
+                    <td>{code.description || '-'}</td>
+                    <td>
+                      <span className={`status ${code.isActive ? 'active' : 'inactive'}`}>
+                        {code.isActive ? '✅ Active' : '❌ Inactive'}
+                      </span>
+                    </td>
+                    <td>{new Date(code.createdAt).toLocaleDateString()}</td>
+                    <td>
+                      <button
+                        onClick={() => toggleAccessCode(code.id, !code.isActive)}
+                        className={`toggle-btn ${code.isActive ? 'deactivate' : 'activate'}`}
+                        disabled={loading}
+                        title={code.isActive ? 'Deactivate code' : 'Activate code'}
+                      >
+                        {code.isActive ? '⏸️ Deactivate' : '▶️ Activate'}
+                      </button>
+                      <button
+                        onClick={() => handleDeleteAccessCode(code)}
+                        className="delete-btn"
+                        disabled={loading}
+                        title={`Delete access code ${code.code}`}
+                      >
+                        🗑️ Delete
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+                {accessCodes.length === 0 && (
+                  <tr>
+                    <td colSpan="5" className="no-data">
+                      No access codes found. Create one above to get started.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
           </div>
         </div>
       )}
 
       {activeTab === 'users' && (
         <div className="tab-content">
+          {/* Stats Cards */}
+          <div className="stats-cards">
+            <div className="stat-card">
+              <div className="stat-number">{users.length}</div>
+              <div className="stat-label">Total Users</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-number">{users.filter(u => u.role === 'admin').length}</div>
+              <div className="stat-label">Admin Users</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-number">{users.filter(u => u.role === 'user').length}</div>
+              <div className="stat-label">Regular Users</div>
+            </div>
+            <div className="stat-card">
+              <div className="stat-number">{accessCodes.filter(code => code.isActive).length}</div>
+              <div className="stat-label">Active Codes</div>
+            </div>
+          </div>
+
           <div className="section">
             <h2>Registered Users</h2>
-            <div className="table-container">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Username</th>
-                    <th>Email</th>
-                    <th>Phone</th>
-                    <th>Role</th>
-                    <th>Access Code Used</th>
-                    <th>Joined</th>
+            <table>
+              <thead>
+                <tr>
+                  <th>Username</th>
+                  <th>Email</th>
+                  <th>Phone</th>
+                  <th>Role</th>
+                  <th>Access Code Used</th>
+                  <th>Joined</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                {users.map(currentUser => (
+                  <tr key={currentUser.id}>
+                    <td>{currentUser.username}</td>
+                    <td>{currentUser.email}</td>
+                    <td>{currentUser.phone || '-'}</td>
+                    <td>
+                      <span className={`role ${currentUser.role}`}>
+                        {currentUser.role}
+                      </span>
+                    </td>
+                    <td>{currentUser.accessCodeUsed || '-'}</td>
+                    <td>{new Date(currentUser.createdAt).toLocaleDateString()}</td>
+                    <td>
+                      {currentUser.id !== user.id ? (
+                        <button
+                          onClick={() => handleDeleteUser(currentUser)}
+                          className="delete-btn"
+                          disabled={loading}
+                          title={`Delete user ${currentUser.username}`}
+                        >
+                          🗑️ Delete
+                        </button>
+                      ) : (
+                        <span className="current-user">Current User</span>
+                      )}
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {users.map(user => (
-                    <tr key={user.id}>
-                      <td>{user.username}</td>
-                      <td>{user.email}</td>
-                      <td>{user.phone || '-'}</td>
-                      <td>
-                        <span className={`role ${user.role}`}>
-                          {user.role}
-                        </span>
-                      </td>
-                      <td>{user.accessCodeUsed || '-'}</td>
-                      <td>{new Date(user.createdAt).toLocaleDateString()}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
-            </div>
+                ))}
+              </tbody>
+            </table>
           </div>
         </div>
       )}
@@ -569,6 +754,78 @@ const AdminDashboard = () => {
                   )}
                 </tbody>
               </table>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete User Confirmation Modal */}
+      {showDeleteModal && userToDelete && (
+        <div className="modal-overlay">
+          <div className="modal-content delete-modal">
+            <h3>⚠️ Confirm User Deletion</h3>
+            <div className="delete-warning">
+              <p>Are you sure you want to permanently delete this user?</p>
+              <div className="user-details">
+                <strong>Username:</strong> {userToDelete.username}<br/>
+                <strong>Email:</strong> {userToDelete.email}<br/>
+                <strong>Role:</strong> {userToDelete.role}
+              </div>
+              <p className="warning-text">
+                <strong>⚠️ Warning:</strong> This action cannot be undone. The user will be permanently deleted from the system.
+              </p>
+            </div>
+            <div className="modal-actions">
+              <button 
+                onClick={cancelDeleteUser}
+                className="cancel-btn"
+                disabled={loading}
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={confirmDeleteUser}
+                className="confirm-delete-btn"
+                disabled={loading}
+              >
+                {loading ? 'Deleting...' : '🗑️ Delete User'}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Delete Access Code Confirmation Modal */}
+      {showDeleteAccessCodeModal && accessCodeToDelete && (
+        <div className="modal-overlay">
+          <div className="modal-content delete-modal">
+            <h3>⚠️ Confirm Access Code Deletion</h3>
+            <div className="delete-warning">
+              <p>Are you sure you want to permanently delete this access code?</p>
+              <div className="access-code-details">
+                <strong>Code:</strong> {accessCodeToDelete.code}<br/>
+                <strong>Description:</strong> {accessCodeToDelete.description || 'No description'}<br/>
+                <strong>Status:</strong> {accessCodeToDelete.isActive ? 'Active' : 'Inactive'}
+              </div>
+              <p className="warning-text">
+                <strong>⚠️ Warning:</strong> This action cannot be undone. Users will no longer be able to use this access code to register.
+              </p>
+            </div>
+            <div className="modal-actions">
+              <button 
+                onClick={cancelDeleteAccessCode}
+                className="cancel-btn"
+                disabled={loading}
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={confirmDeleteAccessCode}
+                className="confirm-delete-btn"
+                disabled={loading}
+              >
+                {loading ? 'Deleting...' : '🗑️ Delete Code'}
+              </button>
             </div>
           </div>
         </div>
