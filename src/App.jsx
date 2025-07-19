@@ -3,8 +3,9 @@ import { Routes, Route } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 import NavBar from './components/NavBar';
 import AuthForm from './components/AuthForm';
+import Footer from './components/Footer';
 import ProtectedRoute from './components/ProtectedRoute';
-import Home from './pages/home/Home';
+import Home from './pages/home/home';
 import Schedule from './pages/schedule/Schedule';
 import NotFound from './pages/notFoundPage/NotFound';
 import Contact from './pages/contact/Contact';
@@ -43,24 +44,27 @@ const AppContent = () => {
   return (
     <>
       <NavBar />
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route path="/home" element={<Home />} />
-        <Route path="/schedule" element={<Schedule />} />
-        <Route path="/contact" element={<Contact />} />
-        <Route path="/admin" element={
-          <ProtectedRoute requiredRole="admin">
-            <AdminDashboard />
-          </ProtectedRoute>
-        } />
-        <Route path="/level1" element={<Level1 />} />
-        <Route path="/level2" element={<Level2 />} />
-        <Route path="/level3" element={<Level3 />} />
-        <Route path="/conditionals" element={<Conditional />} />
-        <Route path="/deg1" element={<Deg1 />} />
-        <Route path="/deg2" element={<Deg2 />} />
-        <Route path="*" element={<NotFound />} />
-      </Routes>
+      <main>
+        <Routes>
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/schedule" element={<Schedule />} />
+          <Route path="/contact" element={<Contact />} />
+          <Route path="/admin" element={
+            <ProtectedRoute requiredRole="admin">
+              <AdminDashboard />
+            </ProtectedRoute>
+          } />
+          <Route path="/level1" element={<Level1 />} />
+          <Route path="/level2" element={<Level2 />} />
+          <Route path="/level3" element={<Level3 />} />
+          <Route path="/conditionals" element={<Conditional />} />
+          <Route path="/deg1" element={<Deg1 />} />
+          <Route path="/deg2" element={<Deg2 />} />
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </main>
+      <Footer />
     </>
   );
 };
