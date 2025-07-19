@@ -94,28 +94,24 @@ function Home() {
       <br></br>
       <h1>Fighting Styles</h1>
       <div className="container">
-        <div className="row">
-          <div className="col">
-            <Link to='/level1' className="btn">Level 1</Link>
-          </div>
-          <div className="col">
-            <Link to='/level2' className="btn">Level 2</Link>
-          </div>
-          <div className="col">
-            <Link to='/level3' className="btn">Level 3</Link>
-          </div>
+        <div className="col">
+          <Link to='/level1' className="btn">Level 1</Link>
         </div>
-        <div className="row">
-          <div className="col">
-            <Link to='/conditionals' className="btn">Conditionals</Link>
-          </div>
-          <div className="col">
-            <Link to='/deg1' className="btn">1st Degree Black Belt</Link>
-          </div>
-          <div className="col">
-            <Link to='/deg2' className="btn">2nd Degree Black Belt</Link>
-          </div>
+        <div className="col">
+          <Link to='/level2' className="btn">Level 2</Link>
         </div>
+        <div className="col">
+          <Link to='/level3' className="btn">Level 3</Link>
+        </div>
+        <div className="col">
+          <Link to='/conditionals' className="btn">Conditionals</Link>
+        </div>
+        <div className="col">
+          <Link to='/deg1' className="btn">1st Degree Black Belt</Link>
+        </div>
+        <div className="col">
+          <Link to='/deg2' className="btn">2nd Degree Black Belt</Link>
+          </div>
       </div>
     </>
   );
