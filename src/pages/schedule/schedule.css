@@ -55,7 +55,9 @@
 .calendar-nav {
   display: flex;
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 20px;
+  margin-bottom: 20px;
   gap: 2rem;
   margin-bottom: 2rem;
   background-color: transparent;
@@ -365,10 +367,13 @@ time {
 
 .events-for-date{
   background-color: transparent;
-  margin-left: 0;
 }
 
 .event-item{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1rem;
   background-color: transparent;
   padding: 0.75rem;
   border-radius: 10px;
@@ -377,6 +382,11 @@ time {
 }
 
 .event-details{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 4rem;
   background-color: transparent;
 }
 
@@ -530,6 +540,31 @@ time {
 }
 
 /* Enhanced responsive grid system */
+@media (max-width: 910px) {
+    .event-item{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 1rem;
+    background-color: transparent;
+    padding: 0.75rem;
+    border-radius: 10px;
+    background: rgba(255, 255, 255, 0.1);
+    margin-bottom: 0.5rem;
+  }
+
+  .event-details{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 0.5rem;
+    background-color: transparent;
+  }
+  
+}
+
+
 @media (max-width: 1170px) {
   /* Hide the calendar grid on smaller screens */
   .schedule-list {
@@ -773,6 +808,7 @@ time {
   font-size: 0.9rem;
   color: #666;
   font-weight: 500;
+  background-color: transparent;
 }
 
 .event-actions {
@@ -780,6 +816,7 @@ time {
   display: flex;
   gap: 10px;
   align-items: center;
+  background-color: transparent;
 }
 
 .join-button {
