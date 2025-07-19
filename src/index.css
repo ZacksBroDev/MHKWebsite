@@ -1,0 +1,85 @@
+/* Global CSS Variables */
+:root {
+  --primary-color: #1a73e8;
+  --secondary-color: #34a853;
+  --text: #333;
+  --background: #f5f5f5;
+  --white: #fff;
+  --border: #e0e0e0;
+  --shadow: rgba(0, 0, 0, 0.1);
+}
+
+/* Global Reset and Base Styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Arial', sans-serif;
+}
+
+#root {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Ensure main content takes up available space */
+main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+/* Base text styles */
+body {
+  color: #333;
+  line-height: 1.6;
+  background-color: #f5f5f5;
+}
+
+/* Link styles */
+a {
+  color: #3498db;
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
+
+/* Button base styles */
+button {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  font-family: inherit;
+}
+
+/* Input base styles */
+input, textarea, select {
+  font-family: inherit;
+  outline: none;
+}
+
+/* Scrollbar styles for webkit browsers */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #c1c1c1;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #a8a8a8;
+}
