@@ -68,6 +68,6 @@ input,textarea{
 img{
   width:300px;
   margin: auto;
-  background-color: lightblue;
+  background-color: transparent;
   border-radius: 15px;
 }
