@@ -821,7 +821,11 @@ time {
   transition: all 0.3s ease;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 5px;
+  width: 120px;
+  min-width: 120px;
+  text-align: center;
 }
 
 .join-button:hover:not(:disabled) {
