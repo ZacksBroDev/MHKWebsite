@@ -42,7 +42,7 @@ function Home() {
 
   // Regular user view - shows current curriculum
   return (
-    <>
+    <div className="background">
       <h1>Current Curriculum</h1>
       <table>
       <tbody>
@@ -113,7 +113,7 @@ function Home() {
           <Link to='/deg2' className="btn">2nd Degree Black Belt</Link>
           </div>
       </div>
-    </>
+    </div>
   );
 }
 

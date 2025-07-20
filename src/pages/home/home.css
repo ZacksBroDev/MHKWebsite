@@ -80,6 +80,7 @@ table tr:nth-child(odd) td {
   max-width: 800px;
   margin: 0 auto;
   padding: 20px;
+  background-color: transparent;
 }
 .btn{
     background-color: var(--primary);

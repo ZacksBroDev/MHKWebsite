@@ -29,7 +29,7 @@ const Contact = () => {
   };
 
   return (
-    <>
+    <div className="background">
       <h1>Contact Form</h1>
         <form  onSubmit={handleSubmit} className="contact-form">
           <input name="name" id="name" type="text" placeholder="Your Name" required/>
@@ -39,7 +39,7 @@ const Contact = () => {
           <textarea name="message" id="message" placeholder="Your Message" required></textarea>
           <button id="submit" type="submit" className="submit-button">SUBMIT</button>
         </form>
-    </>
+    </div>
   );
 };
 export default Contact;
