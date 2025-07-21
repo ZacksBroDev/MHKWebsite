@@ -46,6 +46,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  flex-direction: row  !important;
   padding: 20px;
   margin-bottom: 20px;
   gap: 2rem;
@@ -605,49 +606,10 @@ time {
 }
 
 @media (max-width: 768px) {
-  /* Mobile-specific styling when grid is hidden */
-  .calendar-section {
-    padding: 1rem;
-    width: 98%;
-  }
-  
-  /* Improve calendar navigation for mobile */
-  .calendar-nav {
-    flex-wrap: wrap;
-    justify-content: center;
-    align-items: center;
-    gap: 1rem;
-  }
-  
-  .calendar-nav h1 {
-    order: 2;
-    width: 100%;
-    margin: 0.5rem 0;
-    font-size: 1.8rem;
-  }
-  
-  .nav-button {
-    width: 3rem;
-    height: 3rem;
-    font-size: 1.2rem;
-  }
-  
-  .nav-button:first-child {
-    order: 1;
-  }
-  
-  .nav-button:last-child {
-    order: 3;
-  }
-  
-  /* Update the mobile message */
-  .calendar-section::after {
-    font-size: 0.9rem;
-    padding: 1.5rem;
-  }
+ 
+ 
   
   .events-section {
-    width: 98%;
     margin: 1rem auto 0;
     padding: 1.5rem;
   }
