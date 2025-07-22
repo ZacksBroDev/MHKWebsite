@@ -525,10 +525,10 @@ tr{
 }
 @media (max-width: 945px){
   table{
-    display: block;
+    display: none;
   }
   .table-container{
-    display: block;
+    display: none;
   }
 
 }
