@@ -54,6 +54,7 @@ header .login-container{
   align-items: center;
   justify-content: center;
   gap: 1rem;
+  padding: 10px 20px;
 }
 .nav-user span{
   color: white;
@@ -72,5 +73,119 @@ header .login-container{
 }
 .nav-user button:hover {
   background-color: var(--accent);
+}
+
+/* Mobile Navigation Styles */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 1.5rem;
+  cursor: pointer;
+  padding: 10px;
+  margin-right: 1rem;
+}
+
+.mobile-menu-btn:hover {
+  color: var(--accent);
+}
+
+/* Mobile Responsive Design */
+@media (max-width: 805px) {
+  header {
+    flex-direction: column;
+    position: relative;
+  }
+  
+  nav {
+    width: 100%;
+    order: 2;
+    padding: 0;
+  }
+  
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    background-color: var(--header);
+    position: absolute;
+    top: 100%;
+    left: 0;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+  }
+  
+  .nav-links.mobile-active {
+    display: flex;
+  }
+  
+  .nav-links li {
+    float: none;
+    width: 100%;
+    text-align: center;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  }
+  
+  .nav-links li:last-child {
+    border-bottom: none;
+  }
+  
+  .nav-link {
+    display: block !important;
+    width: 100%;
+    padding: 15px 20px !important;
+    font-size: 1.1rem !important;
+  }
+  
+  .mobile-menu-btn {
+    display: block;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+  }
+  
+  .nav-user {
+    order: 1;
+    width: 100%;
+    justify-content: flex-start;
+    padding: 10px 20px;
+  }
+  
+  .nav-user span {
+    font-size: 0.9rem;
+  }
+  
+  .nav-user button {
+    margin-right: 0;
+    font-size: 1rem;
+    padding: 0.4rem 0.8rem;
+  }
+  
+  .login {
+    width: 40px;
+    margin-right: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-user span {
+    font-size: 0.8rem;
+    max-width: 60%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+  
+  .nav-user button {
+    font-size: 0.9rem;
+    padding: 0.3rem 0.6rem;
+  }
+  
+  .nav-link {
+    font-size: 1rem !important;
+    padding: 12px 15px !important;
+  }
 }
 
