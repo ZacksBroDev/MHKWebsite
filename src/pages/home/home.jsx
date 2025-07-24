@@ -107,11 +107,16 @@ function Home() {
           <Link to='/conditionals' className="btn">Conditionals</Link>
         </div>
         <div className="col">
-          <Link to='/deg1' className="btn">1st Degree Black Belt</Link>
+          <Link to='/deg2' className="belt" id="deg1">
+            <div className="deg"></div>
+          </Link>
         </div>
         <div className="col">
-          <Link to='/deg2' className="btn">2nd Degree Black Belt</Link>
-          </div>
+          <Link to='/deg2' className="belt" id="deg2">
+            <div className="deg"></div>
+            <div className="deg"></div>
+          </Link>
+        </div>
       </div>
     </div>
   );
