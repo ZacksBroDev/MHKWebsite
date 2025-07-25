@@ -12,6 +12,7 @@ const Schedule = () => {
   const [loading, setLoading] = useState(true);
   const [joinLoading, setJoinLoading] = useState({});
   const [message, setMessage] = useState({ text: '', type: '' });
+  const [expandedDay, setExpandedDay] = useState(null);
 
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const monthNames = [
@@ -190,8 +191,24 @@ const Schedule = () => {
 
   // Check if user is already registered for an event
   const isUserRegistered = (event) => {
-    if (!user || !event.participants) return false;
+    if (!user || !event.participants) {
+      return false;
+    }
     return event.participants.some(participant => participant.id === user.id);
+  };
+
+  // Handle calendar day click to expand/collapse
+  const handleDayClick = (date) => {
+    const dayEvents = getEventsForDate(date);
+    // Only allow expansion if there are events
+    if (dayEvents.length === 0) return;
+    
+    const dateStr = date.toISOString().split('T')[0];
+    if (expandedDay === dateStr) {
+      setExpandedDay(null); // Collapse if already expanded
+    } else {
+      setExpandedDay(dateStr); // Expand this day
+    }
   };
 
   // Clear message after 5 seconds
@@ -203,6 +220,18 @@ const Schedule = () => {
       return () => clearTimeout(timer);
     }
   }, [message]);
+
+  // Handle escape key to close expanded view
+  useEffect(() => {
+    const handleKeyDown = (event) => {
+      if (event.key === 'Escape' && expandedDay) {
+        setExpandedDay(null);
+      }
+    };
+
+    document.addEventListener('keydown', handleKeyDown);
+    return () => document.removeEventListener('keydown', handleKeyDown);
+  }, [expandedDay]);
 
   if (loading) {
     return <div className="schedule"><div className="schedule-loading">Loading schedule...</div></div>;
@@ -230,6 +259,8 @@ const Schedule = () => {
               const dayEvents = getEventsForDate(day);
               const isCurrentMonth = day.getMonth() === currentMonth;
               const isToday = day.toDateString() === new Date().toDateString();
+              const dateStr = day.toISOString().split('T')[0];
+              const isExpanded = expandedDay === dateStr;
 
               if (!isCurrentMonth) {
                 return <li key={index} className="empty-day"></li>;
@@ -238,24 +269,112 @@ const Schedule = () => {
               return (
                 <li
                   key={index}
-                  className={`calendar-day ${isToday ? 'today' : ''}`}
+                  className={`calendar-day ${isToday ? 'today' : ''} ${isExpanded ? 'expanded' : ''} ${dayEvents.length > 0 ? 'has-events' : ''}`}
+                  onClick={() => handleDayClick(day)}
                 >
                   <div className="date">{day.getDate()}</div>
-                  <div className="events">
-                    {dayEvents.slice(0, 2).map((event, eventIndex) => (
-                      <div
-                        key={eventIndex}
-                        className="event"
-                        title={`${event.title} - ${event.time}`}
-                      >
-                        <strong>{event.title}</strong>
-                        <time>{event.time}</time>
+                  
+                  {!isExpanded ? (
+                    // Collapsed view - show limited events
+                    <div className="events">
+                      {dayEvents.slice(0, 2).map((event, eventIndex) => (
+                        <div
+                          key={eventIndex}
+                          className="event"
+                          title={`${event.title} - ${event.time}`}
+                        >
+                          <strong>{event.title}</strong>
+                          <time>{event.time}</time>
+                        </div>
+                      ))}
+                      {dayEvents.length > 2 && (
+                        <div className="more-events">+{dayEvents.length - 2} more</div>
+                      )}
+                    </div>
+                  ) : (
+                    // Expanded view - show all events with full details
+                    <div className="events-expanded">
+                      <div className="expanded-header">
+                        <h3>
+                          {day.toLocaleDateString('en-US', {
+                            weekday: 'long',
+                            month: 'long',
+                            day: 'numeric'
+                          })}
+                        </h3>
+                        <button className="close-expanded" onClick={(e) => {
+                          e.stopPropagation();
+                          setExpandedDay(null);
+                        }}>✕</button>
                       </div>
-                    ))}
-                    {dayEvents.length > 2 && (
-                      <div className="more-events">+{dayEvents.length - 2} more</div>
-                    )}
-                  </div>
+                      
+                      {dayEvents.length === 0 ? (
+                        <div className="no-events-expanded">No events scheduled for this day</div>
+                      ) : (
+                        <div className="events-list-expanded">
+                          {dayEvents.map((event, eventIndex) => (
+                            <div key={event.id || eventIndex} className="event-item-expanded">
+                              <div className="event-details-expanded">
+                                <div className="event-title-expanded">{event.title}</div>
+                                <div className="event-time-expanded">⏰ {event.time}</div>
+                                {event.description && (
+                                  <div className="event-description-expanded">{event.description}</div>
+                                )}
+                                <div className="event-type-expanded">Type: {event.type || 'General'}</div>
+                                
+                                {/* Participant Info */}
+                                <div className="event-participants-expanded">
+                                  👥 {event.currentParticipants || 0}
+                                  {event.maxParticipants && ` / ${event.maxParticipants}`} participants
+                                </div>
+                              </div>
+                              
+                              {/* Join/Leave Actions */}
+                              {user ? (
+                                <div className="event-actions-expanded">
+                                  {isUserRegistered(event) ? (
+                                    <button
+                                      className="leave-button-expanded"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        leaveEvent(event.id);
+                                      }}
+                                      disabled={joinLoading[event.id]}
+                                    >
+                                      {joinLoading[event.id] ? 'Leaving...' : '✖ Leave'}
+                                    </button>
+                                  ) : (
+                                    <button
+                                      className="join-button-expanded"
+                                      onClick={(e) => {
+                                        e.stopPropagation();
+                                        joinEvent(event.id);
+                                      }}
+                                      disabled={
+                                        joinLoading[event.id] || 
+                                        (event.maxParticipants && event.currentParticipants >= event.maxParticipants)
+                                      }
+                                    >
+                                      {joinLoading[event.id] 
+                                        ? 'Joining...' 
+                                        : event.maxParticipants && event.currentParticipants >= event.maxParticipants
+                                        ? '🚫 Full'
+                                        : '✓ Join'
+                                      }
+                                    </button>
+                                  )}
+                                </div>
+                              ) : (
+                                <div className="login-prompt-expanded">
+                                  <a href="/login" className="login-link-expanded">Login to join</a>
+                                </div>
+                              )}
+                            </div>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
                 </li>
               );
             })}
