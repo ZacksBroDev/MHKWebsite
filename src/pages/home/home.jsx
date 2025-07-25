@@ -123,7 +123,7 @@ function Home() {
       )}
       <br></br>
       <br></br>
-      <h1>Fighting Styles</h1>
+      <h1>Forms and Combos</h1>
       <div className="container">
         <div className="col">
           <Link to='/level1' className="belt"  id="lev1">Level 1</Link>
