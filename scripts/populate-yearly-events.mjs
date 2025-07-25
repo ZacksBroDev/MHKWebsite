@@ -1,9 +1,25 @@
 import mongoose from 'mongoose';
-import Event from './models/Event.js';
-import User from './models/User.js';
+import Event from '../models/Event.js';
+import User from '../models/User.js';
 
 // MongoDB connection
 const MONGODB_URI = 'mongodb://localhost:27017/mhk_karate';
+
+// Safety check function
+const checkExistingData = async () => {
+  const eventCount = await Event.countDocuments();
+  if (eventCount > 0) {
+    console.log(`⚠️  Warning: Database already contains ${eventCount} events.`);
+    console.log('This script should only be run once on an empty database.');
+    console.log('Running it again will create duplicate events.');
+    console.log('\nTo proceed anyway, you can:');
+    console.log('1. Delete all events first: db.events.deleteMany({})');
+    console.log('2. Or modify this script to skip the safety check');
+    console.log('\nAborting population script...');
+    process.exit(1);
+  }
+  console.log('✅ Database is empty, proceeding with population...');
+};
 
 // Event templates for different days of the week
 const eventTemplates = {
@@ -139,6 +155,9 @@ async function populateYearlyEvents() {
     console.log('Connecting to MongoDB...');
     await mongoose.connect(MONGODB_URI);
     console.log('Connected to MongoDB successfully!');
+    
+    // Safety check: ensure database is empty
+    await checkExistingData();
     
     // Find or create an admin user to use as createdBy
     let adminUser = await User.findOne({ role: 'admin' });
