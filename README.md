@@ -34,6 +34,29 @@ npm run dev
 
 Your application will be available at `http://localhost:5173`.
 
+## Database Setup
+
+This application uses MongoDB for data storage. For initial setup:
+
+1. **Start MongoDB**:
+   ```bash
+   npm run start:mongo
+   ```
+
+2. **Populate Database** (first time only):
+   ```bash
+   node scripts/populate-yearly-events.mjs
+   ```
+
+   This creates a full year of sample events and an admin user.
+
+3. **Start Backend Server**:
+   ```bash
+   node server.js
+   ```
+
+See `scripts/README.md` for detailed information about database utilities.
+
 ## Building for Production
 
 Create a production build:
