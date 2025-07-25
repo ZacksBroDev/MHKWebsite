@@ -95,16 +95,18 @@ function Home() {
       <h1>Fighting Styles</h1>
       <div className="container">
         <div className="col">
-          <Link to='/level1' className="btn">Level 1</Link>
+          <Link to='/level1' className="belt"  id="lev1">Level 1</Link>
         </div>
         <div className="col">
-          <Link to='/level2' className="btn">Level 2</Link>
+          <Link to='/level2' className="belt" id="lev2">Level 2</Link>
         </div>
         <div className="col">
-          <Link to='/level3' className="btn">Level 3</Link>
+          <Link to='/level3' className="belt" id="lev3">Level 3</Link>
         </div>
         <div className="col">
-          <Link to='/conditionals' className="btn">Conditionals</Link>
+          <Link to='/conditionals' className="belt" id="cond">
+          <div className="deg" style={{ backgroundColor: 'white' }}></div>
+          </Link>
         </div>
         <div className="col">
           <Link to='/deg2' className="belt" id="deg1">
