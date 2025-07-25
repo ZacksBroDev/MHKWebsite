@@ -53,6 +53,11 @@ table tr:nth-child(odd) td {
 }
 
 /* Button styles for fighting style links */
+.col{
+    height: 100%;
+    width: 100%;
+}
+
 .btn {
   display: inline-block;
   padding: 12px 24px;
@@ -98,7 +103,6 @@ table tr:nth-child(odd) td {
 
 .belt {
     display: flex;
-    background-color: black;
     width: 100%;
     height: 100%;
     align-items: center;
@@ -114,6 +118,7 @@ table tr:nth-child(odd) td {
     text-align: center;
     border: 2px solid transparent;
     position: relative;
+    color: white;
 }
 
 .belt:hover {
@@ -141,11 +146,46 @@ table tr:nth-child(odd) td {
     opacity: 1;
 }
 
+#deg1, #deg2, #cond{
+    background-color: black;
+}
+#lev1{
+    background-color: #0000FF;
+}
+#lev2{
+    background-color: red;
+}
+#lev3{
+    background-color: #964B00;
+}
+#cond{
+    background-color: black;
+}
+
+
 #deg1::after{
     content: "1st Degree Black Belt";
+    background-color: black;
 }
 #deg2::after{
     content: "2nd Degree Black Belt";
+    background-color: black;
+}
+#lev1::after{
+    content: "Level 1";
+    background-color: black;
+}
+#lev2::after{
+    content: "Level 2";
+    background-color: black;
+}
+#lev3::after{
+    content: "Level 3";
+    background-color: black;
+}
+#cond::after{
+    content: "Conditionals";
+    background-color: black;
 }
 
 .belt .deg {
