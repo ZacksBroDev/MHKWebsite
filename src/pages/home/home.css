@@ -124,7 +124,6 @@ table tr:nth-child(odd) td {
 }
 
 .belt::after {
-    content: "2nd Degree Black Belt";
     position: absolute;
     background-color: rgba(0, 0, 0, 0.3);
     color: white;
@@ -140,6 +139,13 @@ table tr:nth-child(odd) td {
 
 .belt:hover::after {
     opacity: 1;
+}
+
+#deg1::after{
+    content: "1st Degree Black Belt";
+}
+#deg2::after{
+    content: "2nd Degree Black Belt";
 }
 
 .belt .deg {
