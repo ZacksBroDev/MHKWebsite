@@ -13,6 +13,8 @@ const Schedule = () => {
   const [joinLoading, setJoinLoading] = useState({});
   const [message, setMessage] = useState({ text: '', type: '' });
   const [expandedDay, setExpandedDay] = useState(null);
+  const [expandedWeeks, setExpandedWeeks] = useState(new Set());
+  const [expandedDays, setExpandedDays] = useState(new Set());
 
   const daysOfWeek = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const monthNames = [
@@ -109,6 +111,71 @@ const Schedule = () => {
     });
 
     return groupedEvents;
+  };
+
+  // Get current month events organized by weeks
+  const getCurrentMonthEventsByWeeks = () => {
+    const monthEvents = getCurrentMonthEvents();
+    const weeks = {};
+
+    Object.entries(monthEvents).forEach(([dateKey, dayEvents]) => {
+      const date = new Date(dateKey + 'T00:00:00');
+      const startOfWeek = new Date(date);
+      startOfWeek.setDate(date.getDate() - date.getDay()); // Start of week (Sunday)
+      
+      const weekKey = startOfWeek.toISOString().split('T')[0];
+      const weekLabel = `Week of ${startOfWeek.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}`;
+      
+      if (!weeks[weekKey]) {
+        weeks[weekKey] = {
+          label: weekLabel,
+          startDate: startOfWeek,
+          days: {},
+          totalEvents: 0
+        };
+      }
+      
+      weeks[weekKey].days[dateKey] = dayEvents;
+      weeks[weekKey].totalEvents += dayEvents.length;
+    });
+
+    // Sort weeks by start date
+    return Object.entries(weeks)
+      .sort(([, a], [, b]) => a.startDate - b.startDate)
+      .reduce((acc, [key, value]) => {
+        acc[key] = value;
+        return acc;
+      }, {});
+  };
+
+  // Toggle week expansion
+  const toggleWeekExpansion = (weekKey) => {
+    const newExpandedWeeks = new Set(expandedWeeks);
+    if (expandedWeeks.has(weekKey)) {
+      newExpandedWeeks.delete(weekKey);
+      // Also collapse all days in this week
+      const weekData = getCurrentMonthEventsByWeeks()[weekKey];
+      if (weekData) {
+        Object.keys(weekData.days).forEach(dayKey => {
+          expandedDays.delete(dayKey);
+        });
+        setExpandedDays(new Set(expandedDays));
+      }
+    } else {
+      newExpandedWeeks.add(weekKey);
+    }
+    setExpandedWeeks(newExpandedWeeks);
+  };
+
+  // Toggle day expansion
+  const toggleDayExpansion = (dayKey) => {
+    const newExpandedDays = new Set(expandedDays);
+    if (expandedDays.has(dayKey)) {
+      newExpandedDays.delete(dayKey);
+    } else {
+      newExpandedDays.add(dayKey);
+    }
+    setExpandedDays(newExpandedDays);
   };
 
   // Join event function
@@ -239,6 +306,7 @@ const Schedule = () => {
 
   const calendarDays = getCalendarDays();
   const currentMonthEvents = getCurrentMonthEvents();
+  const currentMonthEventsByWeeks = getCurrentMonthEventsByWeeks();
   const hasEvents = Object.keys(currentMonthEvents).length > 0;
 
   return (
@@ -381,7 +449,7 @@ const Schedule = () => {
           </ul>
         </div>
 
-        {/* Events Section */}
+        {/* Events Section - Hierarchical Collapsible */}
         <div className="events-section">
           <h2>Events for {monthNames[currentMonth]} {currentYear}</h2>
           {!hasEvents ? (
@@ -389,71 +457,106 @@ const Schedule = () => {
               <p>No events scheduled for this month.</p>
             </div>
           ) : (
-            <div className="events-list">
-              {Object.entries(currentMonthEvents).map(([dateKey, dayEvents]) => (
-                <div key={dateKey} className="date-group">
-                  <div className="date-header">
-                    {new Date(dateKey + 'T00:00:00').toLocaleDateString('en-US', {
-                      weekday: 'long',
-                      month: 'long',
-                      day: 'numeric'
-                    })}
+            <div className="events-list-hierarchical">
+              {Object.entries(currentMonthEventsByWeeks).map(([weekKey, weekData]) => (
+                <div key={weekKey} className="week-group">
+                  {/* Week Header - Clickable */}
+                  <div 
+                    className={`week-header ${expandedWeeks.has(weekKey) ? 'expanded' : ''}`}
+                    onClick={() => toggleWeekExpansion(weekKey)}
+                  >
+                    <div className="week-info">
+                      <span className="week-toggle">{expandedWeeks.has(weekKey) ? '▼' : '▶'}</span>
+                      <span className="week-label">{weekData.label}</span>
+                      <span className="week-count">({weekData.totalEvents} events)</span>
+                    </div>
                   </div>
-                  <div className="events-for-date">
-                    {dayEvents.map((event, index) => (
-                      <div key={event.id || index} className="event-item">
-                        <div className="event-details">
-                          <div className="event-title">{event.title}</div>
-                          <div className="event-time">⏰ {event.time}</div>
-                          {event.description && (
-                            <div className="event-description">{event.description}</div>
+
+                  {/* Week Content - Collapsible Days */}
+                  {expandedWeeks.has(weekKey) && (
+                    <div className="week-content">
+                      {Object.entries(weekData.days).map(([dateKey, dayEvents]) => (
+                        <div key={dateKey} className="day-group-hierarchical">
+                          {/* Day Header - Clickable */}
+                          <div 
+                            className={`day-header-hierarchical ${expandedDays.has(dateKey) ? 'expanded' : ''}`}
+                            onClick={() => toggleDayExpansion(dateKey)}
+                          >
+                            <div className="day-info">
+                              <span className="day-toggle">{expandedDays.has(dateKey) ? '▼' : '▶'}</span>
+                              <span className="day-label">
+                                {new Date(dateKey + 'T00:00:00').toLocaleDateString('en-US', {
+                                  weekday: 'long',
+                                  month: 'long',
+                                  day: 'numeric'
+                                })}
+                              </span>
+                              <span className="day-count">({dayEvents.length} events)</span>
+                            </div>
+                          </div>
+
+                          {/* Day Content - Events */}
+                          {expandedDays.has(dateKey) && (
+                            <div className="day-content">
+                              {dayEvents.map((event, index) => (
+                                <div key={event.id || index} className="event-item-hierarchical">
+                                  <div className="event-details-hierarchical">
+                                    <div className="event-title-hierarchical">{event.title}</div>
+                                    <div className="event-time-hierarchical">⏰ {event.time}</div>
+                                    {event.description && (
+                                      <div className="event-description-hierarchical">{event.description}</div>
+                                    )}
+                                    <div className="event-type-hierarchical">Type: {event.type || 'General'}</div>
+                                    
+                                    {/* Participant Info */}
+                                    <div className="event-participants-hierarchical">
+                                      👥 {event.currentParticipants || 0}
+                                      {event.maxParticipants && ` / ${event.maxParticipants}`} participants
+                                    </div>
+                                  </div>
+                                  
+                                  {/* Join/Leave Actions */}
+                                  {user ? (
+                                    <div className="event-actions-hierarchical">
+                                      {isUserRegistered(event) ? (
+                                        <button
+                                          className="leave-button-hierarchical"
+                                          onClick={() => leaveEvent(event.id)}
+                                          disabled={joinLoading[event.id]}
+                                        >
+                                          {joinLoading[event.id] ? 'Leaving...' : '✖ Leave Event'}
+                                        </button>
+                                      ) : (
+                                        <button
+                                          className="join-button-hierarchical"
+                                          onClick={() => joinEvent(event.id)}
+                                          disabled={
+                                            joinLoading[event.id] || 
+                                            (event.maxParticipants && event.currentParticipants >= event.maxParticipants)
+                                          }
+                                        >
+                                          {joinLoading[event.id] 
+                                            ? 'Joining...' 
+                                            : event.maxParticipants && event.currentParticipants >= event.maxParticipants
+                                            ? '🚫 Event Full'
+                                            : '✓ Join Event'
+                                          }
+                                        </button>
+                                      )}
+                                    </div>
+                                  ) : (
+                                    <div className="login-prompt-hierarchical">
+                                      <a href="/login" className="login-link-hierarchical">Login to join events</a>
+                                    </div>
+                                  )}
+                                </div>
+                              ))}
+                            </div>
                           )}
-                          <div className="event-type">Type: {event.type}</div>
-                          
-                          {/* Participant Info */}
-                          <div className="event-participants">
-                            👥 {event.currentParticipants || 0}
-                            {event.maxParticipants && ` / ${event.maxParticipants}`} participants
-                          </div>
                         </div>
-                        
-                        {/* Join/Leave Actions */}
-                        {user ? (
-                          <div className="event-actions">
-                            {isUserRegistered(event) ? (
-                              <button
-                                className="leave-button"
-                                onClick={() => leaveEvent(event.id)}
-                                disabled={joinLoading[event.id]}
-                              >
-                                {joinLoading[event.id] ? 'Leaving...' : '✖ Leave Event'}
-                              </button>
-                            ) : (
-                              <button
-                                className="join-button"
-                                onClick={() => joinEvent(event.id)}
-                                disabled={
-                                  joinLoading[event.id] || 
-                                  (event.maxParticipants && event.currentParticipants >= event.maxParticipants)
-                                }
-                              >
-                                {joinLoading[event.id] 
-                                  ? 'Joining...' 
-                                  : event.maxParticipants && event.currentParticipants >= event.maxParticipants
-                                  ? '🚫 Event Full'
-                                  : '✓ Join Event'
-                                }
-                              </button>
-                            )}
-                          </div>
-                        ) : (
-                          <div className="login-prompt">
-                            <a href="/login" className="login-link">Login to join events</a>
-                          </div>
-                        )}
-                      </div>
-                    ))}
-                  </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
               ))}
             </div>
