@@ -171,18 +171,6 @@ table tr:nth-child(odd) td {
     content: "2nd Degree Black Belt";
     background-color: black;
 }
-#lev1::after{
-    content: "Level 1";
-    background-color: black;
-}
-#lev2::after{
-    content: "Level 2";
-    background-color: black;
-}
-#lev3::after{
-    content: "Level 3";
-    background-color: black;
-}
 #cond::after{
     content: "Conditionals";
     background-color: black;
