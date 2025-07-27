@@ -2,6 +2,13 @@
     color: var(--text);
     font-size: 2.5rem;
     margin-bottom: 1rem;
+    text-align: center;
+}
+h1 {
+    color: var(--text);
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
 }
 
 table{
@@ -45,10 +52,11 @@ table tr:last-child td:last-child {
 
 table tr:nth-child(even) th,
 table tr:nth-child(even) td {
-    background-color: var(--pure-mist);
+    background-color: gray;
 }
 
-table tr:nth-child(odd) td {
+table tr:nth-child(odd) td,
+table tr:nth-child(odd) th {
     background-color: lightgray;
 }
 
