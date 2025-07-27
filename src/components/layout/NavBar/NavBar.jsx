@@ -1,22 +1,52 @@
+/**
+ * NavBar Component
+ * 
+ * Main navigation component with responsive mobile menu.
+ * Displays different navigation options based on user role and authentication status.
+ * Includes logout functionality and mobile-friendly hamburger menu.
+ * 
+ * @component
+ * @returns {JSX.Element} Navigation bar component
+ * 
+ * Features:
+ * - Responsive design with mobile hamburger menu
+ * - Role-based navigation (admin gets admin link)
+ * - User authentication status display
+ * - Logout functionality
+ * - Auto-close mobile menu on navigation
+ */
+
 import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import './NavBar.css';
-import { useAuth } from '../contexts/AuthContext';
+import { useAuth } from '../../../contexts/AuthContext';
 
-// Inside your NavBar component, add this:
+/**
+ * NavBar Component - Main site navigation
+ * @returns {JSX.Element} Navigation bar with responsive menu
+ */
 const NavBar = () => {
   const { user, logout } = useAuth();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
+  /**
+   * Handles user logout and closes mobile menu
+   */
   const handleLogout = () => {
     logout();
     setIsMobileMenuOpen(false); // Close menu on logout
   };
 
+  /**
+   * Toggles mobile menu visibility
+   */
   const toggleMobileMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
+  /**
+   * Closes mobile menu (used when navigating)
+   */
   const closeMobileMenu = () => {
     setIsMobileMenuOpen(false);
   };
