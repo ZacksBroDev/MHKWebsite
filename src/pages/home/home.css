@@ -13,10 +13,14 @@ h1 {
 
 table{
     width: 80%;
+    max-width: 800px;
     border-collapse: collapse;
     margin-bottom: 2rem;
     margin: 0 auto;
     margin-top: 2rem;
+    border: 1px solid var(--urban-gray);
+    border-radius: 20px;
+    overflow: hidden;
 }
 th, td {
     padding: 12px 15px;
@@ -26,28 +30,15 @@ th {
     color: var(--text);
 }
 td {
-
     color: var(--text);
     border-right: 1px solid var(--urban-gray);
+    border-bottom: 1px solid var(--urban-gray);
 }
 table td:last-child {
     border-right: none;
 }
-table tr:first-child th:first-child {
-    border-top-left-radius: 20px; 
-
-}
-table tr:first-child th:last-child {
-    border-top-right-radius: 20px; 
-
-}
-table tr:last-child td:first-child {
-    border-bottom-left-radius: 20px; 
-
-}
-table tr:last-child td:last-child {
-    border-bottom-right-radius: 20px; 
-
+table tr:last-child td {
+    border-bottom: none;
 }
 
 table tr:nth-child(even) th,
