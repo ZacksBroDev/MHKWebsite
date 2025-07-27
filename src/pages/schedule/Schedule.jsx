@@ -17,7 +17,8 @@
 import React, { useState, useEffect } from "react";
 import { useAuth } from '../../contexts/AuthContext';
 import { API_ENDPOINTS } from '../../config/api';
-import { Button } from '../../components';
+// Direct import - cleaner than barrel exports
+import Button from '../../components/ui/Button/Button.jsx';
 import './schedule.css';
 
 const Schedule = () => {

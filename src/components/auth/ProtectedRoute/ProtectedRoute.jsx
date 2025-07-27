@@ -19,8 +19,9 @@
 
 import React from 'react';
 import { useAuth } from '../../../contexts/AuthContext';
-import LoadingSpinner from '../../ui/LoadingSpinner';
-import Message from '../../ui/Message';
+// Direct imports - no need for complex index.js files
+import LoadingSpinner from '../../ui/LoadingSpinner/LoadingSpinner.jsx';
+import Message from '../../ui/Message/Message.jsx';
 
 const ProtectedRoute = ({ children, requiredRole = null }) => {
   const { user, loading } = useAuth();
