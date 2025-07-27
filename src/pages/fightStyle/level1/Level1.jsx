@@ -1,7 +1,29 @@
+/**
+ * Level1 Component
+ * 
+ * Displays Level 1 martial arts curriculum including forms, weapons, and combinations.
+ * Contains educational content with video links for each technique and form.
+ * Part of the curriculum navigation system for students.
+ * 
+ * @component
+ * @returns {JSX.Element} Level 1 curriculum page
+ * 
+ * Content Includes:
+ * - Chon Ji Hyung form with video instruction
+ * - Bo staff techniques (Bo 1)
+ * - Combination sets for sparring practice
+ * - Navigation back to home page
+ * - Structured learning progression
+ */
+
 import React from "react";
 import { Link } from "react-router-dom";
 import css from '../../../assets/css/style.module.css';
 
+/**
+ * Level1 Component - Level 1 curriculum display
+ * @returns {JSX.Element} Level 1 curriculum page with forms and techniques
+ */
 function Level1() {
   return (
     <>

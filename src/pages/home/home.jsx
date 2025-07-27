@@ -1,9 +1,31 @@
+/**
+ * Home Component
+ * 
+ * Main dashboard page displaying today's events and admin user management.
+ * Shows different content based on user role (admin vs regular user).
+ * Fetches and displays real-time event data and user information.
+ * 
+ * @component
+ * @returns {JSX.Element} Home page with events and user management
+ * 
+ * Features:
+ * - Today's events display with real-time filtering
+ * - Admin user management (if user has admin role)
+ * - Loading states and error handling
+ * - Local date formatting to avoid timezone issues
+ * - Responsive design with conditional content
+ */
+
 import React, { useState, useEffect } from "react";
 import './home.css'
 import { Link } from "react-router-dom";
 import { useAuth } from '../../contexts/AuthContext';
 import { API_ENDPOINTS } from '../../config/api';
 
+/**
+ * Home Component - Main landing page after authentication
+ * @returns {JSX.Element} Home page component
+ */
 function Home() {
   const { user, token } = useAuth();
   const [users, setUsers] = useState([]);
@@ -11,13 +33,18 @@ function Home() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Fetch users if current user is admin
+  /**
+   * Fetches all users from the API (admin only)
+   * Updates the users state with fetched data
+   */
   const fetchUsers = async () => {
-    if (!user || user.role !== 'admin') return;
+    if (!user || user.role !== 'admin') {
+      return;
+    }
     
     try {
       setLoading(true);
-      const response = await fetch('http://localhost:3001/api/users', {
+      const response = await fetch(API_ENDPOINTS.USERS, {
         headers: {
           'Authorization': `Bearer ${token}`
         }
@@ -36,7 +63,10 @@ function Home() {
     }
   };
 
-  // Fetch today's events
+  /**
+   * Fetches today's events and filters them by current date
+   * Uses local date formatting to avoid timezone conversion issues
+   */
   const fetchTodaysEvents = async () => {
     try {
       const response = await fetch(API_ENDPOINTS.EVENTS);
@@ -47,11 +77,16 @@ function Home() {
         
         // Filter events for today
         const today = new Date();
-        const todayStr = today.toISOString().split('T')[0];
+        const todayStr = today.getFullYear() + '-' + 
+                        String(today.getMonth() + 1).padStart(2, '0') + '-' + 
+                        String(today.getDate()).padStart(2, '0');
         
         const todaysClasses = events.filter(event => {
-          const eventDate = new Date(event.date).toISOString().split('T')[0];
-          return eventDate === todayStr;
+          const eventDate = new Date(event.date);
+          const eventDateStr = eventDate.getFullYear() + '-' + 
+                              String(eventDate.getMonth() + 1).padStart(2, '0') + '-' + 
+                              String(eventDate.getDate()).padStart(2, '0');
+          return eventDateStr === todayStr;
         }).sort((a, b) => {
           // Sort by time
           const timeA = a.time.replace(/[^\d:]/g, '');

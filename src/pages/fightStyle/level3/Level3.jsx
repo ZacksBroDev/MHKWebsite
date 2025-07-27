@@ -1,7 +1,30 @@
+/**
+ * Level3 Component
+ * 
+ * Displays Level 3 martial arts curriculum with advanced forms and kickboxing.
+ * Contains the most complex techniques and forms before black belt training.
+ * Includes both traditional forms and modern kickboxing combinations.
+ * 
+ * @component
+ * @returns {JSX.Element} Level 3 curriculum page
+ * 
+ * Content Includes:
+ * - Chung Mu, Po Eun, and Might For Right forms
+ * - Bo staff techniques (Bo 3)
+ * - Kickboxing combination sets (offensive techniques)
+ * - American kickboxing combinations
+ * - Advanced sparring techniques
+ * - Navigation back to home page
+ */
+
 import React from "react";
 import { Link } from "react-router-dom";
 import css from '../../../assets/css/style.module.css';
 
+/**
+ * Level3 Component - Level 3 curriculum display
+ * @returns {JSX.Element} Level 3 curriculum page with advanced forms and techniques
+ */
 function Level3() {
   return (
     <>

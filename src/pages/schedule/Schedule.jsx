@@ -1,6 +1,23 @@
+/**
+ * Schedule Component
+ * 
+ * Interactive calendar component with expandable days and hierarchical event organization.
+ * Features clickable calendar days with modal expansion and collapsible event sections.
+ * Handles event registration (join/leave) with authentication integration.
+ * 
+ * @component
+ * @requires React
+ * @requires AuthContext
+ * @requires api
+ * 
+ * @example
+ * <Schedule />
+ */
+
 import React, { useState, useEffect } from "react";
 import { useAuth } from '../../contexts/AuthContext';
 import { API_ENDPOINTS } from '../../config/api';
+import { Button } from '../../components';
 import './schedule.css';
 
 const Schedule = () => {
@@ -22,7 +39,7 @@ const Schedule = () => {
     'July', 'August', 'September', 'October', 'November', 'December'
   ];
 
-  // Load events from MongoDB
+  // Load events from MongoDB with enhanced HTTP status code error handling
   const loadScheduleData = async () => {
     try {
       setLoading(true);
@@ -32,11 +49,40 @@ const Schedule = () => {
         const data = await response.json();
         setEvents(data.events || []);
       } else {
-        console.error('Failed to load events');
+        // Handle specific HTTP status codes
+        let errorMessage;
+        switch (response.status) {
+          case 401:
+            errorMessage = 'Authentication required to view events.';
+            break;
+          case 403:
+            errorMessage = 'Access denied to events.';
+            break;
+          case 404:
+            errorMessage = 'Events service not found.';
+            break;
+          case 429:
+            errorMessage = 'Too many requests. Please try again later.';
+            break;
+          case 500:
+            errorMessage = 'Server error loading events.';
+            break;
+          case 502:
+            errorMessage = 'Events service temporarily unavailable.';
+            break;
+          case 503:
+            errorMessage = 'Events service maintenance in progress.';
+            break;
+          default:
+            errorMessage = `Failed to load events (${response.status}).`;
+        }
+        console.error('Failed to load events:', errorMessage);
+        setMessage({ text: errorMessage, type: 'error' });
         setEvents([]);
       }
     } catch (error) {
       console.error('Error loading schedule:', error);
+      setMessage({ text: 'Network error loading events. Please check your connection.', type: 'error' });
       setEvents([]);
     } finally {
       setLoading(false);
@@ -86,10 +132,15 @@ const Schedule = () => {
 
   // Get events for a specific date
   const getEventsForDate = (date) => {
-    const dateStr = date.toISOString().split('T')[0];
+    const dateStr = date.getFullYear() + '-' + 
+                   String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+                   String(date.getDate()).padStart(2, '0');
     return events.filter(event => {
-      const eventDate = new Date(event.date).toISOString().split('T')[0];
-      return eventDate === dateStr;
+      const eventDate = new Date(event.date);
+      const eventDateStr = eventDate.getFullYear() + '-' + 
+                          String(eventDate.getMonth() + 1).padStart(2, '0') + '-' + 
+                          String(eventDate.getDate()).padStart(2, '0');
+      return eventDateStr === dateStr;
     });
   };
 
@@ -103,7 +154,10 @@ const Schedule = () => {
     // Group events by date
     const groupedEvents = {};
     monthEvents.forEach(event => {
-      const dateKey = new Date(event.date).toISOString().split('T')[0];
+      const eventDate = new Date(event.date);
+      const dateKey = eventDate.getFullYear() + '-' + 
+                     String(eventDate.getMonth() + 1).padStart(2, '0') + '-' + 
+                     String(eventDate.getDate()).padStart(2, '0');
       if (!groupedEvents[dateKey]) {
         groupedEvents[dateKey] = [];
       }
@@ -207,11 +261,44 @@ const Schedule = () => {
         // Reload events to update participant count
         loadScheduleData();
       } else {
-        setMessage({ text: data.error || 'Failed to join event', type: 'error' });
+        // Handle specific HTTP status codes
+        let errorMessage;
+        switch (response.status) {
+          case 400:
+            errorMessage = data.error || 'Invalid request to join event.';
+            break;
+          case 401:
+            errorMessage = 'Session expired. Please log in again.';
+            break;
+          case 403:
+            errorMessage = 'You are not authorized to join this event.';
+            break;
+          case 404:
+            errorMessage = 'Event not found.';
+            break;
+          case 409:
+            errorMessage = 'You are already registered for this event.';
+            break;
+          case 429:
+            errorMessage = 'Too many requests. Please try again later.';
+            break;
+          case 500:
+            errorMessage = 'Server error. Please try again later.';
+            break;
+          case 502:
+            errorMessage = 'Event service temporarily unavailable.';
+            break;
+          case 503:
+            errorMessage = 'Event service maintenance in progress.';
+            break;
+          default:
+            errorMessage = data.error || `Failed to join event (${response.status}).`;
+        }
+        setMessage({ text: errorMessage, type: 'error' });
       }
     } catch (error) {
       console.error('Join event error:', error);
-      setMessage({ text: 'Failed to join event', type: 'error' });
+      setMessage({ text: 'Network error. Please check your connection and try again.', type: 'error' });
     } finally {
       setJoinLoading(prev => ({ ...prev, [eventId]: false }));
     }
@@ -246,11 +333,44 @@ const Schedule = () => {
         // Reload events to update participant count
         loadScheduleData();
       } else {
-        setMessage({ text: data.error || 'Failed to leave event', type: 'error' });
+        // Handle specific HTTP status codes
+        let errorMessage;
+        switch (response.status) {
+          case 400:
+            errorMessage = data.error || 'Invalid request to leave event.';
+            break;
+          case 401:
+            errorMessage = 'Session expired. Please log in again.';
+            break;
+          case 403:
+            errorMessage = 'You are not authorized to leave this event.';
+            break;
+          case 404:
+            errorMessage = 'Event not found.';
+            break;
+          case 409:
+            errorMessage = 'You are not registered for this event.';
+            break;
+          case 429:
+            errorMessage = 'Too many requests. Please try again later.';
+            break;
+          case 500:
+            errorMessage = 'Server error. Please try again later.';
+            break;
+          case 502:
+            errorMessage = 'Event service temporarily unavailable.';
+            break;
+          case 503:
+            errorMessage = 'Event service maintenance in progress.';
+            break;
+          default:
+            errorMessage = data.error || `Failed to leave event (${response.status}).`;
+        }
+        setMessage({ text: errorMessage, type: 'error' });
       }
     } catch (error) {
       console.error('Leave event error:', error);
-      setMessage({ text: 'Failed to leave event', type: 'error' });
+      setMessage({ text: 'Network error. Please check your connection and try again.', type: 'error' });
     } finally {
       setJoinLoading(prev => ({ ...prev, [eventId]: false }));
     }
@@ -270,7 +390,9 @@ const Schedule = () => {
     // Only allow expansion if there are events
     if (dayEvents.length === 0) return;
     
-    const dateStr = date.toISOString().split('T')[0];
+    const dateStr = date.getFullYear() + '-' + 
+                   String(date.getMonth() + 1).padStart(2, '0') + '-' + 
+                   String(date.getDate()).padStart(2, '0');
     if (expandedDay === dateStr) {
       setExpandedDay(null); // Collapse if already expanded
     } else {
@@ -327,7 +449,9 @@ const Schedule = () => {
               const dayEvents = getEventsForDate(day);
               const isCurrentMonth = day.getMonth() === currentMonth;
               const isToday = day.toDateString() === new Date().toDateString();
-              const dateStr = day.toISOString().split('T')[0];
+              const dateStr = day.getFullYear() + '-' + 
+                             String(day.getMonth() + 1).padStart(2, '0') + '-' + 
+                             String(day.getDate()).padStart(2, '0');
               const isExpanded = expandedDay === dateStr;
 
               if (!isCurrentMonth) {
