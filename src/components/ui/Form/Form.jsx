@@ -37,7 +37,8 @@
  */
 
 import React from 'react';
-import { Message } from '../';
+// Direct import - cleaner than barrel exports
+import Message from '../Message/Message.jsx';
 import './Form.css';
 
 const Form = ({
