@@ -1,7 +1,36 @@
+/**
+ * AdminDashboard Component
+ * 
+ * Comprehensive admin panel for managing users, access codes, and events.
+ * Protected route that requires admin privileges to access.
+ * Provides full CRUD operations for system management.
+ * 
+ * @component
+ * @returns {JSX.Element} Admin dashboard with tabbed interface
+ * 
+ * Features:
+ * - User management (view, delete users)
+ * - Access code management (create, toggle, delete)
+ * - Event management (create, view events by date)
+ * - SMS functionality for sending access codes
+ * - Statistics and analytics display
+ * - Responsive design with mobile support
+ * - Comprehensive error handling and user feedback
+ * 
+ * Protected Actions:
+ * - All actions require admin role
+ * - Token-based authentication for API calls
+ * - Confirmation modals for destructive actions
+ */
+
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import './AdminDashboard.css';
 
+/**
+ * AdminDashboard Component - Main admin management interface
+ * @returns {JSX.Element} Admin dashboard component
+ */
 const AdminDashboard = () => {
   const { user, token } = useAuth();
   const [activeTab, setActiveTab] = useState('users');

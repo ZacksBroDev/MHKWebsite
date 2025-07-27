@@ -1,7 +1,29 @@
+/**
+ * Level2 Component
+ * 
+ * Displays Level 2 martial arts curriculum with advanced forms and techniques.
+ * Contains educational content with video links for intermediate-level training.
+ * Part of the structured curriculum progression system.
+ * 
+ * @component
+ * @returns {JSX.Element} Level 2 curriculum page
+ * 
+ * Content Includes:
+ * - Dan-Gun and Do-San Hyung forms
+ * - Bo staff techniques (Bo 2)
+ * - Advanced combination sets
+ * - Progressive difficulty from Level 1
+ * - Navigation back to home page
+ */
+
 import React from "react";
 import { Link } from "react-router-dom";
 import css from '../../../assets/css/style.module.css';
 
+/**
+ * Level2 Component - Level 2 curriculum display
+ * @returns {JSX.Element} Level 2 curriculum page with intermediate forms and techniques
+ */
 function Level2() {
   return (
     <>
