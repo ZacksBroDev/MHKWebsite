@@ -2,12 +2,14 @@ import express from "express";
 import cors from "cors";
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
 import dotenv from "dotenv";
 import connectDB from "./config/database.js";
 import User from "./models/User.js";
 import AccessCode from "./models/AccessCode.js";
 import Event from "./models/Event.js";
 import { sendAccessCodeSMS, sendWelcomeSMS } from "./services/smsService.js";
+import { sendPasswordResetEmail, sendWelcomeEmail } from "./services/emailService.js";
 
 dotenv.config();
 
@@ -1018,6 +1020,94 @@ app.get("/api/schedule", async (req, res) => {
     });
   } catch (error) {
     console.error("Get schedule error:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+// Password Reset Routes
+app.post("/api/forgot-password", async (req, res) => {
+  try {
+    const { email } = req.body;
+
+    if (!email) {
+      return res.status(400).json({ error: "Email is required" });
+    }
+
+    // Check if user exists
+    const user = await User.findOne({ email });
+    if (!user) {
+      // Don't reveal if user exists or not for security
+      return res.json({ message: "If an account exists with this email, a password reset link has been sent." });
+    }
+
+    // Generate reset token
+    const resetToken = jwt.sign(
+      { userId: user._id, email: user.email },
+      JWT_SECRET,
+      { expiresIn: '1h' } // Token expires in 1 hour
+    );
+
+    // In a real app, you'd send an email here
+    // For now, we'll log the reset link to console
+    const resetLink = `http://localhost:5173/?token=${resetToken}`;
+    
+    // Send password reset email
+    const emailResult = await sendPasswordResetEmail(user.email, resetLink, user.username);
+    
+    if (!emailResult.success) {
+      console.error('Failed to send reset email:', emailResult.error);
+    }
+    
+    res.json({ 
+      message: "If an account exists with this email, a password reset link has been sent.",
+      // Remove this in production - only for testing
+      resetLink: process.env.NODE_ENV === 'development' ? resetLink : undefined
+    });
+
+  } catch (error) {
+    console.error("Forgot password error:", error);
+    res.status(500).json({ error: "Server error" });
+  }
+});
+
+app.post("/api/reset-password", async (req, res) => {
+  try {
+    const { token, password } = req.body;
+
+    if (!token || !password) {
+      return res.status(400).json({ error: "Token and password are required" });
+    }
+
+    if (password.length < 6) {
+      return res.status(400).json({ error: "Password must be at least 6 characters long" });
+    }
+
+    // Verify the reset token
+    let decoded;
+    try {
+      decoded = jwt.verify(token, JWT_SECRET);
+    } catch (error) {
+      return res.status(400).json({ error: "Invalid or expired reset token" });
+    }
+
+    // Find the user
+    const user = await User.findById(decoded.userId);
+    if (!user) {
+      return res.status(400).json({ error: "User not found" });
+    }
+
+    // Hash the new password
+    const hashedPassword = await bcrypt.hash(password, 10);
+
+    // Update the user's password
+    await User.findByIdAndUpdate(user._id, { password: hashedPassword });
+
+    console.log(`✅ Password reset successful for user: ${user.email}`);
+
+    res.json({ message: "Password reset successful" });
+
+  } catch (error) {
+    console.error("Reset password error:", error);
     res.status(500).json({ error: "Server error" });
   }
 });

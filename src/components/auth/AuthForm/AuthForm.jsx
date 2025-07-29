@@ -18,17 +18,22 @@ import './AuthForm.css';
 const AuthForm = () => {
   const [isLogin, setIsLogin] = useState(true);
   const [isAdminSignup, setIsAdminSignup] = useState(false);
+  const [isForgotPassword, setIsForgotPassword] = useState(false);
+  const [isResetPassword, setIsResetPassword] = useState(false);
   const [formData, setFormData] = useState({
     username: '',
     email: '',
     password: '',
+    confirmPassword: '',
     firstName: '',
     lastName: '',
     phone: '',
     accessCode: '',
-    adminPassword: ''
+    adminPassword: '',
+    resetToken: ''
   });
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [loading, setLoading] = useState(false);
   const [accessCodeStatus, setAccessCodeStatus] = useState('');
   const [accessCodeValid, setAccessCodeValid] = useState(null);
@@ -53,7 +58,9 @@ const AuthForm = () => {
   };
 
   const validateAccessCode = async (accessCode, email, username) => {
-    if (!accessCode) return;
+    if (!accessCode) {
+      return;
+    }
 
     try {
       const response = await fetch('http://localhost:3001/api/validate-access-code', {
@@ -82,10 +89,15 @@ const AuthForm = () => {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setError('');
+    setSuccess('');
     setLoading(true);
 
     let result;
-    if (isLogin) {
+    if (isForgotPassword) {
+      result = await handleForgotPassword();
+    } else if (isResetPassword) {
+      result = await handleResetPassword();
+    } else if (isLogin) {
       result = await login(formData.username, formData.password);
     } else if (isAdminSignup) {
       // Admin signup
@@ -99,42 +111,193 @@ const AuthForm = () => {
 
     if (!result.success) {
       setError(result.error);
+    } else if (result.message) {
+      setSuccess(result.message);
     }
 
     setLoading(false);
+  };
+
+  const handleForgotPassword = async () => {
+    try {
+      const response = await fetch('http://localhost:3001/api/forgot-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email: formData.email }),
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        return { success: true, message: 'Password reset email sent! Check your inbox.' };
+      } else {
+        return { success: false, error: data.error || 'Failed to send reset email' };
+      }
+    } catch (error) {
+      return { success: false, error: 'Network error. Please try again.' };
+    }
+  };
+
+  const handleResetPassword = async () => {
+    if (formData.password !== formData.confirmPassword) {
+      return { success: false, error: 'Passwords do not match' };
+    }
+
+    if (formData.password.length < 6) {
+      return { success: false, error: 'Password must be at least 6 characters long' };
+    }
+
+    try {
+      const response = await fetch('http://localhost:3001/api/reset-password', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ 
+          token: formData.resetToken, 
+          password: formData.password 
+        }),
+      });
+
+      const data = await response.json();
+      
+      if (response.ok) {
+        // Reset to login mode after successful password reset
+        setIsResetPassword(false);
+        setIsForgotPassword(false);
+        setIsLogin(true);
+        setFormData({
+          username: '', email: '', password: '', confirmPassword: '',
+          firstName: '', lastName: '', phone: '', accessCode: '', 
+          adminPassword: '', resetToken: ''
+        });
+        return { success: true, message: 'Password reset successful! You can now login with your new password.' };
+      } else {
+        return { success: false, error: data.error || 'Failed to reset password' };
+      }
+    } catch (error) {
+      return { success: false, error: 'Network error. Please try again.' };
+    }
   };
 
   const toggleMode = () => {
     if (isLogin) {
       setIsLogin(false);
       setIsAdminSignup(false);
+      setIsForgotPassword(false);
+      setIsResetPassword(false);
     } else {
       setIsLogin(true);
       setIsAdminSignup(false);
+      setIsForgotPassword(false);
+      setIsResetPassword(false);
     }
     setError('');
+    setSuccess('');
     setAccessCodeStatus('');
     setAccessCodeValid(null);
-    setFormData({ username: '', email: '', password: '', firstName: '', lastName: '', phone: '', accessCode: '', adminPassword: '' });
+    setFormData({ 
+      username: '', email: '', password: '', confirmPassword: '',
+      firstName: '', lastName: '', phone: '', accessCode: '', 
+      adminPassword: '', resetToken: ''
+    });
   };
 
   const toggleAdminMode = () => {
     setIsAdminSignup(!isAdminSignup);
     setError('');
+    setSuccess('');
     setAccessCodeStatus('');
     setAccessCodeValid(null);
   };
+
+  const toggleForgotPassword = () => {
+    setIsForgotPassword(!isForgotPassword);
+    setIsLogin(!isForgotPassword);
+    setIsAdminSignup(false);
+    setIsResetPassword(false);
+    setError('');
+    setSuccess('');
+    setFormData({ 
+      username: '', email: '', password: '', confirmPassword: '',
+      firstName: '', lastName: '', phone: '', accessCode: '', 
+      adminPassword: '', resetToken: ''
+    });
+  };
+
+  // Check for reset token in URL params when component mounts
+  React.useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const token = urlParams.get('token');
+    if (token) {
+      setIsResetPassword(true);
+      setIsLogin(false);
+      setIsForgotPassword(false);
+      setIsAdminSignup(false);
+      setFormData(prev => ({ ...prev, resetToken: token }));
+    }
+  }, []);
 
   return (
     <div className="auth-container">
       <div className="auth-form">
         <h2>Mile High Karate</h2>
-        <h3>{isLogin ? 'Login' : (isAdminSignup ? 'Admin Sign Up' : 'Sign Up')}</h3>
+        <h3>
+          {isForgotPassword ? 'Forgot Password' : 
+           isResetPassword ? 'Reset Password' :
+           isLogin ? 'Login' : 
+           (isAdminSignup ? 'Admin Sign Up' : 'Sign Up')}
+        </h3>
         
         {error && <div className="error-message">{error}</div>}
+        {success && <div className="success-message">{success}</div>}
         
         <form onSubmit={handleSubmit}>
-          {isLogin ? (
+          {isForgotPassword ? (
+            // Forgot Password form
+            <div className="form-group">
+              <label>Email:<span style={{color: 'red'}}>*</span></label>
+              <input
+                type="email"
+                name="email"
+                value={formData.email}
+                onChange={handleChange}
+                placeholder="Enter your email address"
+                required
+              />
+              <small>We'll send you a link to reset your password.</small>
+            </div>
+          ) : isResetPassword ? (
+            // Reset Password form
+            <>
+              <div className="form-group">
+                <label>New Password:<span style={{color: 'red'}}>*</span></label>
+                <input
+                  type="password"
+                  name="password"
+                  value={formData.password}
+                  onChange={handleChange}
+                  placeholder="Enter new password"
+                  required
+                  minLength="6"
+                />
+              </div>
+              <div className="form-group">
+                <label>Confirm Password:<span style={{color: 'red'}}>*</span></label>
+                <input
+                  type="password"
+                  name="confirmPassword"
+                  value={formData.confirmPassword}
+                  onChange={handleChange}
+                  placeholder="Confirm new password"
+                  required
+                  minLength="6"
+                />
+              </div>
+            </>
+          ) : isLogin ? (
             // Login fields
             <>
               <div className="form-group">
@@ -272,35 +435,80 @@ const AuthForm = () => {
 
           <button 
             type="submit" 
-            disabled={loading || (!isLogin && !isAdminSignup && accessCodeValid === false)} 
+            disabled={loading || (!isLogin && !isForgotPassword && !isResetPassword && !isAdminSignup && accessCodeValid === false)} 
             className="submit-btn"
           >
-            {loading ? 'Processing...' : (isLogin ? 'LOGIN' : (isAdminSignup ? 'CREATE ADMIN' : 'SIGN UP'))}
+            {loading ? 'Processing...' : 
+             isForgotPassword ? 'SEND RESET EMAIL' :
+             isResetPassword ? 'RESET PASSWORD' :
+             isLogin ? 'LOGIN' : 
+             (isAdminSignup ? 'CREATE ADMIN' : 'SIGN UP')}
           </button>
         </form>
 
         <div className="auth-links">
-          <p>
-            {isLogin ? "Don't have an account? " : "Already have an account? "}
-            <button 
-              type="button" 
-              className="link-button"
-              onClick={toggleMode}
-            >
-              {isLogin ? 'Sign Up' : 'Login'}
-            </button>
-          </p>
-
-          {!isLogin && (
+          {isForgotPassword ? (
+            <p>
+              Remember your password?{' '}
+              <button 
+                type="button" 
+                className="link-button"
+                onClick={toggleForgotPassword}
+              >
+                Back to Login
+              </button>
+            </p>
+          ) : isResetPassword ? (
             <p>
               <button 
                 type="button" 
-                className="link-button admin-link"
-                onClick={toggleAdminMode}
+                className="link-button"
+                onClick={() => {
+                  setIsResetPassword(false);
+                  setIsLogin(true);
+                  setFormData(prev => ({ ...prev, resetToken: '' }));
+                }}
               >
-                {isAdminSignup ? 'Regular Sign Up' : 'Admin Sign Up'}
+                Back to Login
               </button>
             </p>
+          ) : (
+            <>
+              <p>
+                {isLogin ? "Don't have an account? " : "Already have an account? "}
+                <button 
+                  type="button" 
+                  className="link-button"
+                  onClick={toggleMode}
+                >
+                  {isLogin ? 'Sign Up' : 'Login'}
+                </button>
+              </p>
+
+              {isLogin && (
+                <p>
+                  <button 
+                    type="button" 
+                    className="link-button"
+                    onClick={toggleForgotPassword}
+                  >
+                    Forgot Password?
+                  </button>
+                </p>
+              )}
+
+              {!isLogin && (
+                <p>
+                  <button 
+                    type="button" 
+                    className="link-button admin-link"
+                    onClick={toggleAdminMode}
+                  >
+                    {isAdminSignup ? 'Regular Sign Up' : 'Admin Sign Up'}
+                  </button>
+                </p>
+              )}
+            </>
           )}
         </div>
       </div>
