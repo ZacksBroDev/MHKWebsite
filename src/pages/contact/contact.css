@@ -43,7 +43,7 @@
 }
 
 input,textarea{
-  background-color: var(--pure-mist);
+  background-color: white;
   font-size: 20px;
   border-radius: 5px;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.9);

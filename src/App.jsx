@@ -27,7 +27,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 import AuthForm from './components/auth/AuthForm/AuthForm';
 
 // Lazy load page components for better code splitting
-const Home = lazy(() => import('./pages/home/home'));
+const Home = lazy(() => import('./pages/home/Home'));
 const Schedule = lazy(() => import('./pages/schedule/Schedule'));
 const NotFound = lazy(() => import('./pages/notFoundPage/NotFound'));
 const Contact = lazy(() => import('./pages/contact/Contact'));
