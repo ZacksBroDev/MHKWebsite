@@ -3,7 +3,7 @@ import Event from './models/Event.js';
 import User from './models/User.js';
 
 // MongoDB connection
-const MONGODB_URI = 'mongodb://localhost:27017/mhk_karate';
+const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/mhk_karate';
 
 // Event templates for different days of the week
 const eventTemplates = {

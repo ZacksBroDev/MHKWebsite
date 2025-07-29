@@ -83,6 +83,32 @@ const initializeDefaultAccessCode = async () => {
 // Initialize default access code on startup
 initializeDefaultAccessCode();
 
+// Health check endpoint for Docker
+app.get('/health', async (req, res) => {
+  try {
+    // Check database connection
+    const mongoose = await import('mongoose');
+    if (mongoose.default.connection.readyState !== 1) {
+      throw new Error('Database not connected');
+    }
+    
+    res.status(200).json({
+      status: 'healthy',
+      timestamp: new Date().toISOString(),
+      database: 'connected',
+      service: 'Mile High Karate API'
+    });
+  } catch (error) {
+    res.status(503).json({
+      status: 'unhealthy',
+      timestamp: new Date().toISOString(),
+      error: error.message
+    });
+  }
+});
+
+// Regular signup route
+
 // AUTH ROUTES
 
 // Register new user (requires access code)
