@@ -27,6 +27,74 @@ import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
 import './AdminDashboard.css';
 
+// Helper functions to replace date-fns
+const getISOWeek = (date) => {
+  const d = new Date(date);
+  d.setHours(0, 0, 0, 0);
+  d.setDate(d.getDate() + 3 - (d.getDay() + 6) % 7);
+  const week1 = new Date(d.getFullYear(), 0, 4);
+  return 1 + Math.round(((d.getTime() - week1.getTime()) / 86400000 - 3 + (week1.getDay() + 6) % 7) / 7);
+};
+
+const getYear = (date) => new Date(date).getFullYear();
+
+// Collapsible week component
+function WeekCollapse({ weekKey, weekEvents }) {
+  const [open, setOpen] = useState(false);
+  const startDate = new Date(weekEvents[0].date);
+  const endDate = new Date(weekEvents[weekEvents.length - 1].date);
+  
+  return (
+    <div className="week-collapse" style={{ marginBottom: '1rem', border: '1px solid #ccc', borderRadius: '8px' }}>
+      <button
+        style={{ 
+          width: '100%', 
+          textAlign: 'left', 
+          padding: '0.75rem', 
+          background: '#f5f5f5', 
+          border: 'none', 
+          borderRadius: '8px', 
+          fontWeight: 'bold',
+          cursor: 'pointer'
+        }}
+        onClick={() => setOpen(!open)}
+      >
+        {weekKey} — {startDate.toLocaleDateString()} to {endDate.toLocaleDateString()} ({weekEvents.length} events)
+        <span style={{ float: 'right' }}>{open ? '▲' : '▼'}</span>
+      </button>
+      {open && (
+        <div style={{ padding: '0.5rem' }}>
+          <table style={{ width: '100%' }}>
+            <thead>
+              <tr>
+                <th>Title</th>
+                <th>Date</th>
+                <th>Time</th>
+                <th>Participants</th>
+                <th>Created By</th>
+              </tr>
+            </thead>
+            <tbody>
+              {weekEvents.map(event => (
+                <tr key={event.id}>
+                  <td>{event.title}</td>
+                  <td>{new Date(event.date).toLocaleDateString()}</td>
+                  <td>{event.time}</td>
+                  <td>
+                    {event.currentParticipants}
+                    {event.maxParticipants && ` / ${event.maxParticipants}`}
+                  </td>
+                  <td>{event.createdBy}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )}
+    </div>
+  );
+}
+
 /**
  * AdminDashboard Component - Main admin management interface
  * @returns {JSX.Element} Admin dashboard component
@@ -306,7 +374,9 @@ const AdminDashboard = () => {
   };
 
   const confirmDeleteUser = async () => {
-    if (!userToDelete) return;
+    if (!userToDelete) { 
+      return; 
+    }
 
     setLoading(true);
     setError('');
@@ -352,7 +422,9 @@ const AdminDashboard = () => {
   };
 
   const confirmDeleteAccessCode = async () => {
-    if (!accessCodeToDelete) return;
+    if (!accessCodeToDelete) { 
+      return; 
+    }
 
     setLoading(true);
     setError('');
@@ -405,6 +477,31 @@ const AdminDashboard = () => {
                eventDate.getMonth() === selectedDate.getMonth();
       });
     }
+  };
+
+  // Group events by week
+  const getEventsByWeek = () => {
+    const filtered = getFilteredEvents();
+    const weeks = {};
+    
+    filtered.forEach(event => {
+      const date = new Date(event.date);
+      const week = getISOWeek(date);
+      const year = getYear(date);
+      const key = `${year}-W${week}`;
+      
+      if (!weeks[key]) {
+        weeks[key] = [];
+      }
+      weeks[key].push(event);
+    });
+    
+    // Sort events within each week by date
+    Object.keys(weeks).forEach(weekKey => {
+      weeks[weekKey].sort((a, b) => new Date(a.date) - new Date(b.date));
+    });
+    
+    return weeks;
   };
 
   const navigateMonth = (direction) => {
@@ -751,38 +848,18 @@ const AdminDashboard = () => {
             </div>
 
             <div className="table-container">
-              <table>
-                <thead>
-                  <tr>
-                    <th>Title</th>
-                    <th>Date</th>
-                    <th>Time</th>
-                    <th>Participants</th>
-                    <th>Created By</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {getFilteredEvents().map(event => (
-                    <tr key={event.id}>
-                      <td>{event.title}</td>
-                      <td>{new Date(event.date).toLocaleDateString()}</td>
-                      <td>{event.time}</td>
-                      <td>
-                        {event.currentParticipants}
-                        {event.maxParticipants && ` / ${event.maxParticipants}`}
-                      </td>
-                      <td>{event.createdBy}</td>
-                    </tr>
-                  ))}
-                  {getFilteredEvents().length === 0 && (
-                    <tr>
-                      <td colSpan="5" className="no-events">
-                        No events found for {getDisplayPeriod().toLowerCase()}
-                      </td>
-                    </tr>
-                  )}
-                </tbody>
-              </table>
+              {/* Collapsible weeks UI */}
+              {Object.entries(getEventsByWeek()).length === 0 ? (
+                <div className="no-events" style={{ textAlign: 'center', padding: '2rem', color: '#666' }}>
+                  No events found for {getDisplayPeriod().toLowerCase()}
+                </div>
+              ) : (
+                Object.entries(getEventsByWeek())
+                  .sort(([a], [b]) => a.localeCompare(b)) // Sort weeks chronologically
+                  .map(([weekKey, weekEvents]) => (
+                    <WeekCollapse key={weekKey} weekKey={weekKey} weekEvents={weekEvents} />
+                  ))
+              )}
             </div>
           </div>
         </div>
