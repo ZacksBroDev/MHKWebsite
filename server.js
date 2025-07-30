@@ -1075,7 +1075,8 @@ app.post("/api/forgot-password", async (req, res) => {
 
     // In a real app, you'd send an email here
     // For now, we'll log the reset link to console
-    const resetLink = `http://localhost:5173/?token=${resetToken}`;
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+    const resetLink = `${frontendUrl}/?token=${resetToken}`;
     
     // Send password reset email
     const emailResult = await sendPasswordResetEmail(user.email, resetLink, user.username);
