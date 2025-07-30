@@ -67,3 +67,20 @@ users.json
 test/
 tests/
 __tests__/
+
+# Docker volumes and data
+**/data/
+mongodb_data/
+postgres_data/
+
+# Docker build context (if using .dockerignore, this is redundant)
+.docker/
+
+# Local development scripts (replaced by Docker)
+start-*.sh
+stop-*.sh
+
+# Package manager lock files (if using Docker, these can be optional)
+# Uncomment if you want to exclude them:
+# package-lock.json
+# yarn.lock
