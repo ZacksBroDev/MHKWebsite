@@ -1,31 +1,33 @@
+// MHK Karate API Server - Express.js backend with MongoDB
 import express from "express";
 import cors from "cors";
-import bcrypt from "bcryptjs";
-import jwt from "jsonwebtoken";
-import crypto from "crypto";
-import dotenv from "dotenv";
-import connectDB from "./config/database.js";
-import User from "./models/User.js";
-import AccessCode from "./models/AccessCode.js";
-import Event from "./models/Event.js";
-import { sendAccessCodeSMS, sendWelcomeSMS } from "./services/smsService.js";
-import { sendPasswordResetEmail, sendWelcomeEmail } from "./services/emailService.js";
+import bcrypt from "bcryptjs"; // Password hashing
+import jwt from "jsonwebtoken"; // Authentication tokens
+import crypto from "crypto"; // Random token generation
+import dotenv from "dotenv"; // Environment variables
+import connectDB from "./config/database.js"; // MongoDB connection
+import User from "./models/User.js"; // User data model
+import AccessCode from "./models/AccessCode.js"; // Access code model
+import Event from "./models/Event.js"; // Event data model
+import { sendAccessCodeSMS, sendWelcomeSMS } from "./services/smsService.js"; // SMS notifications
+import { sendPasswordResetEmail, sendWelcomeEmail } from "./services/emailService.js"; // Email service
 
-dotenv.config();
+dotenv.config(); // Load environment variables
 
-// Connect to MongoDB
+// Initialize database connection
 connectDB();
 
+// Create Express app with middleware
 const app = express();
-app.use(cors());
-app.use(express.json());
+app.use(cors()); // Enable cross-origin requests
+app.use(express.json()); // Parse JSON request bodies
 
-// JWT Secret
+// Configuration constants from environment
 const JWT_SECRET = process.env.JWT_SECRET || "mhk-secret-key-2025";
 const ADMIN_SECRET = process.env.ADMIN_SECRET || "admin123";
 const DEFAULT_ACCESS_CODE = process.env.DEFAULT_ACCESS_CODE || "MARTIAL2025";
 
-// Utility function to generate random access codes
+// Generate random alphanumeric access codes
 const generateRandomAccessCode = (length = 8) => {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
   let result = "";
@@ -35,25 +37,26 @@ const generateRandomAccessCode = (length = 8) => {
   return result;
 };
 
-// Middleware to verify JWT token
+// Authentication middleware - validates JWT tokens
 const authenticateToken = (req, res, next) => {
   const authHeader = req.headers["authorization"];
-  const token = authHeader && authHeader.split(" ")[1];
+  const token = authHeader && authHeader.split(" ")[1]; // Extract Bearer token
 
   if (!token) {
     return res.status(401).json({ error: "Access token required" });
   }
 
+  // Verify token and attach user data to request
   jwt.verify(token, JWT_SECRET, (err, user) => {
     if (err) {
       return res.status(403).json({ error: "Invalid or expired token" });
     }
-    req.user = user;
+    req.user = user; // Add decoded user info to request
     next();
   });
 };
 
-// Middleware to verify admin role
+// Authorization middleware - ensures admin role
 const authenticateAdmin = (req, res, next) => {
   if (req.user.role !== "admin") {
     return res.status(403).json({ error: "Admin access required" });
@@ -61,11 +64,12 @@ const authenticateAdmin = (req, res, next) => {
   next();
 };
 
-// Initialize default access code if none exist
+// Database initialization - creates default access code
 const initializeDefaultAccessCode = async () => {
   try {
     const existingCodes = await AccessCode.find({});
     if (existingCodes.length === 0) {
+      // Create initial access code for first users
       const defaultCode = new AccessCode({
         code: process.env.DEFAULT_ACCESS_CODE || "MARTIAL2025",
         createdBy: null,

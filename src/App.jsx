@@ -1,32 +1,16 @@
-/**
- * App Component
- * 
- * Main application component that handles routing and authentication flow.
- * Provides authentication context to all child components and manages
- * route protection based on user authentication status.
- * 
- * @component
- * @returns {JSX.Element} Main application with routing and authentication
- * 
- * Features:
- * - Centralized authentication management
- * - Protected route system
- * - Loading state handling
- * - Conditional rendering based on auth status
- * - Comprehensive route definitions for all pages
- */
-
+// MHK Karate Main App - React SPA with authentication and routing
 import React, { Suspense, lazy } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
-// Direct imports for critical components (needed immediately)
+
+// Critical components loaded immediately
 import NavBar from './components/layout/NavBar/NavBar';
 import Footer from './components/layout/Footer/Footer';
 import ProtectedRoute from './components/auth/ProtectedRoute/ProtectedRoute';
 import ErrorBoundary from './components/ErrorBoundary';
 import AuthForm from './components/auth/AuthForm/AuthForm';
 
-// Lazy load page components for better code splitting
+// Lazy-loaded pages for code splitting and performance
 const Home = lazy(() => import('./pages/home/Home'));
 const Schedule = lazy(() => import('./pages/schedule/Schedule'));
 const NotFound = lazy(() => import('./pages/notFoundPage/NotFound'));
@@ -39,16 +23,7 @@ const Deg1 = lazy(() => import('./pages/fightStyle/blackBelts/deg1/Deg1'));
 const Deg2 = lazy(() => import('./pages/fightStyle/blackBelts/deg2/Deg2'));
 const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
 
-/**
- * AppContent Component
- * 
- * Internal component that renders the main application content based on authentication state.
- * Handles loading states, unauthenticated users, and authenticated application flow.
- * Enhanced with comprehensive error handling and fallback UI components.
- * 
- * @component
- * @returns {JSX.Element} Application content based on authentication status
- */
+// Main application content with authentication logic
 const AppContent = () => {
   const { isAuthenticated, loading, error } = useAuth();
 
