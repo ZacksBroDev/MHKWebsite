@@ -1,5 +1,7 @@
+// Event Data Model - MongoDB schema for karate events and classes
 import mongoose from "mongoose";
 
+// Define event schema for classes, tests, and tournaments
 const eventSchema = new mongoose.Schema(
   {
     title: {
@@ -9,15 +11,15 @@ const eventSchema = new mongoose.Schema(
     },
     date: {
       type: Date,
-      required: true,
+      required: true, // Event date is mandatory
     },
     time: {
       type: String,
-      required: true,
+      required: true, // Event time as string (e.g., "7:00 PM")
     },
     type: {
       type: String,
-      enum: [
+      enum: [ // Predefined event types
         "class",
         "test",
         "tournament",

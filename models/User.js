@@ -1,26 +1,28 @@
+// User Data Model - MongoDB schema for user accounts
 import mongoose from "mongoose";
 
+// Define user schema with validation rules
 const userSchema = new mongoose.Schema(
   {
     username: {
       type: String,
       required: true,
-      unique: true,
-      trim: true,
+      unique: true, // Prevent duplicate usernames
+      trim: true, // Remove whitespace
       minlength: 3,
       maxlength: 30,
     },
     email: {
       type: String,
       required: true,
-      unique: true,
+      unique: true, // Prevent duplicate emails
       trim: true,
-      lowercase: true,
+      lowercase: true, // Store in lowercase
     },
     password: {
       type: String,
       required: true,
-      minlength: 6,
+      minlength: 6, // Minimum security requirement
     },
     firstName: {
       type: String,

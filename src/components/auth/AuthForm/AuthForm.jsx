@@ -1,16 +1,5 @@
-/**
- * AuthForm Component
- * 
- * Purpose: Handles user authentication with login/signup functionality
- * Features: Form validation, access code verification, admin signup
- * 
- * @component
- * @example
- * return (
- *   <AuthForm />
- * )
- */
-
+// AuthForm Component - handles user login and registration
+// Features: form validation, access code verification, admin signup
 import React, { useState } from 'react';
 import { useAuth } from '../../../contexts/AuthContext';
 import './AuthForm.css';

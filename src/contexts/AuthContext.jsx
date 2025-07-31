@@ -1,29 +1,11 @@
-/**
- * AuthContext - Authentication Context Provider
- * 
- * Provides authentication state and methods throughout the application.
- * Manages user login, logout, registration, and authentication status.
- * Automatically restores session from localStorage on app start.
- * 
- * @module AuthContext
- * @requires React
- * @requires api
- */
-
+// Authentication Context - manages user login state across the app
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import { API_ENDPOINTS } from '../config/api';
 
-/**
- * Authentication context for managing user state
- * @type {React.Context}
- */
+// Create context for authentication state
 const AuthContext = createContext(null);
 
-/**
- * Custom hook to access authentication context
- * @returns {Object} Authentication context value
- * @throws {Error} If used outside AuthProvider
- */
+// Hook to access auth context (throws error if used outside provider)
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
