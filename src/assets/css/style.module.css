@@ -1,10 +1,12 @@
+/* Base Styles */
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   background-color: transparent;
-  }
-  :root{
+}
+
+:root{
   --bg:#99b9df;
   --text: #0e1b33;
   --primary: #5faef8;
@@ -16,6 +18,7 @@
   --urban-gray:#a0a0a0;
 }
 
+/* Legacy Curriculum Styles */
 .curriculum{
   width: 95%;
   margin: 2rem auto;
@@ -23,6 +26,7 @@
   background-color: var(--secondary);
   border-radius: 25px;
 }
+
 .curriculum button{
   width:150px;
   height:50px;
@@ -32,21 +36,439 @@
   border: none;
   color:var(--text);
 }
+
 .curriculum button a{
   background-color: transparent;
 }
+
 .level{
   background-color: var(--primary);
   padding: 1rem;
   margin: 1rem 0;
   border-radius: 20px;
 }
+
 .level h1 {
   color: var(--text);
   text-align: center;
   font-size: 2rem;
   margin-bottom: 1rem;
   background-color: transparent;
+}
+
+/* Enhanced Fighting Styles UI/UX Styles */
+
+/* Modern layout improvements */
+.modernLayout {
+  background: linear-gradient(135deg, var(--secondary) 0%, var(--primary) 100%);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+  border: none;
+}
+
+/* Curriculum Header */
+.curriculumHeader {
+  background: linear-gradient(135deg, var(--header) 0%, var(--secondary) 100%);
+  color: white;
+  padding: 2rem;
+  border-radius: 20px 20px 0 0;
+  margin: -1rem -1rem 2rem -1rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.curriculumHeader::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  right: 0;
+  width: 100px;
+  height: 100px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  transform: translate(30px, -30px);
+}
+
+.headerContent {
+  position: relative;
+  z-index: 2;
+}
+
+.levelTitle {
+  font-size: 2.5rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.levelBadge {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  font-size: 1rem;
+  backdrop-filter: blur(10px);
+}
+
+.levelDescription {
+  font-size: 1.1rem;
+  opacity: 0.9;
+  max-width: 600px;
+}
+
+.progressIndicator {
+  margin-top: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.progressBar {
+  flex: 1;
+  height: 8px;
+  background: rgba(255, 255, 255, 0.3);
+  border-radius: 10px;
+  overflow: hidden;
+  max-width: 300px;
+}
+
+.progress {
+  height: 100%;
+  background: linear-gradient(90deg, #4ade80, #22c55e);
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+
+.progressText {
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+
+/* Section Tabs */
+.sectionTabs {
+  display: flex;
+  gap: 0.5rem;
+  margin-bottom: 2rem;
+  background: rgba(255, 255, 255, 0.1);
+  padding: 0.5rem;
+  border-radius: 15px;
+  backdrop-filter: blur(10px);
+}
+
+.tab {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 1rem;
+  border: none;
+  border-radius: 10px;
+  background: transparent;
+  color: white;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.tab:hover {
+  background: rgba(255, 255, 255, 0.1);
+  transform: translateY(-2px);
+}
+
+.activeTab {
+  background: white !important;
+  color: var(--text) !important;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.tabIcon {
+  font-size: 1.2rem;
+}
+
+.tabText {
+  font-size: 0.9rem;
+}
+
+/* Content Area */
+.contentArea {
+  background: white;
+  border-radius: 15px;
+  padding: 2rem;
+  margin-bottom: 2rem;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.05);
+}
+
+.sectionTitle h2 {
+  color: var(--header);
+  font-size: 1.8rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+/* Technique Grid */
+.techniqueGrid {
+  display: grid;
+  gap: 1.5rem;
+}
+
+.techniqueCard {
+  background: var(--pure-mist);
+  border-radius: 12px;
+  padding: 1.5rem;
+  border-left: 4px solid var(--secondary);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.techniqueCard:hover {
+  transform: translateX(5px);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  border-left-color: var(--accent);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  margin-bottom: 1rem;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.techniqueInfo {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  flex-wrap: wrap;
+}
+
+.techniqueName {
+  color: var(--header);
+  font-size: 1.3rem;
+  font-weight: 600;
+  margin: 0;
+}
+
+.difficultyBadge {
+  padding: 0.3rem 0.8rem;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  text-transform: uppercase;
+}
+
+.beginner {
+  background: #dcfce7;
+  color: #166534;
+}
+
+.intermediate {
+  background: #fef3c7;
+  color: #92400e;
+}
+
+.advanced {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.cardActions {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+
+.videoButton {
+  background: #dc2626;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 8px;
+  text-decoration: none;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.videoButton:hover {
+  background: #b91c1c;
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(220, 38, 38, 0.3);
+}
+
+.expandButton {
+  background: var(--secondary);
+  color: white;
+  border: none;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  cursor: pointer;
+  font-size: 0.8rem;
+  transition: all 0.3s ease;
+}
+
+.expandButton:hover {
+  background: var(--header);
+  transform: scale(1.1);
+}
+
+.techniqueDescription {
+  color: var(--urban-gray);
+  font-size: 1rem;
+  line-height: 1.5;
+  margin-bottom: 1rem;
+}
+
+/* Technique Steps */
+.techniqueSteps {
+  background: white;
+  border-radius: 8px;
+  padding: 1.5rem;
+  margin-top: 1rem;
+  border: 2px solid #e5e7eb;
+}
+
+.techniqueSteps h4 {
+  color: var(--header);
+  margin-bottom: 1rem;
+  font-size: 1.1rem;
+}
+
+.stepsList {
+  list-style: none;
+  padding: 0;
+  counter-reset: step-counter;
+}
+
+.step {
+  counter-increment: step-counter;
+  padding: 0.8rem;
+  margin-bottom: 0.5rem;
+  background: var(--pure-mist);
+  border-radius: 8px;
+  position: relative;
+  padding-left: 3rem;
+  line-height: 1.4;
+}
+
+.step::before {
+  content: counter(step-counter);
+  position: absolute;
+  left: 1rem;
+  top: 50%;
+  transform: translateY(-50%);
+  background: var(--secondary);
+  color: white;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+/* Navigation Footer */
+.navigationFooter {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 15px;
+  padding: 1.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.backButton, .nextButton {
+  padding: 0.8rem 1.5rem;
+  border-radius: 25px;
+  text-decoration: none;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.backButton {
+  background: rgba(255, 255, 255, 0.2);
+  color: white;
+}
+
+.backButton:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateX(-5px);
+}
+
+.nextButton {
+  background: var(--accent);
+  color: white;
+}
+
+.nextButton:hover {
+  background: #5147d9;
+  transform: translateX(5px);
+  box-shadow: 0 5px 15px rgba(100, 108, 255, 0.3);
+}
+
+.levelNavigation {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.currentLevel {
+  color: white;
+  font-weight: 600;
+  padding: 0.5rem 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 20px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .levelTitle {
+    font-size: 2rem;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.5rem;
+  }
+  
+  .sectionTabs {
+    flex-direction: column;
+  }
+  
+  .tab {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+  
+  .tabText {
+    font-size: 0.8rem;
+  }
+  
+  .cardHeader {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+  
+  .navigationFooter {
+    flex-direction: column;
+    text-align: center;
+  }
+  
+  .levelNavigation {
+    flex-direction: column;
+  }
 }
 .curriculum h2 {
   color: var(--text);
