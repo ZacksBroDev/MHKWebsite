@@ -115,6 +115,7 @@ function Level1() {
   };
 
   return (
+    <>
     <div className={`${css.curriculum} ${css.modernLayout}`}>
       {/* Header Section */}
       <div className={css.curriculumHeader}>
@@ -219,6 +220,7 @@ function Level1() {
         </div>
       </div>
     </div>
+    <div>
       <h1>Level 1</h1>
       <h2>Forms</h2>
       <div className={css.level}>
