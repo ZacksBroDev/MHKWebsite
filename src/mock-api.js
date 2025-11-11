@@ -390,7 +390,7 @@ const mockResponses = {
         level: 'Advanced'
       },
       { 
-        _id: '23', 
+        _id: '31', 
         title: 'Youth Leadership Training', 
         date: '2026-03-29', 
         time: '4:30 PM', 
@@ -398,9 +398,135 @@ const mockResponses = {
         description: 'Teaching young students leadership through martial arts',
         level: 'Youth'
       }
-    ] 
+
+      // Let me generate a comprehensive year-long schedule
+    ].concat(generateYearlyEvents())
   }
 };
+
+// Generate comprehensive yearly events (1700+ events)
+function generateYearlyEvents() {
+  const events = [];
+  let eventId = 32;
+  
+  // Event templates for different days of the week
+  const eventTemplates = {
+    monday: [
+      { title: "Beginner Karate", time: "6:00 PM", instructor: "Sensei Johnson", description: "Introduction to basic karate techniques", level: "Beginner" },
+      { title: "Advanced Sparring", time: "7:30 PM", instructor: "Sensei Williams", description: "Advanced sparring techniques and practice", level: "Advanced" },
+      { title: "Youth Martial Arts", time: "4:00 PM", instructor: "Sensei Davis", description: "Martial arts for children ages 8-14", level: "Youth" },
+      { title: "Adult Self-Defense", time: "8:30 PM", instructor: "Sensei Brown", description: "Practical self-defense techniques", level: "Adult" }
+    ],
+    tuesday: [
+      { title: "Weapons Training", time: "6:00 PM", instructor: "Master Chen", description: "Traditional weapons forms and techniques", level: "Intermediate" },
+      { title: "Forms Competition Prep", time: "5:00 PM", instructor: "Sensei Johnson", description: "Preparation for upcoming tournaments", level: "Competition" },
+      { title: "Little Dragons", time: "4:30 PM", instructor: "Sensei Davis", description: "Martial arts for ages 4-7", level: "Little Dragons" },
+      { title: "Fitness Kickboxing", time: "7:00 PM", instructor: "Sensei Brown", description: "High-energy cardio kickboxing", level: "Fitness" }
+    ],
+    wednesday: [
+      { title: "MMA Fundamentals", time: "7:30 PM", instructor: "Sensei Williams", description: "Mixed martial arts basics", level: "MMA" },
+      { title: "Women's Self-Defense", time: "8:00 PM", instructor: "Sensei Johnson", description: "Self-defense specifically for women", level: "Women" },
+      { title: "Traditional Karate", time: "6:00 PM", instructor: "Master Chen", description: "Classical karate forms and philosophy", level: "Traditional" },
+      { title: "Teen Leadership", time: "5:00 PM", instructor: "Sensei Davis", description: "Leadership training for teen students", level: "Teen" }
+    ],
+    thursday: [
+      { title: "Competition Team", time: "6:00 PM", instructor: "Master Chen", description: "Training for tournament competitors", level: "Competition" },
+      { title: "Cardio Combat", time: "7:00 PM", instructor: "Sensei Brown", description: "High-intensity martial arts fitness", level: "Fitness" },
+      { title: "Family Class", time: "5:30 PM", instructor: "Sensei Johnson", description: "Parents and children train together", level: "Family" },
+      { title: "Street Defense", time: "7:30 PM", instructor: "Sensei Williams", description: "Real-world self-defense scenarios", level: "Adult" }
+    ],
+    friday: [
+      { title: "Open Mat Sparring", time: "6:00 PM", instructor: "All Instructors", description: "Open sparring session for all levels", level: "All Levels" },
+      { title: "Adult Tournament Team", time: "8:00 PM", instructor: "Master Chen", description: "Advanced tournament preparation", level: "Advanced" },
+      { title: "After School Program", time: "3:30 PM", instructor: "Sensei Davis", description: "After school martial arts program", level: "Youth" },
+      { title: "Belt Testing Prep", time: "7:00 PM", instructor: "Sensei Johnson", description: "Preparation for upcoming belt tests", level: "Testing" }
+    ],
+    saturday: [
+      { title: "Saturday Morning Warriors", time: "9:00 AM", instructor: "Sensei Johnson", description: "Energetic morning training session", level: "All Levels" },
+      { title: "Advanced Forms", time: "10:30 AM", instructor: "Master Chen", description: "Complex kata and forms training", level: "Advanced" },
+      { title: "Family Self-Defense", time: "11:30 AM", instructor: "Sensei Williams", description: "Self-defense for the whole family", level: "Family" },
+      { title: "Board Breaking Workshop", time: "1:00 PM", instructor: "Sensei Brown", description: "Learn proper board breaking techniques", level: "Workshop" },
+      { title: "Sparring Tournament", time: "2:00 PM", instructor: "All Instructors", description: "Monthly sparring competition", level: "Tournament" }
+    ],
+    sunday: [
+      { title: "Sunday Fundamentals", time: "10:00 AM", instructor: "Sensei Johnson", description: "Back to basics training", level: "Fundamentals" },
+      { title: "Youth Leadership Workshop", time: "11:30 AM", instructor: "Sensei Davis", description: "Leadership development for young students", level: "Youth" },
+      { title: "Philosophy & History", time: "1:00 PM", instructor: "Master Chen", description: "Martial arts philosophy and history", level: "Education" },
+      { title: "Forms Seminar", time: "2:00 PM", instructor: "Master Chen", description: "In-depth forms instruction", level: "Seminar" }
+    ]
+  };
+
+  // Special events throughout the year
+  const specialEvents = [
+    { title: "New Year Kick-off", date: "2026-01-01", time: "10:00 AM", instructor: "Master Chen", description: "Start the new year with martial arts", level: "Special" },
+    { title: "Valentine's Day Couples Class", date: "2026-02-14", time: "7:00 PM", instructor: "Sensei Johnson", description: "Martial arts for couples", level: "Special" },
+    { title: "Spring Break Camp", date: "2026-03-15", time: "9:00 AM", instructor: "All Instructors", description: "Week-long martial arts camp", level: "Camp" },
+    { title: "Easter Egg Hunt Tournament", date: "2026-04-20", time: "2:00 PM", instructor: "All Instructors", description: "Fun tournament with prizes", level: "Special" },
+    { title: "Mother's Day Self-Defense", date: "2026-05-11", time: "1:00 PM", instructor: "Sensei Williams", description: "Self-defense workshop for moms", level: "Special" },
+    { title: "Father's Day Sparring", date: "2026-06-15", time: "2:00 PM", instructor: "Master Chen", description: "Father-child sparring session", level: "Special" },
+    { title: "Independence Day Demo", date: "2026-07-04", time: "11:00 AM", instructor: "All Instructors", description: "Public martial arts demonstration", level: "Demo" },
+    { title: "Back to School Prep", date: "2026-08-25", time: "4:00 PM", instructor: "Sensei Davis", description: "Get ready for school year", level: "Youth" },
+    { title: "Halloween Costume Tournament", date: "2026-10-31", time: "6:00 PM", instructor: "All Instructors", description: "Tournament in costume", level: "Special" },
+    { title: "Thanksgiving Gratitude Class", date: "2026-11-26", time: "10:00 AM", instructor: "Master Chen", description: "Give thanks through martial arts", level: "Special" },
+    { title: "Holiday Spectacular", date: "2026-12-20", time: "7:00 PM", instructor: "All Instructors", description: "Annual holiday performance", level: "Performance" }
+  ];
+
+  // Generate events for entire year
+  const startDate = new Date('2025-12-01');
+  const endDate = new Date('2026-12-31');
+  
+  for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
+    const dateStr = d.toISOString().split('T')[0];
+    const dayOfWeek = d.getDay(); // 0 = Sunday, 1 = Monday, etc.
+    
+    let dayName;
+    switch(dayOfWeek) {
+      case 0: dayName = 'sunday'; break;
+      case 1: dayName = 'monday'; break;
+      case 2: dayName = 'tuesday'; break;
+      case 3: dayName = 'wednesday'; break;
+      case 4: dayName = 'thursday'; break;
+      case 5: dayName = 'friday'; break;
+      case 6: dayName = 'saturday'; break;
+    }
+
+    // Check if it's a special event day
+    const specialEvent = specialEvents.find(event => event.date === dateStr);
+    if (specialEvent) {
+      events.push({
+        _id: (eventId++).toString(),
+        title: specialEvent.title,
+        date: dateStr,
+        time: specialEvent.time,
+        instructor: specialEvent.instructor,
+        description: specialEvent.description,
+        level: specialEvent.level
+      });
+    }
+
+    // Add regular scheduled classes for this day
+    const dayTemplates = eventTemplates[dayName];
+    if (dayTemplates) {
+      // Add 2-4 classes per day randomly
+      const numClasses = Math.floor(Math.random() * 3) + 2;
+      const selectedTemplates = dayTemplates.slice(0, numClasses);
+      
+      selectedTemplates.forEach(template => {
+        events.push({
+          _id: (eventId++).toString(),
+          title: template.title,
+          date: dateStr,
+          time: template.time,
+          instructor: template.instructor,
+          description: template.description,
+          level: template.level
+        });
+      });
+    }
+  }
+
+  return events;
+}
 
 // Mock fetch function
 const mockFetch = async (endpoint, options) => {
