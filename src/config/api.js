@@ -1,6 +1,6 @@
 // API Configuration - centralized endpoint definitions for frontend
-// Uses environment variable or defaults to production domain
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://www.mhktraining.com';
+// Uses environment variable or defaults to production domain (will fallback to mock API if unavailable)
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://www.mhktraining.com/api';
 
 // All API endpoints organized by feature
 export const API_ENDPOINTS = {

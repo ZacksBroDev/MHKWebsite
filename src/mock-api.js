@@ -1,7 +1,8 @@
 // Mock API for frontend-only deployment
 // This disables backend calls and provides mock responses
 
-const MOCK_MODE = false; // Set to false when backend is ready
+// Mock API Configuration - Set to true for frontend-only deployment
+const MOCK_MODE = true;
 
 const mockResponses = {
   login: { success: true, token: 'mock-token', user: { email: 'admin', role: 'admin' } },
