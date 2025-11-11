@@ -12,24 +12,7 @@ frontend:
         - echo "Dependencies installed successfully"
     build:
       commands:
-        - echo "=== AWS AMPLIFY DEBUG ==="
-        - echo "Current working directory:"
-        - pwd
-        - echo "=== All JSX files in project ==="
-        - find . -name "*.jsx" -type f | sort
-        - echo "=== src/pages structure ==="
-        - ls -la src/pages/
-        - echo "=== Home.jsx search ==="
-        - find . -name "Home.jsx" -type f
-        - echo "=== Case variations ==="
-        - find . -name "*ome.*" -type f
-        - echo "=== Direct path check ==="
-        - ls -la src/pages/home/Home.jsx || echo "FILE NOT FOUND"
-        - echo "=== Running build ==="
         - npm run build
-        - echo "Build completed successfully"
-        - echo "Checking dist directory:"
-        - ls -la dist/
   artifacts:
     baseDirectory: dist
     files:
