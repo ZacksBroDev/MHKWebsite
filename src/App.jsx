@@ -11,17 +11,17 @@ import ErrorBoundary from './components/ErrorBoundary';
 import AuthForm from './components/auth/AuthForm/AuthForm';
 
 // Lazy-loaded pages for code splitting and performance
-const Home = lazy(() => import('./pages/home/Home.jsx'));
-const Schedule = lazy(() => import('./pages/schedule/Schedule.jsx'));
-const NotFound = lazy(() => import('./pages/notFoundPage/NotFound.jsx'));
-const Contact = lazy(() => import('./pages/contact/Contact.jsx'));
-const Level1 = lazy(() => import('./pages/fightStyle/level1/Level1.jsx'));
-const Level2 = lazy(() => import('./pages/fightStyle/level2/Level2.jsx'));
-const Level3 = lazy(() => import('./pages/fightStyle/level3/Level3.jsx'));
-const Conditional = lazy(() => import('./pages/fightStyle/blackBelts/conditionals/Conditionals.jsx'));
-const Deg1 = lazy(() => import('./pages/fightStyle/blackBelts/deg1/Deg1.jsx'));
-const Deg2 = lazy(() => import('./pages/fightStyle/blackBelts/deg2/Deg2.jsx'));
-const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard.jsx'));
+const Home = lazy(() => import('./pages/home/Home'));
+const Schedule = lazy(() => import('./pages/schedule/Schedule'));
+const NotFound = lazy(() => import('./pages/notFoundPage/NotFound'));
+const Contact = lazy(() => import('./pages/contact/Contact'));
+const Level1 = lazy(() => import('./pages/fightStyle/level1/Level1'));
+const Level2 = lazy(() => import('./pages/fightStyle/level2/Level2'));
+const Level3 = lazy(() => import('./pages/fightStyle/level3/Level3'));
+const Conditional = lazy(() => import('./pages/fightStyle/blackBelts/conditionals/Conditionals'));
+const Deg1 = lazy(() => import('./pages/fightStyle/blackBelts/deg1/Deg1'));
+const Deg2 = lazy(() => import('./pages/fightStyle/blackBelts/deg2/Deg2'));
+const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
 
 // Main application content with authentication logic
 const AppContent = () => {
