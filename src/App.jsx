@@ -10,18 +10,21 @@ import ProtectedRoute from './components/auth/ProtectedRoute/ProtectedRoute';
 import ErrorBoundary from './components/ErrorBoundary';
 import AuthForm from './components/auth/AuthForm/AuthForm';
 
+// Test import to debug AWS issue
+import TestPage from './TestPage.jsx';
+
 // Direct imports for debugging
-import Home from './pages/home/Home.jsx';
-import Schedule from './pages/schedule/Schedule.jsx';
-import NotFound from './pages/notFoundPage/NotFound.jsx';
-import Contact from './pages/contact/Contact.jsx';
-import Level1 from './pages/fightStyle/level1/Level1.jsx';
-import Level2 from './pages/fightStyle/level2/Level2.jsx';
-import Level3 from './pages/fightStyle/level3/Level3.jsx';
-import Conditional from './pages/fightStyle/blackBelts/conditionals/Conditionals.jsx';
-import Deg1 from './pages/fightStyle/blackBelts/deg1/Deg1.jsx';
-import Deg2 from './pages/fightStyle/blackBelts/deg2/Deg2.jsx';
-import AdminDashboard from './pages/admin/AdminDashboard.jsx';
+// import Home from './pages/home/Home.jsx';
+// import Schedule from './pages/schedule/Schedule.jsx';
+// import NotFound from './pages/notFoundPage/NotFound.jsx';
+// import Contact from './pages/contact/Contact.jsx';
+// import Level1 from './pages/fightStyle/level1/Level1.jsx';
+// import Level2 from './pages/fightStyle/level2/Level2.jsx';
+// import Level3 from './pages/fightStyle/level3/Level3.jsx';
+// import Conditional from './pages/fightStyle/blackBelts/conditionals/Conditionals.jsx';
+// import Deg1 from './pages/fightStyle/blackBelts/deg1/Deg1.jsx';
+// import Deg2 from './pages/fightStyle/blackBelts/deg2/Deg2.jsx';
+// import AdminDashboard from './pages/admin/AdminDashboard.jsx';
 
 // Main application content with authentication logic
 const AppContent = () => {
@@ -118,33 +121,7 @@ const AppContent = () => {
       <NavBar />
       <main>
           <Routes>
-            {/* Home routes - both root and /home lead to Home component */}
-            <Route path="/" element={<Home />} />
-            <Route path="/home" element={<Home />} />
-            
-            {/* Public pages */}
-            <Route path="/schedule" element={<Schedule />} />
-            <Route path="/contact" element={<Contact />} />
-            
-            {/* Protected admin route */}
-            <Route path="/admin" element={
-              <ProtectedRoute requiredRole="admin">
-                <AdminDashboard />
-              </ProtectedRoute>
-            } />
-            
-            {/* Fighting style curriculum pages */}
-            <Route path="/level1" element={<Level1 />} />
-            <Route path="/level2" element={<Level2 />} />
-            <Route path="/level3" element={<Level3 />} />
-            
-            {/* Black belt curriculum pages */}
-            <Route path="/conditionals" element={<Conditional />} />
-            <Route path="/deg1" element={<Deg1 />} />
-            <Route path="/deg2" element={<Deg2 />} />
-            
-            {/* 404 fallback */}
-            <Route path="*" element={<NotFound />} />
+            <Route path="*" element={<TestPage />} />
           </Routes>
       </main>
       <Footer />
