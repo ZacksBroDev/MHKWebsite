@@ -17,6 +17,12 @@ frontend:
         - pwd
         - echo "Listing files:"
         - ls -la
+        - echo "Checking src directory:"
+        - ls -la src/
+        - echo "Checking src/pages directory:"
+        - ls -la src/pages/
+        - echo "Checking src/pages/home directory:"
+        - ls -la src/pages/home/
         - echo "Running build command..."
         - npm run build
         - echo "Build completed successfully"
