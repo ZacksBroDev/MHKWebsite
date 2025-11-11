@@ -66,9 +66,9 @@ const userSchema = new mongoose.Schema(
   }
 );
 
-// Index for better query performance
-userSchema.index({ email: 1 });
-userSchema.index({ username: 1 });
+// Remove duplicate indexes to fix warnings
+// userSchema.index({ email: 1 });     // Already defined with unique: true
+// userSchema.index({ username: 1 });  // Already defined with unique: true
 userSchema.index({ role: 1 });
 
 export default mongoose.model("User", userSchema);
