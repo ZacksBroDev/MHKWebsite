@@ -1,5 +1,5 @@
 // MHK Karate Main App - React SPA with authentication and routing
-import React, { Suspense, lazy } from 'react';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { AuthProvider, useAuth } from './contexts/AuthContext';
 
@@ -10,18 +10,18 @@ import ProtectedRoute from './components/auth/ProtectedRoute/ProtectedRoute';
 import ErrorBoundary from './components/ErrorBoundary';
 import AuthForm from './components/auth/AuthForm/AuthForm';
 
-// Lazy-loaded pages for code splitting and performance
-const Home = lazy(() => import('./pages/home/Home'));
-const Schedule = lazy(() => import('./pages/schedule/Schedule'));
-const NotFound = lazy(() => import('./pages/notFoundPage/NotFound'));
-const Contact = lazy(() => import('./pages/contact/Contact'));
-const Level1 = lazy(() => import('./pages/fightStyle/level1/Level1'));
-const Level2 = lazy(() => import('./pages/fightStyle/level2/Level2'));
-const Level3 = lazy(() => import('./pages/fightStyle/level3/Level3'));
-const Conditional = lazy(() => import('./pages/fightStyle/blackBelts/conditionals/Conditionals'));
-const Deg1 = lazy(() => import('./pages/fightStyle/blackBelts/deg1/Deg1'));
-const Deg2 = lazy(() => import('./pages/fightStyle/blackBelts/deg2/Deg2'));
-const AdminDashboard = lazy(() => import('./pages/admin/AdminDashboard'));
+// Direct imports for debugging
+import Home from './pages/home/Home.jsx';
+import Schedule from './pages/schedule/Schedule.jsx';
+import NotFound from './pages/notFoundPage/NotFound.jsx';
+import Contact from './pages/contact/Contact.jsx';
+import Level1 from './pages/fightStyle/level1/Level1.jsx';
+import Level2 from './pages/fightStyle/level2/Level2.jsx';
+import Level3 from './pages/fightStyle/level3/Level3.jsx';
+import Conditional from './pages/fightStyle/blackBelts/conditionals/Conditionals.jsx';
+import Deg1 from './pages/fightStyle/blackBelts/deg1/Deg1.jsx';
+import Deg2 from './pages/fightStyle/blackBelts/deg2/Deg2.jsx';
+import AdminDashboard from './pages/admin/AdminDashboard.jsx';
 
 // Main application content with authentication logic
 const AppContent = () => {
@@ -117,39 +117,6 @@ const AppContent = () => {
     <ErrorBoundary>
       <NavBar />
       <main>
-        <Suspense 
-          fallback={
-            <div style={{
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-              height: '60vh',
-              fontSize: '1.1rem',
-              flexDirection: 'column'
-            }}>
-              <div style={{
-                textAlign: 'center',
-                padding: '30px',
-                backgroundColor: 'white',
-                borderRadius: '10px',
-                boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                maxWidth: '300px'
-              }}>
-                <div style={{
-                  width: '40px',
-                  height: '40px',
-                  border: '4px solid #f3f3f3',
-                  borderTop: '4px solid #667eea',
-                  borderRadius: '50%',
-                  animation: 'spin 1s linear infinite',
-                  margin: '0 auto 15px'
-                }}></div>
-                <p style={{ margin: 0, color: '#666' }}>Loading page...</p>
-                <small style={{ color: '#999' }}>Optimizing for performance</small>
-              </div>
-            </div>
-          }
-        >
           <Routes>
             {/* Home routes - both root and /home lead to Home component */}
             <Route path="/" element={<Home />} />
@@ -179,7 +146,6 @@ const AppContent = () => {
             {/* 404 fallback */}
             <Route path="*" element={<NotFound />} />
           </Routes>
-        </Suspense>
       </main>
       <Footer />
     </ErrorBoundary>
