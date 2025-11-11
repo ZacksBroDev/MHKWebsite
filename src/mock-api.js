@@ -409,6 +409,13 @@ function generateYearlyEvents() {
   const events = [];
   let eventId = 32;
   
+  // Seeded random number generator for deterministic results
+  let seed = 12345; // Fixed seed for reproducible results
+  function seededRandom() {
+    seed = (seed * 16807) % 2147483647;
+    return (seed - 1) / 2147483646;
+  }
+  
   // Event templates for different days of the week
   const eventTemplates = {
     monday: [
@@ -471,8 +478,8 @@ function generateYearlyEvents() {
     { title: "Holiday Spectacular", date: "2026-12-20", time: "7:00 PM", instructor: "All Instructors", description: "Annual holiday performance", level: "Performance" }
   ];
 
-  // Generate events for entire year
-  const startDate = new Date('2025-12-01');
+  // Generate events for entire year (starting January 2026 to avoid December 2025 duplicates)
+  const startDate = new Date('2026-01-01');
   const endDate = new Date('2026-12-31');
   
   for (let d = new Date(startDate); d <= endDate; d.setDate(d.getDate() + 1)) {
@@ -507,8 +514,8 @@ function generateYearlyEvents() {
     // Add regular scheduled classes for this day
     const dayTemplates = eventTemplates[dayName];
     if (dayTemplates) {
-      // Add 2-4 classes per day randomly
-      const numClasses = Math.floor(Math.random() * 3) + 2;
+      // Add 2-4 classes per day using deterministic random
+      const numClasses = Math.floor(seededRandom() * 3) + 2;
       const selectedTemplates = dayTemplates.slice(0, numClasses);
       
       selectedTemplates.forEach(template => {
