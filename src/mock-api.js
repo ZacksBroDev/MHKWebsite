@@ -1,7 +1,7 @@
 // Mock API for frontend-only deployment
 // This disables backend calls and provides mock responses
 
-const MOCK_MODE = true; // Set to false when backend is ready
+const MOCK_MODE = false; // Set to false when backend is ready
 
 const mockResponses = {
   login: { success: true, token: 'mock-token', user: { email: 'admin', role: 'admin' } },
@@ -28,9 +28,72 @@ const mockResponses = {
   events: { 
     success: true, 
     events: [
-      // November 2025 Events
+      // November 2025 Events - Full Month Schedule
       { 
         _id: '1', 
+        title: 'Beginner Karate Class', 
+        date: '2025-11-01', 
+        time: '6:00 PM', 
+        instructor: 'Sensei Mike',
+        description: 'Introduction to martial arts fundamentals and basic techniques',
+        level: 'Beginner'
+      },
+      { 
+        _id: '2', 
+        title: 'Youth Karate', 
+        date: '2025-11-02', 
+        time: '4:00 PM', 
+        instructor: 'Sensei Tom',
+        description: 'Karate class designed specifically for children ages 6-12',
+        level: 'Youth'
+      },
+      { 
+        _id: '3', 
+        title: 'Advanced Training', 
+        date: '2025-11-04', 
+        time: '7:00 PM', 
+        instructor: 'Sensei Sarah',
+        description: 'Advanced techniques, sparring, and form practice',
+        level: 'Advanced'
+      },
+      { 
+        _id: '4', 
+        title: 'Self-Defense Workshop', 
+        date: '2025-11-05', 
+        time: '6:30 PM', 
+        instructor: 'Sensei Lisa',
+        description: 'Learn practical self-defense techniques and situational awareness',
+        level: 'All Levels'
+      },
+      { 
+        _id: '5', 
+        title: 'Family Karate Class', 
+        date: '2025-11-06', 
+        time: '4:00 PM', 
+        instructor: 'Sensei Mike',
+        description: 'Fun karate class for parents and children to train together',
+        level: 'Family'
+      },
+      { 
+        _id: '6', 
+        title: 'Beginner Karate Class', 
+        date: '2025-11-08', 
+        time: '6:00 PM', 
+        instructor: 'Sensei Mike',
+        description: 'Basic stances, blocks, and fundamental techniques',
+        level: 'Beginner'
+      },
+      { 
+        _id: '7', 
+        title: 'Youth Leadership Training', 
+        date: '2025-11-09', 
+        time: '4:30 PM', 
+        instructor: 'Sensei Tom',
+        description: 'Teaching young students leadership through martial arts',
+        level: 'Youth'
+      },
+      { 
+        _id: '8', 
         title: 'Beginner Karate Class', 
         date: '2025-11-11', 
         time: '6:00 PM', 
@@ -39,7 +102,7 @@ const mockResponses = {
         level: 'Beginner'
       },
       { 
-        _id: '2', 
+        _id: '9', 
         title: 'Advanced Training', 
         date: '2025-11-11', 
         time: '7:00 PM', 
@@ -48,7 +111,7 @@ const mockResponses = {
         level: 'Advanced'
       },
       { 
-        _id: '3', 
+        _id: '10', 
         title: 'Youth Karate', 
         date: '2025-11-12', 
         time: '5:00 PM', 
@@ -57,7 +120,7 @@ const mockResponses = {
         level: 'Youth'
       },
       { 
-        _id: '4', 
+        _id: '11', 
         title: 'Black Belt Testing', 
         date: '2025-11-13', 
         time: '10:00 AM', 
@@ -66,7 +129,7 @@ const mockResponses = {
         level: 'Testing'
       },
       { 
-        _id: '5', 
+        _id: '12', 
         title: 'Self-Defense Workshop', 
         date: '2025-11-14', 
         time: '6:30 PM', 
@@ -75,7 +138,7 @@ const mockResponses = {
         level: 'All Levels'
       },
       { 
-        _id: '6', 
+        _id: '13', 
         title: 'Kata Competition Prep', 
         date: '2025-11-15', 
         time: '8:00 PM', 
@@ -84,7 +147,7 @@ const mockResponses = {
         level: 'Intermediate'
       },
       { 
-        _id: '7', 
+        _id: '14', 
         title: 'Family Karate Class', 
         date: '2025-11-16', 
         time: '4:00 PM', 
@@ -93,7 +156,7 @@ const mockResponses = {
         level: 'Family'
       },
       { 
-        _id: '8', 
+        _id: '15', 
         title: 'Sparring Practice', 
         date: '2025-11-18', 
         time: '7:30 PM', 
@@ -101,10 +164,100 @@ const mockResponses = {
         description: 'Controlled sparring practice with protective gear',
         level: 'Intermediate'
       },
+      { 
+        _id: '16', 
+        title: 'Women\'s Self-Defense', 
+        date: '2025-11-19', 
+        time: '7:00 PM', 
+        instructor: 'Sensei Lisa',
+        description: 'Self-defense techniques specifically for women',
+        level: 'Women Only'
+      },
+      { 
+        _id: '17', 
+        title: 'Youth Karate', 
+        date: '2025-11-20', 
+        time: '5:00 PM', 
+        instructor: 'Sensei Tom',
+        description: 'Fun and engaging karate for kids',
+        level: 'Youth'
+      },
+      { 
+        _id: '18', 
+        title: 'Advanced Weapons Training', 
+        date: '2025-11-21', 
+        time: '7:00 PM', 
+        instructor: 'Sensei Sarah',
+        description: 'Traditional weapons forms including bo staff and nunchaku',
+        level: 'Advanced'
+      },
+      { 
+        _id: '19', 
+        title: 'Beginner Karate Class', 
+        date: '2025-11-22', 
+        time: '6:00 PM', 
+        instructor: 'Sensei Mike',
+        description: 'Fundamentals of karate for new students',
+        level: 'Beginner'
+      },
+      { 
+        _id: '20', 
+        title: 'Family Fun Tournament', 
+        date: '2025-11-23', 
+        time: '2:00 PM', 
+        instructor: 'All Instructors',
+        description: 'Thanksgiving weekend family tournament and games',
+        level: 'Family'
+      },
+      { 
+        _id: '21', 
+        title: 'Meditation and Mindfulness', 
+        date: '2025-11-25', 
+        time: '6:00 PM', 
+        instructor: 'Master Chen',
+        description: 'Mental training and meditation techniques',
+        level: 'All Levels'
+      },
+      { 
+        _id: '22', 
+        title: 'Youth Karate', 
+        date: '2025-11-26', 
+        time: '5:00 PM', 
+        instructor: 'Sensei Tom',
+        description: 'Post-Thanksgiving karate practice for kids',
+        level: 'Youth'
+      },
+      { 
+        _id: '23', 
+        title: 'Advanced Training', 
+        date: '2025-11-27', 
+        time: '7:00 PM', 
+        instructor: 'Sensei Sarah',
+        description: 'Advanced techniques and conditioning',
+        level: 'Advanced'
+      },
+      { 
+        _id: '24', 
+        title: 'Pre-Holiday Sparring', 
+        date: '2025-11-29', 
+        time: '7:30 PM', 
+        instructor: 'Sensei Sarah',
+        description: 'Last sparring session before holiday break',
+        level: 'Intermediate'
+      },
+      { 
+        _id: '25', 
+        title: 'Month-End Promotion Prep', 
+        date: '2025-11-30', 
+        time: '6:00 PM', 
+        instructor: 'Master Chen',
+        description: 'Final preparation for December belt testing',
+        level: 'All Levels'
+      },
 
       // December 2025 Events
       { 
-        _id: '9', 
+        _id: '26', 
         title: 'Holiday Tournament', 
         date: '2025-12-07', 
         time: '10:00 AM', 
@@ -113,7 +266,7 @@ const mockResponses = {
         level: 'Tournament'
       },
       { 
-        _id: '10', 
+        _id: '27', 
         title: 'Beginner Karate Class', 
         date: '2025-12-09', 
         time: '6:00 PM', 
@@ -122,7 +275,7 @@ const mockResponses = {
         level: 'Beginner'
       },
       { 
-        _id: '11', 
+        _id: '28', 
         title: 'Advanced Weapons Training', 
         date: '2025-12-14', 
         time: '7:00 PM', 
@@ -131,7 +284,7 @@ const mockResponses = {
         level: 'Advanced'
       },
       { 
-        _id: '12', 
+        _id: '29', 
         title: 'Year-End Promotion Ceremony', 
         date: '2025-12-21', 
         time: '6:00 PM', 
