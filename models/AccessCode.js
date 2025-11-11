@@ -51,8 +51,8 @@ const accessCodeSchema = new mongoose.Schema(
   }
 );
 
-// Index for better query performance
-accessCodeSchema.index({ code: 1 });
+// Remove duplicate indexes to fix warnings
+// accessCodeSchema.index({ code: 1 });     // Already defined with unique: true
 accessCodeSchema.index({ isActive: 1 });
 accessCodeSchema.index({ createdBy: 1 });
 

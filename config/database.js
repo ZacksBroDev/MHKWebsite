@@ -8,7 +8,11 @@ dotenv.config(); // Load environment variables
 const connectDB = async () => {
   try {
     const conn = await mongoose.connect(process.env.MONGODB_URI);
-    console.log(`MongoDB Connected: ${conn.connection.host}`);
+    if (process.env.NODE_ENV === 'production') {
+      console.log('Database connected');
+    } else {
+      console.log(`MongoDB Connected: ${conn.connection.host}`);
+    }
   } catch (error) {
     console.error("Error connecting to MongoDB:", error);
     process.exit(1); // Exit process if database connection fails
