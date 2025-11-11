@@ -1,6 +1,6 @@
 // API Configuration - centralized endpoint definitions for frontend
-// Uses environment variable or defaults to localhost for development
-const API_BASE_URL = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+// Uses environment variable or defaults to production domain
+const API_BASE_URL = import.meta.env.VITE_API_URL || 'https://www.mhktraining.com';
 
 // All API endpoints organized by feature
 export const API_ENDPOINTS = {
