@@ -19,9 +19,9 @@ const Footer = () => {
         <div className="footer-section">
           <h4>Follow Us</h4>
           <div className="social-links">
-            <a href="#" aria-label="Facebook">📘</a>
-            <a href="#" aria-label="Instagram">📷</a>
-            <a href="#" aria-label="Twitter">🐦</a>
+            <a href="https://www.facebook.com/MHKThornton/" aria-label="Facebook">📘</a>
+            <a href="https://www.instagram.com/explore/locations/49737510/mile-high-karate/" aria-label="Instagram">📷</a>
+            <a href="https://x.com/MileHighKarate" aria-label="Twitter">🐦</a>
           </div>
         </div>
       </div>
