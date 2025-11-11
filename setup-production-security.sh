@@ -1,0 +1,31 @@
+#!/bin/bash
+# Production Security Setup Script for MHK Karate Website
+
+echo "🔐 MHK Production Security Setup"
+echo "================================"
+
+echo "✅ JWT_SECRET: Secure 128-character key generated"
+echo "✅ ADMIN_SECRET: Secure 64-character key generated"
+
+echo ""
+echo "📋 REQUIRED: Update these values in .env.prod:"
+echo ""
+echo "1. 🗃️ Database:"
+echo "   MONGO_ROOT_PASSWORD=your_secure_mongo_password"
+echo ""
+echo "2. 🌐 Domain:"
+echo "   ALLOWED_ORIGINS=https://yourdomain.com"
+echo "   FRONTEND_URL=https://yourdomain.com"
+echo ""
+echo "3. 📧 Email:"
+echo "   EMAIL_USER=contact@yourdomain.com"
+echo "   EMAIL_APP_PASSWORD=your_gmail_app_password"
+echo ""
+echo "4. 🔑 Access Codes:"
+echo "   DEFAULT_ADMIN_CODE=your_production_admin_code"
+echo "   DEFAULT_ACCESS_CODE=your_production_access_code"
+echo ""
+echo "🚨 NEVER commit .env.prod to version control!"
+echo "🔒 Keep these keys secret and secure!"
+echo ""
+echo "Ready for production deployment with secure JWT keys! 🥋"

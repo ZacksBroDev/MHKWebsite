@@ -77,7 +77,9 @@ const initializeDefaultAccessCode = async () => {
         isActive: true,
       });
       await defaultCode.save();
-      console.log("Default access code created:", defaultCode.code);
+      if (process.env.NODE_ENV !== 'production') {
+        console.log("Default access code created:", defaultCode.code);
+      }
     }
   } catch (error) {
     console.error("Error initializing default access code:", error);
@@ -1150,12 +1152,17 @@ app.get("/api/test", (req, res) => {
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`🚀 Server running on port ${PORT}`);
-  console.log(`🌐 MongoDB connected`);
-  console.log(`🔐 Admin secret: ${ADMIN_SECRET}`);
-  console.log(
-    `📝 Default access code: ${
-      process.env.DEFAULT_ACCESS_CODE || "MARTIAL2025"
-    }`
-  );
+  if (process.env.NODE_ENV === 'production') {
+    console.log(`Server started on port ${PORT}`);
+  } else {
+    // Development logging with emojis and details
+    console.log(`🚀 Server running on port ${PORT}`);
+    console.log(`🌐 MongoDB connected`);
+    console.log(`🔐 Admin secret: ${ADMIN_SECRET}`);
+    console.log(
+      `📝 Default access code: ${
+        process.env.DEFAULT_ACCESS_CODE || "MARTIAL2025"
+      }`
+    );
+  }
 });
