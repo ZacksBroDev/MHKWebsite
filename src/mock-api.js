@@ -31,7 +31,7 @@ const mockResponses = {
       { 
         _id: '1', 
         title: 'Beginner Karate Class', 
-        date: '2025-11-12', 
+        date: '2025-11-11', 
         time: '6:00 PM', 
         instructor: 'Sensei Mike',
         description: 'Introduction to martial arts fundamentals and basic techniques',
@@ -40,7 +40,7 @@ const mockResponses = {
       { 
         _id: '2', 
         title: 'Advanced Training', 
-        date: '2025-11-14', 
+        date: '2025-11-11', 
         time: '7:00 PM', 
         instructor: 'Sensei Sarah',
         description: 'Advanced techniques, sparring, and form practice',
@@ -49,7 +49,7 @@ const mockResponses = {
       { 
         _id: '3', 
         title: 'Youth Karate', 
-        date: '2025-11-15', 
+        date: '2025-11-12', 
         time: '5:00 PM', 
         instructor: 'Sensei Tom',
         description: 'Karate class designed specifically for children ages 6-12',
@@ -58,11 +58,47 @@ const mockResponses = {
       { 
         _id: '4', 
         title: 'Black Belt Testing', 
-        date: '2025-11-20', 
+        date: '2025-11-13', 
         time: '10:00 AM', 
         instructor: 'Master Chen',
         description: 'Black belt promotion testing and evaluation',
         level: 'Testing'
+      },
+      { 
+        _id: '5', 
+        title: 'Self-Defense Workshop', 
+        date: '2025-11-14', 
+        time: '6:30 PM', 
+        instructor: 'Sensei Lisa',
+        description: 'Learn practical self-defense techniques and situational awareness',
+        level: 'All Levels'
+      },
+      { 
+        _id: '6', 
+        title: 'Kata Competition Prep', 
+        date: '2025-11-15', 
+        time: '8:00 PM', 
+        instructor: 'Master Chen',
+        description: 'Prepare for upcoming kata competitions with advanced form training',
+        level: 'Intermediate'
+      },
+      { 
+        _id: '7', 
+        title: 'Family Karate Class', 
+        date: '2025-11-16', 
+        time: '4:00 PM', 
+        instructor: 'Sensei Mike',
+        description: 'Fun karate class for parents and children to train together',
+        level: 'Family'
+      },
+      { 
+        _id: '8', 
+        title: 'Sparring Practice', 
+        date: '2025-11-18', 
+        time: '7:30 PM', 
+        instructor: 'Sensei Sarah',
+        description: 'Controlled sparring practice with protective gear',
+        level: 'Intermediate'
       }
     ] 
   }
