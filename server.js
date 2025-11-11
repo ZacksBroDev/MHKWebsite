@@ -10,7 +10,10 @@ import User from "./models/User.js"; // User data model
 import AccessCode from "./models/AccessCode.js"; // Access code model
 import Event from "./models/Event.js"; // Event data model
 import { sendAccessCodeSMS, sendWelcomeSMS } from "./services/smsService.js"; // SMS notifications
-import { sendPasswordResetEmail, sendWelcomeEmail } from "./services/emailService.js"; // Email service
+import {
+  sendPasswordResetEmail,
+  sendWelcomeEmail,
+} from "./services/emailService.js"; // Email service
 
 dotenv.config(); // Load environment variables
 
@@ -77,7 +80,7 @@ const initializeDefaultAccessCode = async () => {
         isActive: true,
       });
       await defaultCode.save();
-      if (process.env.NODE_ENV !== 'production') {
+      if (process.env.NODE_ENV !== "production") {
         console.log("Default access code created:", defaultCode.code);
       }
     }
@@ -90,25 +93,25 @@ const initializeDefaultAccessCode = async () => {
 initializeDefaultAccessCode();
 
 // Health check endpoint for Docker
-app.get('/health', async (req, res) => {
+app.get("/health", async (req, res) => {
   try {
     // Check database connection
-    const mongoose = await import('mongoose');
+    const mongoose = await import("mongoose");
     if (mongoose.default.connection.readyState !== 1) {
-      throw new Error('Database not connected');
+      throw new Error("Database not connected");
     }
-    
+
     res.status(200).json({
-      status: 'healthy',
+      status: "healthy",
       timestamp: new Date().toISOString(),
-      database: 'connected',
-      service: 'Mile High Karate API'
+      database: "connected",
+      service: "Mile High Karate API",
     });
   } catch (error) {
     res.status(503).json({
-      status: 'unhealthy',
+      status: "unhealthy",
       timestamp: new Date().toISOString(),
-      error: error.message
+      error: error.message,
     });
   }
 });
@@ -1069,34 +1072,41 @@ app.post("/api/forgot-password", async (req, res) => {
     const user = await User.findOne({ email });
     if (!user) {
       // Don't reveal if user exists or not for security
-      return res.json({ message: "If an account exists with this email, a password reset link has been sent." });
+      return res.json({
+        message:
+          "If an account exists with this email, a password reset link has been sent.",
+      });
     }
 
     // Generate reset token
     const resetToken = jwt.sign(
       { userId: user._id, email: user.email },
       JWT_SECRET,
-      { expiresIn: '1h' } // Token expires in 1 hour
+      { expiresIn: "1h" } // Token expires in 1 hour
     );
 
     // In a real app, you'd send an email here
     // For now, we'll log the reset link to console
-    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:5173';
+    const frontendUrl = process.env.FRONTEND_URL || "http://localhost:5173";
     const resetLink = `${frontendUrl}/?token=${resetToken}`;
-    
-    // Send password reset email
-    const emailResult = await sendPasswordResetEmail(user.email, resetLink, user.username);
-    
-    if (!emailResult.success) {
-      console.error('Failed to send reset email:', emailResult.error);
-    }
-    
-    res.json({ 
-      message: "If an account exists with this email, a password reset link has been sent.",
-      // Remove this in production - only for testing
-      resetLink: process.env.NODE_ENV === 'development' ? resetLink : undefined
-    });
 
+    // Send password reset email
+    const emailResult = await sendPasswordResetEmail(
+      user.email,
+      resetLink,
+      user.username
+    );
+
+    if (!emailResult.success) {
+      console.error("Failed to send reset email:", emailResult.error);
+    }
+
+    res.json({
+      message:
+        "If an account exists with this email, a password reset link has been sent.",
+      // Remove this in production - only for testing
+      resetLink: process.env.NODE_ENV === "development" ? resetLink : undefined,
+    });
   } catch (error) {
     console.error("Forgot password error:", error);
     res.status(500).json({ error: "Server error" });
@@ -1112,7 +1122,9 @@ app.post("/api/reset-password", async (req, res) => {
     }
 
     if (password.length < 6) {
-      return res.status(400).json({ error: "Password must be at least 6 characters long" });
+      return res
+        .status(400)
+        .json({ error: "Password must be at least 6 characters long" });
     }
 
     // Verify the reset token
@@ -1138,7 +1150,6 @@ app.post("/api/reset-password", async (req, res) => {
     console.log(`✅ Password reset successful for user: ${user.email}`);
 
     res.json({ message: "Password reset successful" });
-
   } catch (error) {
     console.error("Reset password error:", error);
     res.status(500).json({ error: "Server error" });
@@ -1152,7 +1163,7 @@ app.get("/api/test", (req, res) => {
 
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  if (process.env.NODE_ENV === 'production') {
+  if (process.env.NODE_ENV === "production") {
     console.log(`Server started on port ${PORT}`);
   } else {
     // Development logging with emojis and details
