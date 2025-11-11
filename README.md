@@ -1,192 +1,380 @@
-# 🥋 Mile High Karate - Complete Learning Platform
+# 🥋 Mile High Karate - Learning Platform# 🥋 Mile High Karate - Complete Learning Platform
 
-> **About:** A full-stack web application built to help karate students learn and prepare for belt tests. Built with React, Node.js, and MongoDB.
-> 
-> **Follow me:** [GitHub @ZacksBroDev](https://github.com/ZacksBroDev) | [LinkedIn](https://linkedin.com/in/zackaryzbrown) | [Instagram] (https://www.instagram.com/zackfullstack/) | [Youtube] (https://www.youtube.com/@ZackFullStack) 
 
+
+> **About:** A React-based web application built to help karate students learn and prepare for belt tests. Features comprehensive event scheduling and interactive learning modules.> **About:** A full-stack web application built to help karate students learn and prepare for belt tests. Built with React, Node.js, and MongoDB.
+
+> > 
+
+> **Live Site:** [https://www.mhktraining.com](https://www.mhktraining.com)> **Follow me:** [GitHub @ZacksBroDev](https://github.com/ZacksBroDev) | [LinkedIn](https://linkedin.com/in/zackaryzbrown) | [Instagram] (https://www.instagram.com/zackfullstack/) | [Youtube] (https://www.youtube.com/@ZackFullStack) 
+
+
+
+A comprehensive web application designed to help karate students learn, practice, and prepare for belt tests. This platform modernizes martial arts education with interactive learning modules and comprehensive event management.
 
 A comprehensive web application designed to help karate students learn, practice, and prepare for belt tests. This all-in-one platform modernizes martial arts education with interactive learning modules, event management, and community features.
 
 ## 🎯 Project Vision
 
+## 🎯 Project Vision
+
+Mile High Karate bridges traditional martial arts with modern technology, providing students with structured learning materials, practice resources, and comprehensive scheduling in one centralized platform.
+
 Mile High Karate bridges traditional martial arts with modern technology, providing students with structured learning materials, practice resources, and community engagement in one centralized platform.
 
 ### 🌟 Core Features
 
+### 🌟 Core Features
+
 - **📚 Interactive Learning System** - Belt-level progression from beginner to advanced
-- **📅 Event & Class Management** - Schedule training, seminars, and belt tests
-- **👥 Student Community** - Connect with practitioners and instructors
-- **🔐 Role-Based Access** - Students, Instructors, and Administrators
-- **📱 Fully Responsive** - Mobile-first design for all devices
+
+- **📅 Comprehensive Event Scheduling** - Year-round class schedules with 1700+ events- **📚 Interactive Learning System** - Belt-level progression from beginner to advanced
+
+- **🥋 Fighting Style Modules** - Detailed technique breakdowns by belt level- **📅 Event & Class Management** - Schedule training, seminars, and belt tests
+
+- **📱 Fully Responsive** - Mobile-first design for all devices- **👥 Student Community** - Connect with practitioners and instructors
+
+- **⚡ Fast Performance** - Frontend-only architecture for optimal speed- **🔐 Role-Based Access** - Students, Instructors, and Administrators
+
+- **🎨 Modern UI** - Clean, accessible design with tabbed navigation- **📱 Fully Responsive** - Mobile-first design for all devices
+
 - **⚡ Real-time Updates** - Live notifications and schedule changes
-- **🛡️ Enterprise Security** - JWT auth, password hashing, input validation
 
-## 🏗️ Technical Stack
+## 🏗️ Technical Stack- **🛡️ Enterprise Security** - JWT auth, password hashing, input validation
 
-**Frontend:** React 19, React Router, Vite, CSS Modules  
-**Backend:** Node.js, Express.js, MongoDB, Mongoose  
-**Infrastructure:** Docker, Nginx, JWT Authentication  
+
+
+**Frontend:** React 19, React Router, Vite  ## 🏗️ Technical Stack
+
+**Styling:** CSS Modules, Modern CSS  
+
+**Build:** Vite 6.3.5  **Frontend:** React 19, React Router, Vite, CSS Modules  
+
+**Hosting:** AWS Amplify  **Backend:** Node.js, Express.js, MongoDB, Mongoose  
+
+**Analytics:** Google Analytics 4  **Infrastructure:** Docker, Nginx, JWT Authentication  
+
 **Security:** bcrypt, CORS, Environment Variables
 
 ## 🚀 Quick Start
 
+## 🚀 Quick Start
+
+### Development
+
 ### Option 1: Docker (Recommended)
 
 ```bash
-# Clone and start
-git clone https://github.com/ZacksBroDev/MHKWebsite.git
+
+# Clone the repository```bash
+
+git clone https://github.com/bmxbro01/MHKWebsite.git# Clone and start
+
+cd MHKWebsitegit clone https://github.com/ZacksBroDev/MHKWebsite.git
+
 cd MHKWebsite
-cp .env.example .env
-docker compose up -d
 
-# Access at http://localhost
-```
+# Install dependenciescp .env.example .env
 
-### Option 2: Development
+npm installdocker compose up -d
 
-```bash
+
+
+# Start development server# Access at www.mhktraining/com
+
+npm run dev```
+
+
+
+# Build for production### Option 2: Development
+
+npm run build
+
+``````bash
+
 # Install dependencies
-npm install
 
-# Start servers
-npm run server:dev    # Backend (Terminal 1)
-npm run dev          # Frontend (Terminal 2)
+### Project Structurenpm install
 
-# Access at http://localhost:5173
-```
 
-### Authentication
 
-```bash
-POST /api/signup          # User registration
-POST /api/login           # User authentication
-POST /api/forgot-password # Password reset
-```
+```# Start servers
 
-### Events
+src/npm run server:dev    # Backend (Terminal 1)
 
-```bash
+├── components/          # Reusable UI componentsnpm run dev          # Frontend (Terminal 2)
+
+│   ├── auth/           # Authentication components
+
+│   ├── events/         # Event display components# Access at www.mhktraining/com
+
+│   ├── layout/         # Navigation and footer```
+
+│   └── ui/             # Basic UI elements
+
+├── pages/              # Main application pages### Authentication
+
+│   ├── fightStyle/     # Belt technique modules
+
+│   ├── schedule/       # Event scheduling```bash
+
+│   ├── contact/        # Contact formPOST /api/signup          # User registration
+
+│   └── admin/          # Admin dashboardPOST /api/login           # User authentication
+
+├── contexts/           # React contextsPOST /api/forgot-password # Password reset
+
+├── config/             # API configuration```
+
+└── mock-api.js         # Event data generation
+
+```### Events
+
+
+
+## 📚 Learning Modules```bash
+
 GET    /api/events           # List all events
-POST   /api/events           # Create event (admin)
+
+### Fighting Style ProgressionPOST   /api/events           # Create event (admin)
+
 POST   /api/events/:id/join  # Join event
-POST   /api/events/:id/leave # Leave event
-```
 
-### Administration
+- **Level 1** - White Belt techniques and fundamentalsPOST   /api/events/:id/leave # Leave event
 
-```bash
-GET    /api/users       # List users (admin)
-DELETE /api/users/:id   # Remove user (admin)
-GET    /api/profile     # User profile
-```
+- **Level 2** - Yellow Belt combinations and forms```
 
-## 👥 User Roles & Permissions
+- **Level 3** - Orange Belt advanced techniques with tabbed interface
 
-### Students
+- **Black Belt Degrees** - Advanced practitioner modules### Administration
 
-- ✅ Access belt-appropriate learning materials - with video instruction
-- ✅ Join/leave events and classes
 
-### Instructors
 
-- ✅ Create and manage content
+Each module includes:```bash
+
+- Detailed technique descriptionsGET    /api/users       # List users (admin)
+
+- Belt-specific requirementsDELETE /api/users/:id   # Remove user (admin)
+
+- Progressive skill buildingGET    /api/profile     # User profile
+
+- Interactive expandable cards```
+
+
+
+## 📅 Event System## 👥 User Roles & Permissions
+
+
+
+The platform features a comprehensive mock API generating over 1700 realistic events including:### Students
+
+
+
+- **Classes:** Beginner, Intermediate, Advanced, Black Belt- ✅ Access belt-appropriate learning materials - with video instruction
+
+- **Special Events:** Tournaments, Seminars, Workshops- ✅ Join/leave events and classes
+
+- **Testing:** Belt promotion ceremonies
+
+- **Community:** Open training sessions### Instructors
+
+
+
+### Event Features- ✅ Create and manage content
+
 - ✅ Schedule events
 
-### Administrators
+- Year-round scheduling (14 months of content)
 
-- ✅ Full system management
+- Deterministic generation for testing### Administrators
+
+- Realistic class distribution
+
+- Special event integration- ✅ Full system management
+
 - ✅ User account administration
-- ✅ Content moderation
+
+## 🎨 Design System- ✅ Content moderation
+
 - ✅ Analytics and reporting
+
+### Components
 
 ## 🛡️ Security Features
 
-- **Password Security** - bcrypt hashing with salt rounds
-- **JWT Authentication** - Secure token-based sessions
-- **Role-Based Access** - Granular permission system
-- **Input Validation** - Server-side data sanitization
+- **Responsive Navigation** - Mobile-friendly hamburger menu
+
+- **Event Cards** - Clean, informative event display- **Password Security** - bcrypt hashing with salt rounds
+
+- **Tabbed Interface** - Organized content presentation- **JWT Authentication** - Secure token-based sessions
+
+- **Loading States** - Smooth user experience- **Role-Based Access** - Granular permission system
+
+- **Error Boundaries** - Graceful error handling- **Input Validation** - Server-side data sanitization
+
 - **CORS Protection** - Cross-origin request security
-- **Environment Variables** - Sensitive data protection
 
-## 🏗️ Component Architecture
+### Styling- **Environment Variables** - Sensitive data protection
 
-### Frontend Structure
+
+
+- CSS Modules for component isolation## 🏗️ Component Architecture
+
+- Mobile-first responsive design
+
+- Consistent color scheme and typography### Frontend Structure
+
+- Accessibility-focused implementation
 
 ```
-src/
+
+## 🚀 Deploymentsrc/
+
 ├── components/
-│   ├── auth/           # Authentication components
+
+The application is deployed on AWS Amplify with:│   ├── auth/           # Authentication components
+
 │   ├── layout/         # Navigation and layout
-│   ├── events/         # Event management
-│   ├── ui/             # Reusable UI components
-│   └── pages/          # Main application pages
-├── contexts/           # React context providers
+
+- **Automatic builds** from main branch│   ├── events/         # Event management
+
+- **Custom domain** at www.mhktraining.com│   ├── ui/             # Reusable UI components
+
+- **SSL certificate** for secure connections│   └── pages/          # Main application pages
+
+- **Global CDN** for fast worldwide access├── contexts/           # React context providers
+
 ├── config/             # API configuration
-└── assets/             # Images and styles
+
+### Build Configuration└── assets/             # Images and styles
+
 ```
 
-### Key Components
+```javascript
 
-- **AuthForm** - Login/signup with validation
-- **EventCard** - Reusable event display
-- **NavBar** - Responsive navigation
-- **ProtectedRoute** - Route-level authentication
-- **AdminDashboard** - Complete admin interface
+// amplify.yml### Key Components
 
-## 🚢 Deployment
+version: 1
 
-### Environment Variables
+frontend:- **AuthForm** - Login/signup with validation
 
-```bash
-# Database
-MONGODB_URI=mongodb://localhost:27017/mhk_karate
+  phases:- **EventCard** - Reusable event display
+
+    preBuild:- **NavBar** - Responsive navigation
+
+      commands:- **ProtectedRoute** - Route-level authentication
+
+        - npm install- **AdminDashboard** - Complete admin interface
+
+    build:
+
+      commands:## 🚢 Deployment
+
+        - npm run build
+
+  artifacts:### Environment Variables
+
+    baseDirectory: dist
+
+    files:```bash
+
+      - '**/*'# Database
+
+```MONGODB_URI=mongodb://localhost:27017/mhk_karate
+
 MONGO_ROOT_PASSWORD=your-secure-password
 
+## 🔧 Development
+
 # Authentication
-JWT_SECRET=your-jwt-secret
+
+### Available ScriptsJWT_SECRET=your-jwt-secret
+
 ADMIN_SECRET=your-admin-secret
 
-# Email (Gmail)
-EMAIL_USER=your-email@gmail.com
+- `npm run dev` - Start development server
+
+- `npm run build` - Build for production# Email (Gmail)
+
+- `npm run preview` - Preview production buildEMAIL_USER=your-email@gmail.com
+
 EMAIL_APP_PASSWORD=your-app-password
 
+### Code Quality
+
 # Frontend
-FRONTEND_URL=https://yourdomain.com
-```
 
-### Production Deployment
+- ESLint configuration for React best practicesFRONTEND_URL=https://yourdomain.com
 
-```bash
+- Modern React features (Hooks, Context)```
+
+- Clean, maintainable component structure
+
+- Consistent naming conventions### Production Deployment
+
+
+
+## 📊 Analytics```bash
+
 # Build and deploy
-npm run build
-docker compose up -d
 
-# Recommended hosting
-Railway    # Easy Docker + Database ($5-10/month)
+Google Analytics 4 integration provides insights into:npm run build
+
+- User engagement and navigation patternsdocker compose up -d
+
+- Popular content and learning modules
+
+- Device and browser usage statistics# Recommended hosting
+
+- Performance metrics and optimization opportunitiesRailway    # Easy Docker + Database ($5-10/month)
+
 DigitalOcean App Platform ($12+/month)
-AWS ECS    # Enterprise scaling
+
+## 🤝 ContributingAWS ECS    # Enterprise scaling
+
 ```
 
-## 📊 Database Models
+1. Fork the repository
 
-### User Schema
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)## 📊 Database Models
+
+3. Commit your changes (`git commit -m 'Add some amazing feature'`)
+
+4. Push to the branch (`git push origin feature/amazing-feature`)### User Schema
+
+5. Open a Pull Request
 
 ```javascript
-{
+
+## 📝 License{
+
   username: String (unique),
-  email: String (unique),
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.  email: String (unique),
+
   password: String (hashed),
-  role: "student" | "instructor" | "admin",
+
+## 👨‍💻 Author  role: "student" | "instructor" | "admin",
+
   accessCodeUsed: String,
-  joinedEvents: [ObjectId]
-}
-```
 
-### Event Schema
+**Zackary Brown**  joinedEvents: [ObjectId]
 
-```javascript
+- GitHub: [@bmxbro01](https://github.com/bmxbro01)}
+
+- LinkedIn: [zackaryzbrown](https://linkedin.com/in/zackaryzbrown)```
+
+- Instagram: [@zackfullstack](https://www.instagram.com/zackfullstack/)
+
+- YouTube: [@ZackFullStack](https://www.youtube.com/@ZackFullStack)### Event Schema
+
+
+
+---```javascript
+
 {
-  title: String,
+
+Built with ❤️ for the martial arts community  title: String,
   description: String,
   date: Date,
   time: String,
