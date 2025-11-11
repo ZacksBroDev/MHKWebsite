@@ -3,10 +3,25 @@ frontend:
   phases:
     preBuild:
       commands:
+        - echo "Node.js version:"
+        - node --version
+        - echo "NPM version:"
+        - npm --version
+        - echo "Installing dependencies..."
         - npm ci
+        - echo "Dependencies installed successfully"
     build:
       commands:
+        - echo "Starting build process..."
+        - echo "Current directory:"
+        - pwd
+        - echo "Listing files:"
+        - ls -la
+        - echo "Running build command..."
         - npm run build
+        - echo "Build completed successfully"
+        - echo "Checking dist directory:"
+        - ls -la dist/
   artifacts:
     baseDirectory: dist
     files:
