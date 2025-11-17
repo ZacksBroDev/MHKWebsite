@@ -11,6 +11,13 @@ h1 {
     text-align: center;
 }
 
+/* Make title smaller on mobile */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 1.5rem;
+    }
+}
+
 table{
     width: 80%;
     max-width: 800px;
