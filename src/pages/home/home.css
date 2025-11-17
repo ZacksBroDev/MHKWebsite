@@ -171,13 +171,13 @@ table tr:nth-child(odd) th {
     background-color: black;
 }
 #lev1{
-    background-color: #0000FF;
+    background-color: blue;
 }
 #lev2{
     background-color: red;
 }
 #lev3{
-    background-color: #964B00;
+    background-color: brown;
 }
 #cond{
     background-color: black;

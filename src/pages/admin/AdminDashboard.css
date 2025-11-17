@@ -203,12 +203,15 @@
 
 .table-container {
   overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   margin-top: 20px;
   background-color: transparent;
+  max-width: 100%;
 }
 
 table {
   width: 100%;
+  min-width: 600px;
   border-collapse: collapse;
   background-color: transparent;
   border-radius: 20px;
