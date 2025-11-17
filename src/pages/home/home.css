@@ -52,6 +52,7 @@ table tr:nth-child(odd) th {
 }
 
 /* Button styles for fighting style links */
+
 .col{
     height: 100%;
     width: 100%;
@@ -77,9 +78,16 @@ table tr:nth-child(odd) th {
   box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
 }
 
+@media screen and (max-width: 399px) {
+    #lev1, #lev2, #lev3{
+        font-size: 20px;
+    }
+}
+
 .container {
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
     gap: 20px;
   max-width: 800px;
   margin: 0 auto;
