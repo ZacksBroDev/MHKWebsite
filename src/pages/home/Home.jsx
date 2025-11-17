@@ -161,13 +161,19 @@ function Home() {
       <h1>Forms and Combos</h1>
       <div className="container">
         <div className="col">
-          <Link to='/level1' className="belt"  id="lev1">Level 1</Link>
+          <Link to='/level1' className="belt" id="lev1">
+            <div className="deg" style={{ backgroundColor: '#0066ff' }}></div>
+          </Link>
         </div>
         <div className="col">
-          <Link to='/level2' className="belt" id="lev2">Level 2</Link>
+          <Link to='/level2' className="belt" id="lev2">
+            <div className="deg" style={{ backgroundColor: '#ff0000' }}></div>
+          </Link>
         </div>
         <div className="col">
-          <Link to='/level3' className="belt" id="lev3">Level 3</Link>
+          <Link to='/level3' className="belt" id="lev3">
+            <div className="deg" style={{ backgroundColor: '#8B4513' }}></div>
+          </Link>
         </div>
         <div className="col">
           <Link to='/conditionals' className="belt" id="cond">
