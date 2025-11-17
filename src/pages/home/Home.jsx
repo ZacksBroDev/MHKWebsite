@@ -162,17 +162,20 @@ function Home() {
       <div className="container">
         <div className="col">
           <Link to='/level1' className="belt" id="lev1">
-            <div className="deg" style={{ backgroundColor: '#0066ff' }}></div>
+            <div className="deg" style={{ backgroundColor: '#000' }}></div>
           </Link>
         </div>
         <div className="col">
           <Link to='/level2' className="belt" id="lev2">
-            <div className="deg" style={{ backgroundColor: '#ff0000' }}></div>
+            <div className="deg" style={{ backgroundColor: '#000' }}></div>
+            <div className="deg" style={{ backgroundColor: '#000' }}></div>
           </Link>
         </div>
         <div className="col">
           <Link to='/level3' className="belt" id="lev3">
-            <div className="deg" style={{ backgroundColor: '#8B4513' }}></div>
+            <div className="deg" style={{ backgroundColor: '#000' }}></div>
+            <div className="deg" style={{ backgroundColor: '#000' }}></div>
+            <div className="deg" style={{ backgroundColor: '#000' }}></div>
           </Link>
         </div>
         <div className="col">

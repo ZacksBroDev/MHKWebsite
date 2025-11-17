@@ -535,6 +535,7 @@ tr{
 @media (max-width: 768px) {
   .admin-dashboard {
     padding: 10px;
+    width: 95%;
   }
   
   .admin-header {
@@ -542,12 +543,22 @@ tr{
   }
   
   .admin-header h1 {
-    font-size: 2rem;
+    font-size: 1.5rem;
+  }
+
+  .admin-tabs {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    flex-wrap: nowrap;
+    border-bottom: 2px solid #e9ecef;
   }
 
   .admin-tabs button {
-    padding: 12px;
+    padding: 12px 20px;
     text-align: center;
+    white-space: nowrap;
+    flex-shrink: 0;
+    font-size: 0.9rem;
   }
   
   .form-row {

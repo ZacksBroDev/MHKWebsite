@@ -18,6 +18,13 @@ h1 {
     }
 }
 
+/* Extra small screens - even smaller title */
+@media (max-width: 399px) {
+    h1 {
+        font-size: 1.2rem;
+    }
+}
+
 table{
     width: 80%;
     max-width: 800px;
@@ -191,11 +198,12 @@ table tr:nth-child(odd) th {
 }
 
 .belt .deg {
-    background-color: red;
-    width: 15px;
-    height: 30px;
+    background-color: #000;
+    width: 18px;
+    height: 35px;
     border-radius: 2px;
-    box-shadow: 0 1px 2px rgba(255, 255, 255, 0.2);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.3);
 }
 
 footer {
