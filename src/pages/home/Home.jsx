@@ -134,14 +134,12 @@ function Home() {
             <tr>
               <th>Title</th>
               <th>Time</th>
-              <th>Type</th>
               <th>Participants</th>
             </tr>
             {todaysEvents.map((event, index) => (
               <tr key={event._id || index}>
                 <td>{event.title}</td>
                 <td>{event.time}</td>
-                <td style={{ textTransform: 'capitalize' }}>{event.type}</td>
                 <td>
                   {event.currentParticipants || 0}
                   {event.maxParticipants && ` / ${event.maxParticipants}`}
