@@ -89,8 +89,15 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to { opacity: 1; transform: translateY(0); }
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .section {
@@ -108,7 +115,8 @@
   border-bottom: 2px solid #667eea;
   padding-bottom: 10px;
 }
-.section table span{
+
+.section table span {
   background-color: transparent;
 }
 
@@ -120,6 +128,7 @@
   align-items: center;
   justify-content: space-evenly;
 }
+
 .create-form input {
   flex: 1;
   min-width: 200px;
@@ -175,7 +184,8 @@
   transition: background-color 0.3s ease;
   width: 100%;
 }
-.code-input{
+
+.code-input {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -183,7 +193,8 @@
   width: 40%;
   background-color: transparent;
 }
-.desc-input{
+
+.desc-input {
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -223,11 +234,13 @@ thead {
   background: #f8f9fa;
   background-color: transparent;
 }
-tbody{
+
+tbody {
   background-color: transparent;
 }
 
-th, td {
+th,
+td {
   padding: 15px;
   text-align: left;
   border-bottom: 1px solid #e9ecef;
@@ -240,7 +253,8 @@ th {
   font-size: 0.85rem;
   letter-spacing: 0.5px;
 }
-tr{
+
+tr {
   background-color: transparent;
 }
 
@@ -316,23 +330,27 @@ tr{
   background: #c82333;
 }
 
-.title{
+.title {
   grid-area: title;
   width: 100%;
 }
-.participants{
+
+.participants {
   grid-area: participants;
   width: 100%;
 }
-.date{
+
+.date {
   grid-area: date;
   width: 100%;
 }
-.time{
+
+.time {
   grid-area: time;
   width: 100%;
 }
-.desc{
+
+.desc {
   grid-area: desc;
   width: 100%;
 }
@@ -349,7 +367,8 @@ tr{
   width: 40%;
   background-color: transparent;
 }
-.create-event-btn{
+
+.create-event-btn {
   background: #667eea;
   color: white;
   border: none;
@@ -390,13 +409,14 @@ tr{
 }
 
 .generate-btn:hover {
-  background: #5a67d8!important;
+  background: #5a67d8 !important;
   transform: translateY(-1px);
 }
 
 .generate-btn:active {
   transform: translateY(0);
 }
+
 .form-row {
   display: flex;
   gap: 15px;
@@ -406,6 +426,7 @@ tr{
   width: 40%;
   background-color: transparent;
 }
+
 .form-row input,
 .form-row button {
   width: 100%;
@@ -499,52 +520,61 @@ tr{
   font-style: italic;
   padding: 30px 20px;
 }
-.nav-controls{
+
+.nav-controls {
   background-color: transparent;
 }
-.current-period{
+
+.current-period {
   background-color: transparent;
 }
-.period-text{
+
+.period-text {
   background-color: transparent;
 }
-.view-mode-toggle{
+
+.view-mode-toggle {
   background-color: transparent;
 }
-.event-summary{
+
+.event-summary {
   background-color: transparent;
 }
+
 .action-buttons {
   background-color: transparent;
 }
 
 /* Responsive Design */
-@media (max-width: 1220px){
+@media (max-width: 1220px) {
   .admin-dashboard {
     width: 100%;
     padding: 5px;
     margin: 5px auto;
   }
 }
-@media (max-width: 945px){
-  table{
+
+@media (max-width: 945px) {
+  table {
     display: none;
   }
-  .table-container{
+
+  .table-container {
     display: none;
   }
 
 }
+
 @media (max-width: 768px) {
   .admin-dashboard {
     padding: 10px;
     width: 95%;
   }
-  
+
   .admin-header {
     padding: 20px;
   }
-  
+
   .admin-header h1 {
     font-size: 1.5rem;
   }
@@ -563,27 +593,28 @@ tr{
     flex-shrink: 0;
     font-size: 0.9rem;
   }
-  
+
   .form-row {
     flex-direction: column;
     background-color: transparent;
   }
-  
+
   .form-row input,
   .form-row button {
     width: 100%;
     margin-bottom: 10px;
   }
-  
+
   .form-grid {
     grid-template-columns: 1fr;
   }
-  
-  th, td {
+
+  th,
+  td {
     padding: 10px 8px;
     font-size: 0.9rem;
   }
-  
+
   .section {
     padding: 15px;
   }
@@ -594,11 +625,11 @@ tr{
     gap: 15px;
     text-align: center;
   }
-  
+
   .nav-controls {
     justify-content: center;
   }
-  
+
   .period-text {
     font-size: 1.2rem;
   }
@@ -652,7 +683,8 @@ tr{
   z-index: 1000;
   animation: fadeIn 0.3s ease-out;
 }
-.modal-overlay strong{
+
+.modal-overlay strong {
   background-color: transparent;
 }
 
@@ -747,16 +779,22 @@ tr{
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slideIn {
-  from { 
+  from {
     opacity: 0;
     transform: translateY(-20px);
   }
-  to { 
+
+  to {
     opacity: 1;
     transform: translateY(0);
   }
@@ -768,11 +806,11 @@ tr{
     width: 95%;
     padding: 20px;
   }
-  
+
   .modal-actions {
     flex-direction: column;
   }
-  
+
   .cancel-btn,
   .confirm-delete-btn {
     width: 100%;
@@ -796,12 +834,15 @@ tr{
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
   transition: transform 0.3s ease, box-shadow 0.3s ease;
 }
+
 .stat-number {
   background-color: transparent;
 }
-.stat-label{
+
+.stat-label {
   background-color: transparent;
 }
+
 .stat-card:hover {
   transform: translateY(-5px);
   box-shadow: 0 8px 25px rgba(0, 0, 0, 0.15);
@@ -827,15 +868,15 @@ tr{
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
   }
-  
+
   .stat-card {
     padding: 15px;
   }
-  
+
   .stat-number {
     font-size: 2rem;
   }
-  
+
   .stat-label {
     font-size: 0.75rem;
   }

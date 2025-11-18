@@ -42,43 +42,50 @@
   cursor: not-allowed;
 }
 
-input,textarea{
+input,
+textarea {
   background-color: white;
   font-size: 20px;
   border-radius: 5px;
   box-shadow: 1px 1px 5px rgba(0, 0, 0, 0.9);
   border: none;
-  width:100%;
-  
-  padding:5px;
+  width: 100%;
+
+  padding: 5px;
   box-sizing: border-box;
 
 }
 
-#name{
+#name {
   grid-area: name;
 }
-#email{
+
+#email {
   grid-area: email;
 }
-#phone{
+
+#phone {
   grid-area: phone;
 }
-#subject{
+
+#subject {
   grid-area: subject;
 }
-#message{
+
+#message {
   grid-area: message;
-  width:100%;
+  width: 100%;
   height: 100%;
   align-self: stretch;
   justify-self: stretch;
   resize: none;
 }
-#submit{
+
+#submit {
   grid-area: submit;
 }
-.contact-form{
+
+.contact-form {
   display: grid;
   grid-template-columns: 1fr 1fr;
   grid-template-rows: 1fr 1fr 5fr 0.5fr;
@@ -95,8 +102,9 @@ input,textarea{
   max-width: 800px;
   margin: 0 auto;
 }
-img{
-  width:300px;
+
+img {
+  width: 300px;
   margin: auto;
   background-color: transparent;
   border-radius: 15px;

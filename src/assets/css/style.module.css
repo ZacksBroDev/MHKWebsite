@@ -1,25 +1,55 @@
 /* Base Styles */
-*{
+* {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
   background-color: transparent;
 }
 
-:root{
-  --bg:#99b9df;
+:root {
+  --bg: #99b9df;
   --text: #0e1b33;
   --primary: #5faef8;
   --secondary: #117ae0;
   --accent: #646cff;
   --header: #0949a5;
   --deep-onyx: #1e1e1e;
-  --pure-mist:#f5f5f5;
-  --urban-gray:#a0a0a0;
+  --pure-mist: #f5f5f5;
+  --urban-gray: #a0a0a0;
 }
 
 /* Legacy Curriculum Styles */
-.curriculum{
+@media screen  and (max-width: 399px) {
+  .curriculum {
+    width: 100%;
+    padding: .5rem;
+  }
+  .curriculumHeader{
+    width: 98%;
+    padding: .5rem;
+  }
+  .sectionTabs{
+    width: 98%;
+    padding: .5rem;
+  }
+  .contentArea{
+    width: 98%;
+    padding: .5rem;
+  }
+  .techniqueGrid{
+    width: 98%;
+    padding: .5rem;
+  }
+  .techniqueSteps{
+    width: 98%;
+    padding: .5rem;
+  }
+  .stepsList{
+    width: 98%;
+    padding: .5rem;
+  }
+}
+.curriculum {
   width: 95%;
   margin: 2rem auto;
   padding: 1rem;
@@ -27,21 +57,21 @@
   border-radius: 25px;
 }
 
-.curriculum button{
-  width:150px;
-  height:50px;
+.curriculum button {
+  width: 150px;
+  height: 50px;
   border-radius: 25px;
   background-color: var(--urban-gray);
   font-size: 1rem;
   border: none;
-  color:var(--text);
+  color: var(--text);
 }
 
-.curriculum button a{
+.curriculum button a {
   background-color: transparent;
 }
 
-.level{
+.level {
   background-color: var(--primary);
   padding: 1rem;
   margin: 1rem 0;
@@ -388,7 +418,8 @@
   gap: 1rem;
 }
 
-.backButton, .nextButton {
+.backButton,
+.nextButton {
   padding: 0.8rem 1.5rem;
   border-radius: 25px;
   text-decoration: none;
@@ -461,36 +492,37 @@
     align-items: flex-start;
     gap: 0.5rem;
   }
-  
+
   .sectionTabs {
     flex-direction: column;
   }
-  
+
   .tab {
     flex-direction: column;
     gap: 0.3rem;
     padding: 0.75rem;
   }
-  
+
   .tabText {
     font-size: 0.9rem;
   }
-  
+
   .cardHeader {
     flex-direction: column;
     align-items: flex-start;
   }
-  
+
   .navigationFooter {
     flex-direction: column;
     text-align: center;
   }
-  
+
   .levelNavigation {
     flex-direction: column;
   }
 
-  .level h2, .curriculum h2 {
+  .level h2,
+  .curriculum h2 {
     font-size: 1.3rem;
     margin-left: 0.5rem;
   }
@@ -515,6 +547,7 @@
     font-size: 0.95rem;
   }
 }
+
 .curriculum h2 {
   color: var(--text);
   font-size: 1.5rem;
@@ -522,13 +555,15 @@
   margin-left: 1rem;
   background-color: transparent;
 }
-.level h3{
+
+.level h3 {
   color: var(--text);
   font-size: 1.2rem;
   margin-bottom: 0.5rem;
   margin-left: 2rem;
   background-color: transparent;
 }
+
 .level h4 {
   color: var(--text);
   font-size: 1.2rem;
@@ -537,11 +572,13 @@
   line-height: 1.6;
   background-color: transparent;
 }
+
 .level ul {
   list-style-type: none;
   padding-left: 0;
   background-color: transparent;
 }
+
 .level ul li {
   color: var(--text);
   font-size: 1.2rem;
@@ -549,24 +586,29 @@
   margin-left: 4rem;
   background-color: transparent;
 }
+
 .level ul li a {
   color: var(--text);
   text-decoration: none;
   background-color: transparent;
   text-decoration: underline var(--header) 2px;
 }
+
 .level ul li a:hover {
   color: var(--accent);
   text-decoration: underline var(--primary) 2px;
 }
-.level h3 a{
+
+.level h3 a {
   background-color: transparent;
   color: var(--text);
 }
+
 .level h3 a:hover {
   color: var(--accent);
   text-decoration: underline var(--accent) 2px;
 }
+
 .level p {
   background-color: transparent;
   margin-left: 2.75rem;

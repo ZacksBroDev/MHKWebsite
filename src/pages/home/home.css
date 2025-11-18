@@ -4,6 +4,7 @@
     margin-bottom: 1rem;
     text-align: center;
 }
+
 h1 {
     color: var(--text);
     font-size: 2.5rem;
@@ -25,7 +26,7 @@ h1 {
     }
 }
 
-table{
+table {
     width: 80%;
     max-width: 800px;
     border-collapse: collapse;
@@ -36,21 +37,27 @@ table{
     border-radius: 20px;
     overflow: hidden;
 }
-th, td {
+
+th,
+td {
     padding: 12px 15px;
 }
+
 th {
     background-color: var(--urban-gray);
     color: var(--text);
 }
+
 td {
     color: var(--text);
     border-right: 1px solid var(--urban-gray);
     border-bottom: 1px solid var(--urban-gray);
 }
+
 table td:last-child {
     border-right: none;
 }
+
 table tr:last-child td {
     border-bottom: none;
 }
@@ -67,33 +74,36 @@ table tr:nth-child(odd) th {
 
 /* Button styles for fighting style links */
 
-.col{
+.col {
     height: 100%;
     width: 100%;
 }
 
 .btn {
-  display: inline-block;
-  padding: 12px 24px;
-  background: #3498db;
-  color: white;
-  text-decoration: none;
-  border-radius: 6px;
-  font-weight: 500;
-  text-align: center;
-  transition: all 0.3s ease;
-  border: none;
-  cursor: pointer;
+    display: inline-block;
+    padding: 12px 24px;
+    background: #3498db;
+    color: white;
+    text-decoration: none;
+    border-radius: 6px;
+    font-weight: 500;
+    text-align: center;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
 }
 
 .btn:hover {
-  background: #2980b9;
-  transform: translateY(-2px);
-  box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
+    background: #2980b9;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(52, 152, 219, 0.3);
 }
 
 @media screen and (max-width: 399px) {
-    #lev1, #lev2, #lev3{
+
+    #lev1,
+    #lev2,
+    #lev3 {
         font-size: 20px;
     }
 }
@@ -103,12 +113,13 @@ table tr:nth-child(odd) th {
     grid-template-columns: 1fr 1fr 1fr;
     grid-template-rows: 1fr 1fr;
     gap: 20px;
-  max-width: 800px;
-  margin: 0 auto;
-  padding: 20px;
-  background-color: transparent;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: transparent;
 }
-.btn{
+
+.btn {
     background-color: var(--primary);
     color: white;
     text-decoration: none;
@@ -118,8 +129,9 @@ table tr:nth-child(odd) th {
     text-align: center;
     width: 100%;
 }
+
 .col {
-  flex: 1;
+    flex: 1;
 }
 
 .belt {
@@ -167,32 +179,47 @@ table tr:nth-child(odd) th {
     opacity: 1;
 }
 
-#deg1, #deg2, #cond{
-    background-color: black;
-}
-#lev1{
-    background-color: blue;
-}
-#lev2{
+#deg1, #deg2, .deg {
     background-color: red;
 }
-#lev3{
+
+#deg1,
+#deg2,
+#cond {
+    background-color: black;
+}
+
+#lev1 {
+    background-color: blue;
+}
+
+#lev2 {
+    background-color: red;
+}
+
+#lev3 {
     background-color: brown;
 }
-#cond{
+
+#cond {
     background-color: black;
 }
 
 
-#deg1::after{
+#deg1::after {
+    width: 100%;
     content: "1st Degree Black Belt";
     background-color: black;
 }
-#deg2::after{
+
+#deg2::after {
+    width: 100%;
     content: "2nd Degree Black Belt";
     background-color: black;
 }
-#cond::after{
+
+#cond::after {
+    width: 100%;
     content: "Conditionals";
     background-color: black;
 }

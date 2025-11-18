@@ -32,7 +32,8 @@
   font-size: 1.2rem;
   font-weight: 500;
 }
-form{
+
+form {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -50,7 +51,9 @@ form{
   font-weight: 600;
   font-size: 0.9rem;
 }
-.form-group label span,.form-group small{
+
+.form-group label span,
+.form-group small {
   background-color: transparent;
 }
 
@@ -132,13 +135,16 @@ p {
   font-size: 0.9rem;
   background-color: transparent;
 }
-h2{
+
+h2 {
   background-color: transparent;
 }
-h3{
+
+h3 {
   background-color: transparent;
 }
-form{
+
+form {
   background-color: transparent;
 }
 
@@ -148,7 +154,8 @@ form{
   gap: 1rem;
   background-color: transparent;
 }
-.auth-links{
+
+.auth-links {
   background-color: transparent;
 }
 
@@ -156,7 +163,7 @@ form{
   .auth-container {
     padding: 1rem;
   }
-  
+
   .auth-form {
     padding: 2rem;
   }
