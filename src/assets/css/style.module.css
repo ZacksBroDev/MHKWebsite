@@ -20,35 +20,57 @@
 
 /* Legacy Curriculum Styles */
 @media screen  and (max-width: 750px) {
+  .modernLayout {
+    margin-left: 0px;
+    margin-right: 0px;
+    width: 100%;
+    padding: .5rem;
+  }
   .curriculum {
+    margin-left: 0px;
+    margin-right: 0px;
     width: 100%;
     padding: .5rem;
   }
   .curriculumHeader{
+    margin-left: 0px;
+    margin-right: 0px;
     width: 100%;
     padding: .5rem;
   }
   .sectionTabs{
+    margin-left: 0px;
+    margin-right: 0px;
     width: 100%;
     padding: .5rem;
   }
   .contentArea{
+    margin-left: 0px;
+    margin-right: 0px;
     width: 100%;
     padding: .5rem;
   }
   .techniqueGrid{
+    margin-left: 0px;
+    margin-right: 0px;
     width: 100%;
     padding: .5rem;
   }
   .techniqueSteps{
+    margin-left: 0px;
+    margin-right: 0px;
     width: 100%;
     padding: .5rem;
   }
   .stepsList{
+    margin-left: 0px;
+    margin-right: 0px;
     width: 100%;
     padding: .5rem;
   }
   .stepsList li{
+    margin-left: 0px;
+    margin-right: 0px;
     width: 100%;
     padding: .5rem;
   }
