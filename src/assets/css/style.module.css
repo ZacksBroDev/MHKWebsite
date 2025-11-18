@@ -19,33 +19,37 @@
 }
 
 /* Legacy Curriculum Styles */
-@media screen  and (max-width: 399px) {
+@media screen  and (max-width: 750px) {
   .curriculum {
     width: 100%;
     padding: .5rem;
   }
   .curriculumHeader{
-    width: 98%;
+    width: 100%;
     padding: .5rem;
   }
   .sectionTabs{
-    width: 98%;
+    width: 100%;
     padding: .5rem;
   }
   .contentArea{
-    width: 98%;
+    width: 100%;
     padding: .5rem;
   }
   .techniqueGrid{
-    width: 98%;
+    width: 100%;
     padding: .5rem;
   }
   .techniqueSteps{
-    width: 98%;
+    width: 100%;
     padding: .5rem;
   }
   .stepsList{
-    width: 98%;
+    width: 100%;
+    padding: .5rem;
+  }
+  .stepsList li{
+    width: 100%;
     padding: .5rem;
   }
 }
