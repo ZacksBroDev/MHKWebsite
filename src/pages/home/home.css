@@ -179,7 +179,10 @@ table tr:nth-child(odd) th {
     opacity: 1;
 }
 
-#deg1, #deg2, .deg {
+#deg1 .deg {
+    background-color: red;
+}
+#deg2 .deg {
     background-color: red;
 }
 
