@@ -443,6 +443,11 @@
     width: 100%;
     padding: .5rem;
   }
+  .modernLayout{
+    margin-left: 0px;
+    margin-right: 0px;
+    width: 100%;
+  }
 
   .contentArea{
     width: 100%;
@@ -451,7 +456,7 @@
 
   .techniqueCard{
     width: 100%;
-    margin-left: 15px;
+    margin-left: 0px;
     margin-right: 0px;
     padding: .5rem;
   }
