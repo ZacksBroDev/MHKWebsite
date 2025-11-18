@@ -454,9 +454,12 @@
     margin-left: 0px;
     margin-right: 0px;
   }
-  .tab button{
-    width: 200px;
-    color: red;
+  .curriculum button{
+    width: 100%;
+    margin-left: 0px;
+    margin-right: 0px;
+  }
+  .tab{
     margin-left: 50px;
     margin-right: 50px;
   }
