@@ -464,6 +464,19 @@
     margin-right: 50px;
   }
 
+  .techniqueInfo{
+    width: 100%;
+  }
+  .cardActions{
+    width: 100%;
+    justify-content: flex-start;
+    gap: 1rem;
+  }
+  .videoButton{
+    width: 100%;
+    justify-content: flex-end;
+  }
+  
   .contentArea{
     width: 100%;
     padding: .5rem;
