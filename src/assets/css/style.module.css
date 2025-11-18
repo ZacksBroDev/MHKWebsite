@@ -435,60 +435,6 @@
   border-radius: 20px;
 }
 
-
-    .modernLayout {
-      margin-left: 0px;
-      margin-right: 0px;
-      width: 100%;
-      padding: .5rem;
-    }
-
-    .curriculumHeader {
-      margin-left: 0px;
-      margin-right: 0px;
-      width: 100%;
-      padding: .5rem;
-    }
-  
-    .sectionTabs {
-      margin-left: 0px;
-      margin-right: 0px;
-      width: 100%;
-      padding: .5rem;
-    }
-  
-    .contentArea {
-      margin-left: 0px;
-      margin-right: 0px;
-      width: 100%;
-      padding: .5rem;
-    }
-  
-    .techniqueGrid {
-      margin-left: 0px;
-      margin-right: 0px;
-      width: 100%;
-      padding: .5rem;
-    }
-  
-    .stepsList {
-      margin-left: 0px;
-      margin-right: 0px;
-      width: 100%;
-      padding: .5rem;
-    }
-  
-    .stepsList li {
-      margin-left: 0px;
-      margin-right: 0px;
-      width: 100%;
-      padding: .5rem;
-    }
-
-
-
-
-
 /* Responsive Design */
 @media (max-width: 768px) {
   .curriculum {
