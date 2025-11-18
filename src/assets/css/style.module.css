@@ -444,6 +444,11 @@
     padding: .5rem;
   }
 
+  .contentArea{
+    width: 100%;
+    padding: .5rem;
+  }
+
   .techniqueCard{
     width: 100%;
     margin-left: 15px;
