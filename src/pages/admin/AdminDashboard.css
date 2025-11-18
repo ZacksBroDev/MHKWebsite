@@ -594,8 +594,15 @@ tr {
     font-size: 0.9rem;
   }
 
+  .create-form {
+    width: 100%;
+  }
+  .form-grid{
+    width: 90%;
+  }
+  
+  
   .form-row {
-    flex-direction: column;
     background-color: transparent;
   }
 
