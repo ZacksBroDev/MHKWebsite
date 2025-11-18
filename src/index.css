@@ -16,15 +16,14 @@
   box-sizing: border-box;
 }
 
-html, body {
+html,
+body {
   height: 100%;
   font-family: 'Arial', sans-serif;
   background: rgb(238, 174, 202);
-  background: radial-gradient(
-    circle,
-    rgba(238, 174, 202, 1) 0%,
-    rgba(148, 187, 233, 1) 100%
-  );
+  background: radial-gradient(circle,
+      rgba(238, 174, 202, 1) 0%,
+      rgba(148, 187, 233, 1) 100%);
 }
 
 #root {
@@ -65,7 +64,9 @@ button {
 }
 
 /* Input base styles */
-input, textarea, select {
+input,
+textarea,
+select {
   font-family: inherit;
   outline: none;
 }

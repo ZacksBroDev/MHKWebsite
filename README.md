@@ -1,14 +1,10 @@
 # 🥋 Mile High Karate - Learning Platform# 🥋 Mile High Karate - Complete Learning Platform
 
-
-
 > **About:** A React-based web application built to help karate students learn and prepare for belt tests. Features comprehensive event scheduling and interactive learning modules.> **About:** A full-stack web application built to help karate students learn and prepare for belt tests. Built with React, Node.js, and MongoDB.
 
-> > 
+> >
 
-> **Live Site:** [https://www.mhktraining.com](https://www.mhktraining.com)> **Follow me:** [GitHub @ZacksBroDev](https://github.com/ZacksBroDev) | [LinkedIn](https://linkedin.com/in/zackaryzbrown) | [Instagram] (https://www.instagram.com/zackfullstack/) | [Youtube] (https://www.youtube.com/@ZackFullStack) 
-
-
+> **Live Site:** [https://www.mhktraining.com](https://www.mhktraining.com)> **Follow me:** [GitHub @ZacksBroDev](https://github.com/ZacksBroDev) | [LinkedIn](https://linkedin.com/in/zackaryzbrown) | [Instagram] (https://www.instagram.com/zackfullstack/) | [Youtube] (https://www.youtube.com/@ZackFullStack)
 
 A comprehensive web application designed to help karate students learn, practice, and prepare for belt tests. This platform modernizes martial arts education with interactive learning modules and comprehensive event management.
 
@@ -42,17 +38,15 @@ Mile High Karate bridges traditional martial arts with modern technology, provid
 
 ## 🏗️ Technical Stack- **🛡️ Enterprise Security** - JWT auth, password hashing, input validation
 
+**Frontend:** React 19, React Router, Vite ## 🏗️ Technical Stack
 
+**Styling:** CSS Modules, Modern CSS
 
-**Frontend:** React 19, React Router, Vite  ## 🏗️ Technical Stack
+**Build:** Vite 6.3.5 **Frontend:** React 19, React Router, Vite, CSS Modules
 
-**Styling:** CSS Modules, Modern CSS  
+**Hosting:** AWS Amplify **Backend:** Node.js, Express.js, MongoDB, Mongoose
 
-**Build:** Vite 6.3.5  **Frontend:** React 19, React Router, Vite, CSS Modules  
-
-**Hosting:** AWS Amplify  **Backend:** Node.js, Express.js, MongoDB, Mongoose  
-
-**Analytics:** Google Analytics 4  **Infrastructure:** Docker, Nginx, JWT Authentication  
+**Analytics:** Google Analytics 4 **Infrastructure:** Docker, Nginx, JWT Authentication
 
 **Security:** bcrypt, CORS, Environment Variables
 
@@ -64,7 +58,7 @@ Mile High Karate bridges traditional martial arts with modern technology, provid
 
 ### Option 1: Docker (Recommended)
 
-```bash
+```````bash
 
 # Clone the repository```bash
 
@@ -226,29 +220,29 @@ The platform features a comprehensive mock API generating over 1700 realistic ev
 
 - Accessibility-focused implementation
 
-```
+```````
 
 ## 🚀 Deploymentsrc/
 
 ├── components/
 
-The application is deployed on AWS Amplify with:│   ├── auth/           # Authentication components
+The application is deployed on AWS Amplify with:│ ├── auth/ # Authentication components
 
-│   ├── layout/         # Navigation and layout
+│ ├── layout/ # Navigation and layout
 
-- **Automatic builds** from main branch│   ├── events/         # Event management
+- **Automatic builds** from main branch│ ├── events/ # Event management
 
-- **Custom domain** at www.mhktraining.com│   ├── ui/             # Reusable UI components
+- **Custom domain** at www.mhktraining.com│ ├── ui/ # Reusable UI components
 
-- **SSL certificate** for secure connections│   └── pages/          # Main application pages
+- **SSL certificate** for secure connections│ └── pages/ # Main application pages
 
-- **Global CDN** for fast worldwide access├── contexts/           # React context providers
+- **Global CDN** for fast worldwide access├── contexts/ # React context providers
 
-├── config/             # API configuration
+├── config/ # API configuration
 
-### Build Configuration└── assets/             # Images and styles
+### Build Configuration└── assets/ # Images and styles
 
-```
+````
 
 ```javascript
 
@@ -332,7 +326,7 @@ DigitalOcean App Platform ($12+/month)
 
 ## 🤝 ContributingAWS ECS    # Enterprise scaling
 
-```
+````
 
 1. Fork the repository
 
@@ -344,7 +338,7 @@ DigitalOcean App Platform ($12+/month)
 
 5. Open a Pull Request
 
-```javascript
+````javascript
 
 ## 📝 License{
 
@@ -382,7 +376,7 @@ Built with ❤️ for the martial arts community  title: String,
   participants: [ObjectId],
   maxParticipants: Number
 }
-```
+````
 
 ## 🎛️ Available Scripts
 

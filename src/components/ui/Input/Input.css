@@ -187,13 +187,14 @@ textarea.input--large {
 /* Responsive Design */
 @media (max-width: 768px) {
   .input {
-    font-size: 16px; /* Prevents zoom on iOS */
+    font-size: 16px;
+    /* Prevents zoom on iOS */
   }
-  
+
   .input--small {
     font-size: 14px;
   }
-  
+
   .input--large {
     font-size: 18px;
   }
@@ -235,8 +236,8 @@ textarea.input--large {
   z-index: 1;
 }
 
-.input-container--floating .input:focus + .input__label,
-.input-container--floating .input:not(:placeholder-shown) + .input__label {
+.input-container--floating .input:focus+.input__label,
+.input-container--floating .input:not(:placeholder-shown)+.input__label {
   top: -0.5rem;
   font-size: 0.75rem;
   color: var(--primary, #667eea);
@@ -249,15 +250,15 @@ textarea.input--large {
     color: white;
     border-color: #4a5568;
   }
-  
+
   .input:focus {
     border-color: var(--primary, #667eea);
   }
-  
+
   .input::placeholder {
     color: #a0aec0;
   }
-  
+
   .input--disabled {
     background: #1a202c;
     color: #4a5568;
