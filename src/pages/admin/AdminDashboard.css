@@ -131,7 +131,6 @@
 
 .create-form input {
   flex: 1;
-  min-width: 200px;
   width: 100%;
   padding: 12px;
   border: 2px solid #e9ecef;
@@ -600,7 +599,7 @@ tr {
   .form-grid{
     width: 90%;
   }
-  
+
   
   .form-row {
     background-color: transparent;
