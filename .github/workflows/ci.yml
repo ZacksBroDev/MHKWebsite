@@ -28,14 +28,21 @@ jobs:
         run: npm ci
 
       - name: Run ESLint
-        run: npm run lint --if-present || npx eslint .
+        run: npm run lint
 
-      - name: Build project
+      - name: Build static site
         run: npm run build
+        env:
+          # Frontend-only build - uses mock API and localStorage
+          NODE_ENV: production
 
-      - name: Run tests
-        run: npm test --if-present
-        continue-on-error: true
+      - name: Verify build output
+        run: |
+          if [ ! -d "dist" ]; then
+            echo "Build failed - dist directory not found"
+            exit 1
+          fi
+          echo "✓ Build successful - static files generated"
 
   dependency-audit:
     runs-on: ubuntu-latest

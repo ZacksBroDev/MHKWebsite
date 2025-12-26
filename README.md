@@ -16,7 +16,28 @@ A modern web platform for karate students to learn techniques, track progression
 - **Event Management System** - 14-month schedule with 1700+ classes, tournaments, seminars, and belt tests
 - **Role-Based Access Control** - Student, instructor, and admin permissions with protected routes
 - **Responsive UI/UX** - Mobile-first design with CSS Modules, optimized for all devices
-- **Persistent State** - Client-side data storage with localStorage for session continuity
+- **Session Persistence** - Auth tokens stored in localStorage (login state persists across page refreshes)
+
+---
+
+## 📸 Screenshots
+
+### 🏠 Home Page & Navigation
+<!-- TODO: Add screenshot of homepage with navigation -->
+
+### 🥋 Belt Level Learning Modules
+<!-- TODO: Add screenshot of belt progression interface -->
+
+### 📅 Event Schedule Management
+<!-- TODO: Add screenshot of event calendar/schedule view -->
+
+### 🔐 Admin Dashboard
+<!-- TODO: Add screenshot of admin interface with user management -->
+
+### 📱 Mobile Responsive Design
+<!-- TODO: Add mobile screenshots or GIF showing responsive behavior -->
+
+_Note: Screenshots coming soon - visit [live demo](https://www.mhktraining.com) to explore_
 
 ---
 
@@ -114,12 +135,26 @@ npm run build
 
 ---
 
+## 💾 Data Persistence Model
+
+**What Persists (localStorage):**
+- ✅ Authentication tokens - Login sessions survive page refreshes
+- ✅ User role (admin/student) - Maintains access permissions
+
+**What Doesn't Persist (Mock Data):**
+- ❌ Event data - 1700+ events loaded from static mock API on each session
+- ❌ User profiles - No database; profiles reconstructed from tokens
+- ❌ Admin changes - Cannot create/edit/delete events (static dataset)
+
+**Current Architecture:** Frontend-only SPA with mock API. Backend integration planned for Q1 2026 (see [Roadmap](#️-roadmap)).
+
+---
+
 ## ⚠️ Known Limitations
 
-- **No Data Persistence** - All data resets on page refresh (uses mock API)
-- **No Real Authentication** - Auth state stored in localStorage only
-- **Static Event Data** - 1700 pre-generated events, cannot create/edit events
-- **No Backend API** - Fully client-side application
+- **Mock Backend** - No real API; all data is static and client-side
+- **No CRUD Operations** - Cannot create, edit, or delete events/users (admin UI is view-only)
+- **Demo Authentication** - Any email/password works; no real credential validation
 
 ---
 
