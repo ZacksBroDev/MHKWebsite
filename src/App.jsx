@@ -15,6 +15,7 @@ import Home from './pages/home/Home.jsx';
 import Schedule from './pages/schedule/Schedule.jsx';
 import NotFound from './pages/notFoundPage/NotFound.jsx';
 import Contact from './pages/contact/Contact.jsx';
+import Academy from './pages/academy/Academy.jsx';
 import Level1 from './pages/fightStyle/level1/Level1.jsx';
 import Level2 from './pages/fightStyle/level2/Level2.jsx';
 import Level3 from './pages/fightStyle/level3/Level3.jsx';
@@ -37,20 +38,22 @@ const AppContent = () => {
         alignItems: 'center',
         height: '100vh',
         fontSize: '1.2rem',
-        backgroundColor: '#f8f9fa'
+        backgroundColor: '#0b1018'
       }}>
         <div style={{
           padding: '20px',
           textAlign: 'center',
-          backgroundColor: 'white',
-          borderRadius: '10px',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)'
+          backgroundColor: '#121a25',
+          borderRadius: '12px',
+          border: '1px solid rgba(154, 167, 184, 0.24)',
+          boxShadow: '0 18px 40px rgba(8, 12, 18, 0.24)',
+          color: '#e9eef5'
         }}>
           <div style={{
             width: '40px',
             height: '40px',
-            border: '4px solid #f3f3f3',
-            borderTop: '4px solid #667eea',
+            border: '4px solid #223146',
+            borderTop: '4px solid #2e6bff',
             borderRadius: '50%',
             animation: 'spin 1s linear infinite',
             margin: '0 auto 15px'
@@ -69,30 +72,31 @@ const AppContent = () => {
         justifyContent: 'center',
         alignItems: 'center',
         height: '100vh',
-        backgroundColor: '#f8f9fa'
+        backgroundColor: '#0b1018'
       }}>
         <div style={{
           padding: '30px',
           textAlign: 'center',
-          backgroundColor: 'white',
-          borderRadius: '10px',
-          boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
+          backgroundColor: '#121a25',
+          borderRadius: '12px',
+          border: '1px solid rgba(154, 167, 184, 0.24)',
+          boxShadow: '0 18px 40px rgba(8, 12, 18, 0.24)',
           maxWidth: '400px'
         }}>
-          <h2 style={{ color: '#dc3545', marginBottom: '15px' }}>
-            🔒 Authentication Error
+          <h2 style={{ color: '#f0a2a2', marginBottom: '15px' }}>
+            Authentication Error
           </h2>
-          <p style={{ color: '#6c757d', marginBottom: '20px' }}>
+          <p style={{ color: '#a7b3c2', marginBottom: '20px' }}>
             {error}
           </p>
           <button
             onClick={() => window.location.reload()}
             style={{
-              backgroundColor: '#667eea',
+              backgroundColor: '#2e6bff',
               color: 'white',
               border: 'none',
               padding: '10px 20px',
-              borderRadius: '5px',
+              borderRadius: '999px',
               cursor: 'pointer'
             }}
           >
@@ -124,6 +128,7 @@ const AppContent = () => {
             
             {/* Public pages */}
             <Route path="/schedule" element={<Schedule />} />
+            <Route path="/academy" element={<Academy />} />
             <Route path="/contact" element={<Contact />} />
             
             {/* Protected admin route */}
