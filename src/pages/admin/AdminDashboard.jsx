@@ -25,7 +25,7 @@
 
 import React, { useState, useEffect } from 'react';
 import { useAuth } from '../../contexts/AuthContext';
-import './AdminDashboard.css';
+import './AdminDashboard 2.css';
 
 // Helper functions to replace date-fns
 const getISOWeek = (date) => {

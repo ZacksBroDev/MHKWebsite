@@ -231,23 +231,35 @@ const AuthForm = () => {
 
   return (
     <div className="auth-container">
+      <aside className="auth-panel">
+        <p className="hero-kicker">MHKTRAINING</p>
+        <h1>Train Smarter. Stay Accountable. Progress With Intent.</h1>
+        <p>
+          Access your classes, track your training path, and stay connected to academy standards through one secure portal.
+        </p>
+        <ul className="auth-points">
+          <li>Schedule-first member experience with fast class scanning.</li>
+          <li>Structured lesson paths for forms, combinations, and progression.</li>
+          <li>Trusted academy operations for students, fighters, and staff.</li>
+        </ul>
+      </aside>
+
       <div className="auth-form">
-        <h2>Mile High Karate</h2>
+        <h2>MHKTRAINING</h2>
         <h3>
-          {isForgotPassword ? 'Forgot Password' : 
+          {isForgotPassword ? 'Forgot Password' :
            isResetPassword ? 'Reset Password' :
-           isLogin ? 'Login' : 
-           (isAdminSignup ? 'Admin Sign Up' : 'Sign Up')}
+           isLogin ? 'Sign In to Your Account' :
+           (isAdminSignup ? 'Create Admin Account' : 'Create Member Account')}
         </h3>
-        
+
         {error && <div className="error-message">{error}</div>}
         {success && <div className="success-message">{success}</div>}
-        
+
         <form onSubmit={handleSubmit}>
           {isForgotPassword ? (
-            // Forgot Password form
             <div className="form-group">
-              <label>Email:<span style={{color: 'red'}}>*</span></label>
+              <label>Email *</label>
               <input
                 type="email"
                 name="email"
@@ -256,13 +268,12 @@ const AuthForm = () => {
                 placeholder="Enter your email address"
                 required
               />
-              <small>We'll send you a link to reset your password.</small>
+              <small className="field-help">We will send a secure password reset link to your inbox.</small>
             </div>
           ) : isResetPassword ? (
-            // Reset Password form
             <>
               <div className="form-group">
-                <label>New Password:<span style={{color: 'red'}}>*</span></label>
+                <label>New Password *</label>
                 <input
                   type="password"
                   name="password"
@@ -274,7 +285,7 @@ const AuthForm = () => {
                 />
               </div>
               <div className="form-group">
-                <label>Confirm Password:<span style={{color: 'red'}}>*</span></label>
+                <label>Confirm Password *</label>
                 <input
                   type="password"
                   name="confirmPassword"
@@ -287,10 +298,9 @@ const AuthForm = () => {
               </div>
             </>
           ) : isLogin ? (
-            // Login fields
             <>
               <div className="form-group">
-                <label>Email:<span style={{color: 'red'}}>*</span></label>
+                <label>Email *</label>
                 <input
                   type="text"
                   name="username"
@@ -302,7 +312,7 @@ const AuthForm = () => {
               </div>
 
               <div className="form-group">
-                <label>Password:<span style={{color: 'red'}}>*</span></label>
+                <label>Password *</label>
                 <input
                   type="password"
                   name="password"
@@ -314,10 +324,9 @@ const AuthForm = () => {
               </div>
             </>
           ) : (
-            // Signup fields
             <div className='signup-form'>
               <div className="form-group">
-                <label>First Name:<span style={{color: 'red'}}>*</span></label>
+                <label>First Name *</label>
                 <input
                   type="text"
                   name="firstName"
@@ -329,7 +338,7 @@ const AuthForm = () => {
               </div>
 
               <div className="form-group">
-                <label>Last Name:<span style={{color: 'red'}}>*</span></label>
+                <label>Last Name *</label>
                 <input
                   type="text"
                   name="lastName"
@@ -341,7 +350,7 @@ const AuthForm = () => {
               </div>
 
               <div className="form-group">
-                <label>Email:<span style={{color: 'red'}}>*</span></label>
+                <label>Email *</label>
                 <input
                   type="email"
                   name="email"
@@ -351,14 +360,14 @@ const AuthForm = () => {
                   required
                 />
               </div>
-              
+
               <div className="form-group">
-                <label>Phone:<span style={{color: 'red'}}>*</span></label>
+                <label>Phone *</label>
                 <input type="tel" name="phone" value={formData.phone} onChange={handleChange} placeholder="Phone" required/>
               </div>
 
               <div className="form-group">
-                <label>Password:<span style={{color: 'red'}}>*</span></label>
+                <label>Password *</label>
                 <input
                   type="password"
                   name="password"
@@ -370,10 +379,9 @@ const AuthForm = () => {
                 />
               </div>
 
-              {/* Access Code field - only show for regular signup */}
               {!isAdminSignup && (
                 <div className="form-group">
-                  <label>Access Code: <span style={{color: 'red'}}>*</span></label>
+                  <label>Access Code *</label>
                   <input
                     type="text"
                     name="accessCode"
@@ -381,31 +389,22 @@ const AuthForm = () => {
                     onChange={handleChange}
                     placeholder="Enter access code provided by admin"
                     required
-                    style={{
-                      borderColor: accessCodeValid === false ? '#dc3545' : 
-                                   accessCodeValid === true ? '#28a745' : '#ced4da'
-                    }}
+                    className={accessCodeValid === false ? 'access-invalid' : accessCodeValid === true ? 'access-valid' : ''}
                   />
                   {accessCodeStatus && (
-                    <small style={{
-                      color: accessCodeValid ? '#28a745' : '#dc3545', 
-                      fontSize: '0.8rem',
-                      display: 'block',
-                      marginTop: '5px'
-                    }}>
+                    <small className={`access-status ${accessCodeValid ? 'valid' : 'invalid'}`}>
                       {accessCodeStatus}
                     </small>
                   )}
-                  <small style={{color: '#666', fontSize: '0.8rem', display: 'block', marginTop: '3px'}}>
-                    ⚠️ Required: Contact your administrator for an access code. Each user can only use one access code.
+                  <small className="field-help">
+                    Required: contact academy administration for your access code.
                   </small>
                 </div>
               )}
 
-              {/* Admin password field - only show for admin signup */}
               {isAdminSignup && (
                 <div className="form-group admin-field">
-                  <label>Admin Password:</label>
+                  <label>Admin Password</label>
                   <input
                     type="password"
                     name="adminPassword"
@@ -414,7 +413,7 @@ const AuthForm = () => {
                     placeholder="Enter admin secret password"
                     required
                   />
-                  <small style={{color: '#f57c00', fontSize: '0.8rem'}}>
+                  <small className="field-help">
                     Contact your system administrator for the admin password
                   </small>
                 </div>
@@ -422,16 +421,16 @@ const AuthForm = () => {
             </div>
           )}
 
-          <button 
-            type="submit" 
-            disabled={loading || (!isLogin && !isForgotPassword && !isResetPassword && !isAdminSignup && accessCodeValid === false)} 
+          <button
+            type="submit"
+            disabled={loading || (!isLogin && !isForgotPassword && !isResetPassword && !isAdminSignup && accessCodeValid === false)}
             className="submit-btn"
           >
-            {loading ? 'Processing...' : 
-             isForgotPassword ? 'SEND RESET EMAIL' :
-             isResetPassword ? 'RESET PASSWORD' :
-             isLogin ? 'LOGIN' : 
-             (isAdminSignup ? 'CREATE ADMIN' : 'SIGN UP')}
+            {loading ? 'Processing...' :
+             isForgotPassword ? 'Send Reset Email' :
+             isResetPassword ? 'Reset Password' :
+             isLogin ? 'Sign In' :
+             (isAdminSignup ? 'Create Admin' : 'Create Account')}
           </button>
         </form>
 
@@ -439,8 +438,8 @@ const AuthForm = () => {
           {isForgotPassword ? (
             <p>
               Remember your password?{' '}
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="link-button"
                 onClick={toggleForgotPassword}
               >
@@ -449,8 +448,8 @@ const AuthForm = () => {
             </p>
           ) : isResetPassword ? (
             <p>
-              <button 
-                type="button" 
+              <button
+                type="button"
                 className="link-button"
                 onClick={() => {
                   setIsResetPassword(false);
@@ -465,8 +464,8 @@ const AuthForm = () => {
             <>
               <p>
                 {isLogin ? "Don't have an account? " : "Already have an account? "}
-                <button 
-                  type="button" 
+                <button
+                  type="button"
                   className="link-button"
                   onClick={toggleMode}
                 >
@@ -476,8 +475,8 @@ const AuthForm = () => {
 
               {isLogin && (
                 <p>
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     className="link-button"
                     onClick={toggleForgotPassword}
                   >
@@ -488,8 +487,8 @@ const AuthForm = () => {
 
               {!isLogin && (
                 <p>
-                  <button 
-                    type="button" 
+                  <button
+                    type="button"
                     className="link-button admin-link"
                     onClick={toggleAdminMode}
                   >
