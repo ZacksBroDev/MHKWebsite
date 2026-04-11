@@ -49,7 +49,7 @@ const Schedule = () => {
       }
       const data = await response.json();
       setEvents(data.events || []);
-    } catch (error) {
+    } catch {
       setEvents([]);
       setMessage({ text: 'Network error while loading events.', type: 'error' });
     } finally {
@@ -136,7 +136,7 @@ const Schedule = () => {
 
       setMessage({ text: type === 'join' ? 'Class joined successfully.' : 'Class removed from your schedule.', type: 'success' });
       loadEvents();
-    } catch (error) {
+    } catch {
       setMessage({ text: 'Network issue while updating RSVP.', type: 'error' });
     } finally {
       setJoinLoading((prev) => ({ ...prev, [eventId]: false }));

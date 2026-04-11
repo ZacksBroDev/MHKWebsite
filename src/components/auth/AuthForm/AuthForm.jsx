@@ -69,7 +69,7 @@ const AuthForm = () => {
         setAccessCodeStatus(`❌ ${data.error}`);
         setAccessCodeValid(false);
       }
-    } catch (error) {
+    } catch {
       setAccessCodeStatus('❌ Error validating access code');
       setAccessCodeValid(false);
     }
@@ -124,7 +124,7 @@ const AuthForm = () => {
       } else {
         return { success: false, error: data.error || 'Failed to send reset email' };
       }
-    } catch (error) {
+    } catch {
       return { success: false, error: 'Network error. Please try again.' };
     }
   };
@@ -166,7 +166,7 @@ const AuthForm = () => {
       } else {
         return { success: false, error: data.error || 'Failed to reset password' };
       }
-    } catch (error) {
+    } catch {
       return { success: false, error: 'Network error. Please try again.' };
     }
   };

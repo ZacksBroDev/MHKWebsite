@@ -115,7 +115,7 @@ const AdminDashboard = () => {
     accessCode: '',
     userName: ''
   });
-  const [showSmsModal, setShowSmsModal] = useState(false);
+  const [_ShowSmsModal, setShowSmsModal] = useState(false);
   
   // New access code form
   const [newCodeForm, setNewCodeForm] = useState({
@@ -165,7 +165,7 @@ const AdminDashboard = () => {
       } else {
         setError(data.error);
       }
-    } catch (error) {
+    } catch {
       setError('Failed to fetch access codes');
     }
   };
@@ -183,7 +183,7 @@ const AdminDashboard = () => {
       } else {
         setError(data.error);
       }
-    } catch (error) {
+    } catch {
       setError('Failed to fetch users');
     }
   };
@@ -197,7 +197,7 @@ const AdminDashboard = () => {
       } else {
         setError(data.error);
       }
-    } catch (error) {
+    } catch {
       setError('Failed to fetch events');
     }
   };
@@ -263,7 +263,7 @@ const AdminDashboard = () => {
         const data = await response.json();
         setError(data.error);
       }
-    } catch (error) {
+    } catch {
       setError('Failed to update access code');
     }
   };
@@ -283,7 +283,7 @@ const AdminDashboard = () => {
         const data = await response.json();
         setError(data.error);
       }
-    } catch (error) {
+    } catch {
       setError('Failed to generate random code');
     }
   };
@@ -323,7 +323,7 @@ const AdminDashboard = () => {
       } else {
         setError(data.error);
       }
-    } catch (error) {
+    } catch {
       setError('Failed to create event');
     }
     

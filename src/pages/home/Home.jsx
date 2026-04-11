@@ -42,7 +42,7 @@ function Home() {
 
       setTodaysEvents(todayItems);
       setWeeklyEvents(upcoming);
-    } catch (error) {
+    } catch {
       setTodaysEvents([]);
       setWeeklyEvents([]);
     }

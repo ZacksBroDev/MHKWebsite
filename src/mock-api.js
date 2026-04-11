@@ -859,7 +859,7 @@ function generateYearlyEvents() {
 }
 
 // Mock fetch function
-const mockFetch = async (endpoint, options) => {
+const mockFetch = async (endpoint, _options) => {
   console.log(`Mock API call to: ${endpoint}`);
 
   // Simulate network delay
