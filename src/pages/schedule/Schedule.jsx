@@ -1,29 +1,45 @@
 import React, { useEffect, useMemo, useState } from "react";
-import { useAuth } from '../../contexts/AuthContext';
-import { API_ENDPOINTS } from '../../config/api';
-import './schedule.css';
+import { useAuth } from "../../contexts/AuthContext";
+import { API_ENDPOINTS } from "../../config/api";
+import "./schedule.css";
 
-const DAY_LABELS = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+const DAY_LABELS = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 const MONTH_LABELS = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
+  "January",
+  "February",
+  "March",
+  "April",
+  "May",
+  "June",
+  "July",
+  "August",
+  "September",
+  "October",
+  "November",
+  "December",
 ];
 
 const toDateKey = (date) => {
-  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}-${String(date.getDate()).padStart(2, '0')}`;
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 };
 
 const getStatus = (event, registered) => {
   if (registered) {
-    return 'joined';
+    return "joined";
   }
-  if (event.maxParticipants && event.currentParticipants >= event.maxParticipants) {
-    return 'full';
+  if (
+    event.maxParticipants &&
+    event.currentParticipants >= event.maxParticipants
+  ) {
+    return "full";
   }
-  if (event.maxParticipants && event.currentParticipants >= Math.floor(event.maxParticipants * 0.8)) {
-    return 'waitlist';
+  if (
+    event.maxParticipants &&
+    event.currentParticipants >= Math.floor(event.maxParticipants * 0.8)
+  ) {
+    return "waitlist";
   }
-  return 'open';
+  return "open";
 };
 
 const Schedule = () => {
@@ -32,7 +48,7 @@ const Schedule = () => {
   const [loading, setLoading] = useState(true);
   const [currentMonthDate, setCurrentMonthDate] = useState(new Date());
   const [selectedDate, setSelectedDate] = useState(new Date());
-  const [message, setMessage] = useState({ text: '', type: '' });
+  const [message, setMessage] = useState({ text: "", type: "" });
   const [joinLoading, setJoinLoading] = useState({});
 
   const currentYear = currentMonthDate.getFullYear();
@@ -44,14 +60,17 @@ const Schedule = () => {
       const response = await fetch(API_ENDPOINTS.EVENTS);
       if (!response.ok) {
         setEvents([]);
-        setMessage({ text: 'Unable to load events right now.', type: 'error' });
+        setMessage({ text: "Unable to load events right now.", type: "error" });
         return;
       }
       const data = await response.json();
       setEvents(data.events || []);
     } catch {
       setEvents([]);
-      setMessage({ text: 'Network error while loading events.', type: 'error' });
+      setMessage({
+        text: "Network error while loading events.",
+        type: "error",
+      });
     } finally {
       setLoading(false);
     }
@@ -65,7 +84,7 @@ const Schedule = () => {
     if (!message.text) {
       return;
     }
-    const timer = setTimeout(() => setMessage({ text: '', type: '' }), 4000);
+    const timer = setTimeout(() => setMessage({ text: "", type: "" }), 4000);
     return () => clearTimeout(timer);
   }, [message]);
 
@@ -112,32 +131,42 @@ const Schedule = () => {
 
   const updateEventParticipation = async (eventId, type) => {
     if (!user || !token) {
-      setMessage({ text: 'Please log in to manage RSVP.', type: 'error' });
+      setMessage({ text: "Please log in to manage RSVP.", type: "error" });
       return;
     }
 
     setJoinLoading((prev) => ({ ...prev, [eventId]: true }));
-    setMessage({ text: '', type: '' });
+    setMessage({ text: "", type: "" });
 
     try {
-      const response = await fetch(`${API_ENDPOINTS.EVENTS}/${eventId}/${type}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`
-        }
-      });
+      const response = await fetch(
+        `${API_ENDPOINTS.EVENTS}/${eventId}/${type}`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      );
 
       if (!response.ok) {
-        const fallback = type === 'join' ? 'Unable to join class.' : 'Unable to leave class.';
-        setMessage({ text: fallback, type: 'error' });
+        const fallback =
+          type === "join" ? "Unable to join class." : "Unable to leave class.";
+        setMessage({ text: fallback, type: "error" });
         return;
       }
 
-      setMessage({ text: type === 'join' ? 'Class joined successfully.' : 'Class removed from your schedule.', type: 'success' });
+      setMessage({
+        text:
+          type === "join"
+            ? "Class joined successfully."
+            : "Class removed from your schedule.",
+        type: "success",
+      });
       loadEvents();
     } catch {
-      setMessage({ text: 'Network issue while updating RSVP.', type: 'error' });
+      setMessage({ text: "Network issue while updating RSVP.", type: "error" });
     } finally {
       setJoinLoading((prev) => ({ ...prev, [eventId]: false }));
     }
@@ -156,7 +185,11 @@ const Schedule = () => {
   };
 
   if (loading) {
-    return <div className="schedule-portal"><p className="schedule-loading">Loading schedule...</p></div>;
+    return (
+      <div className="schedule-portal">
+        <p className="schedule-loading">Loading schedule...</p>
+      </div>
+    );
   }
 
   return (
@@ -164,9 +197,15 @@ const Schedule = () => {
       <div className="schedule-shell">
         <header className="schedule-header">
           <div className="month-controls">
-            <button onClick={previousMonth} className="month-btn">Prev</button>
-            <h1>{MONTH_LABELS[currentMonth]} {currentYear}</h1>
-            <button onClick={nextMonth} className="month-btn">Next</button>
+            <button onClick={previousMonth} className="month-btn">
+              Prev
+            </button>
+            <h1>
+              {MONTH_LABELS[currentMonth]} {currentYear}
+            </h1>
+            <button onClick={nextMonth} className="month-btn">
+              Next
+            </button>
           </div>
           <div className="portal-legend">
             <span className="legend open">Open</span>
@@ -180,7 +219,9 @@ const Schedule = () => {
           <aside className="calendar-pane">
             <div className="calendar-grid">
               {DAY_LABELS.map((day) => (
-                <p key={day} className="day-label">{day}</p>
+                <p key={day} className="day-label">
+                  {day}
+                </p>
               ))}
 
               {calendarDays.map((day, index) => {
@@ -191,15 +232,24 @@ const Schedule = () => {
                 return (
                   <button
                     key={`${key}-${index}`}
-                    className={`day-cell ${inMonth ? '' : 'outside'} ${selected ? 'selected' : ''}`}
+                    className={`day-cell ${inMonth ? "" : "outside"} ${selected ? "selected" : ""}`}
                     onClick={() => setSelectedDate(day)}
                   >
                     <span className="day-number">{day.getDate()}</span>
                     <div className="chips">
                       {dayEvents.slice(0, 2).map((event, chipIndex) => (
-                        <span className="event-chip" key={`${event.id || event._id || chipIndex}`}>{event.title}</span>
+                        <span
+                          className="event-chip"
+                          key={`${event.id || event._id || chipIndex}`}
+                        >
+                          {event.title}
+                        </span>
                       ))}
-                      {dayEvents.length > 2 && <span className="event-chip overflow">+{dayEvents.length - 2}</span>}
+                      {dayEvents.length > 2 && (
+                        <span className="event-chip overflow">
+                          +{dayEvents.length - 2}
+                        </span>
+                      )}
                     </div>
                   </button>
                 );
@@ -210,10 +260,11 @@ const Schedule = () => {
           <main className="agenda-pane">
             <div className="agenda-header">
               <h2>
-                Agenda • {selectedDate.toLocaleDateString('en-US', {
-                  weekday: 'long',
-                  month: 'long',
-                  day: 'numeric'
+                Agenda •{" "}
+                {selectedDate.toLocaleDateString("en-US", {
+                  weekday: "long",
+                  month: "long",
+                  day: "numeric",
                 })}
               </h2>
             </div>
@@ -221,7 +272,9 @@ const Schedule = () => {
             {selectedEvents.length === 0 ? (
               <div className="empty-state">
                 <p>No classes scheduled for this date.</p>
-                <small>Use this day for mobility, review, or drilling fundamentals.</small>
+                <small>
+                  Use this day for mobility, review, or drilling fundamentals.
+                </small>
               </div>
             ) : (
               <div className="agenda-list">
@@ -235,31 +288,46 @@ const Schedule = () => {
                       <div className="agenda-main">
                         <p className="agenda-time">{event.time}</p>
                         <h3>{event.title}</h3>
-                        <p className="agenda-meta">{event.description || 'Structured class session'} • Type: {event.type || 'General'}</p>
+                        <p className="agenda-meta">
+                          {event.description || "Structured class session"} •
+                          Type: {event.type || "General"}
+                        </p>
                       </div>
 
                       <div className="agenda-side">
-                        <span className={`status-pill ${status}`}>{status}</span>
+                        <span className={`status-pill ${status}`}>
+                          {status}
+                        </span>
                         <p className="capacity">
                           {event.currentParticipants || 0}
-                          {event.maxParticipants && ` / ${event.maxParticipants}`} enrolled
+                          {event.maxParticipants &&
+                            ` / ${event.maxParticipants}`}{" "}
+                          enrolled
                         </p>
                         {user ? (
                           registered ? (
                             <button
                               className="rsvp-btn leave"
-                              onClick={() => updateEventParticipation(eventId, 'leave')}
+                              onClick={() =>
+                                updateEventParticipation(eventId, "leave")
+                              }
                               disabled={isBusy}
                             >
-                              {isBusy ? 'Updating...' : 'Leave'}
+                              {isBusy ? "Updating..." : "Leave"}
                             </button>
                           ) : (
                             <button
                               className="rsvp-btn join"
-                              onClick={() => updateEventParticipation(eventId, 'join')}
-                              disabled={isBusy || status === 'full'}
+                              onClick={() =>
+                                updateEventParticipation(eventId, "join")
+                              }
+                              disabled={isBusy || status === "full"}
                             >
-                              {isBusy ? 'Updating...' : status === 'full' ? 'Full' : 'Join'}
+                              {isBusy
+                                ? "Updating..."
+                                : status === "full"
+                                  ? "Full"
+                                  : "Join"}
                             </button>
                           )
                         ) : (
@@ -274,7 +342,9 @@ const Schedule = () => {
           </main>
         </div>
 
-        {message.text && <p className={`portal-message ${message.type}`}>{message.text}</p>}
+        {message.text && (
+          <p className={`portal-message ${message.type}`}>{message.text}</p>
+        )}
       </div>
     </section>
   );

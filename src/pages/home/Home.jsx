@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import './home.css';
-import { useAuth } from '../../contexts/AuthContext';
-import { API_ENDPOINTS } from '../../config/api';
+import "./home.css";
+import { useAuth } from "../../contexts/AuthContext";
+import { API_ENDPOINTS } from "../../config/api";
 
 function Home() {
   const { user, token } = useAuth();
@@ -64,11 +64,16 @@ function Home() {
             <p className="hero-kicker">Mile High Karate Academy Portal</p>
             <h1>Train With Precision. Compete With Confidence.</h1>
             <p>
-              Your classes, progression, and curriculum are now organized into one performance-first member workspace.
+              Your classes, progression, and curriculum are now organized into
+              one performance-first member workspace.
             </p>
             <div className="hero-actions">
-              <Link to="/schedule" className="primary-cta">Open Schedule</Link>
-              <Link to="/level1" className="secondary-cta">Continue Training Path</Link>
+              <Link to="/schedule" className="primary-cta">
+                Open Schedule
+              </Link>
+              <Link to="/level1" className="secondary-cta">
+                Continue Training Path
+              </Link>
             </div>
           </div>
 
@@ -79,13 +84,20 @@ function Home() {
                 <p className="upcoming-time">{upcomingPrimary.time}</p>
                 <h3>{upcomingPrimary.title}</h3>
                 <p className="upcoming-meta">
-                  {new Date(upcomingPrimary.date).toLocaleDateString()} • {upcomingPrimary.currentParticipants || 0}
-                  {upcomingPrimary.maxParticipants && ` / ${upcomingPrimary.maxParticipants}`} enrolled
+                  {new Date(upcomingPrimary.date).toLocaleDateString()} •{" "}
+                  {upcomingPrimary.currentParticipants || 0}
+                  {upcomingPrimary.maxParticipants &&
+                    ` / ${upcomingPrimary.maxParticipants}`}{" "}
+                  enrolled
                 </p>
-                <Link to="/schedule" className="inline-link">View details</Link>
+                <Link to="/schedule" className="inline-link">
+                  View details
+                </Link>
               </div>
             ) : (
-              <p className="empty-inline">No upcoming classes found. Check back later today.</p>
+              <p className="empty-inline">
+                No upcoming classes found. Check back later today.
+              </p>
             )}
           </aside>
         </section>
@@ -119,7 +131,9 @@ function Home() {
             {weeklyEvents.length > 0 ? (
               weeklyEvents.map((event, index) => (
                 <article key={event._id || index} className="session-card">
-                  <p className="session-date">{new Date(event.date).toLocaleDateString()}</p>
+                  <p className="session-date">
+                    {new Date(event.date).toLocaleDateString()}
+                  </p>
                   <h3>{event.title}</h3>
                   <p className="session-time">{event.time}</p>
                   <p className="session-capacity">
@@ -144,22 +158,32 @@ function Home() {
             <Link to="/level1" className="path-card">
               <span>Level 1</span>
               <h3>Foundation Technique</h3>
-              <p>Core forms, basic combinations, structure, and movement standards.</p>
+              <p>
+                Core forms, basic combinations, structure, and movement
+                standards.
+              </p>
             </Link>
             <Link to="/level2" className="path-card">
               <span>Level 2</span>
               <h3>Intermediate Progression</h3>
-              <p>Expanded combinations, positional transitions, and pace control.</p>
+              <p>
+                Expanded combinations, positional transitions, and pace control.
+              </p>
             </Link>
             <Link to="/level3" className="path-card">
               <span>Level 3</span>
               <h3>Advanced Application</h3>
-              <p>High-pressure execution, advanced forms, and competitive discipline.</p>
+              <p>
+                High-pressure execution, advanced forms, and competitive
+                discipline.
+              </p>
             </Link>
             <Link to="/conditionals" className="path-card">
               <span>Black Belt</span>
               <h3>Conditionals</h3>
-              <p>Assessment standards, refinements, and elite consistency checks.</p>
+              <p>
+                Assessment standards, refinements, and elite consistency checks.
+              </p>
             </Link>
           </div>
         </section>
