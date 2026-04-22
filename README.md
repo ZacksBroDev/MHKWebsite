@@ -1,8 +1,10 @@
-# 🥋 Mile High Karate
+# Mile High Karate
 
-A modern web platform for karate students to learn techniques, track progression through belt levels, and manage class schedules. Built as a progressive single-page application with React and Vite, it features an interactive learning system with 1700+ pre-generated events, role-based authentication, and a fully responsive mobile-first design for students, instructors, and administrators.
+Mile High Karate is a training portal for students, instructors, and admins. It helps members follow belt-level curriculum, review upcoming classes, and stay organized in one place.
 
-## 🌐 Live Demo
+The app is a React + Vite single-page application with a mock data layer and role-aware routes. Right now it runs fully on the frontend and is deployed through AWS Amplify.
+
+## Live Demo
 
 **Production:** [https://www.mhktraining.com](https://www.mhktraining.com)
 
@@ -10,7 +12,7 @@ A modern web platform for karate students to learn techniques, track progression
 
 ---
 
-## ✨ Core Features
+## Core Features
 
 - **Belt-Level Learning Modules** - Progressive technique training from white belt to black belt degrees with video instruction
 - **Event Management System** - 14-month schedule with 1700+ classes, tournaments, seminars, and belt tests
@@ -20,28 +22,27 @@ A modern web platform for karate students to learn techniques, track progression
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
-### 🏠 Home Page & Navigation
-<!-- TODO: Add screenshot of homepage with navigation -->
+### Dashboard
 
-### 🥋 Belt Level Learning Modules
-<!-- TODO: Add screenshot of belt progression interface -->
+![Dashboard view](docs/imgs/dashboard.png)
 
-### 📅 Event Schedule Management
-<!-- TODO: Add screenshot of event calendar/schedule view -->
+### Training Experience
 
-### 🔐 Admin Dashboard
-<!-- TODO: Add screenshot of admin interface with user management -->
+![Training page](docs/imgs/training.png)
 
-### 📱 Mobile Responsive Design
-<!-- TODO: Add mobile screenshots or GIF showing responsive behavior -->
+### Schedule View
 
-_Note: Screenshots coming soon - visit [live demo](https://www.mhktraining.com) to explore_
+![Calendar and scheduling view](docs/imgs/calender.png)
+
+### Mobile Layout
+
+![Mobile responsive view](docs/imgs/mobile.png)
 
 ---
 
-## 🏗️ Architecture
+## Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────┐
@@ -68,7 +69,7 @@ Auth Flow: Login → Validate → Context Update → localStorage → Protected 
 
 ---
 
-## 🚀 Local Setup
+## Local Setup
 
 ```bash
 # Clone and install
@@ -86,7 +87,7 @@ npm run build
 
 ---
 
-## 🔐 Environment Variables
+## Environment Variables
 
 Optional configuration via `.env` file:
 
@@ -99,7 +100,7 @@ VITE_GA_MEASUREMENT_ID=G-XXXXXXXXXX
 
 ---
 
-## �� Deployment
+## Deployment
 
 **AWS Amplify (Current):**
 
@@ -135,22 +136,24 @@ npm run build
 
 ---
 
-## 💾 Data Persistence Model
+## Data Persistence Model
 
 **What Persists (localStorage):**
-- ✅ Authentication tokens - Login sessions survive page refreshes
-- ✅ User role (admin/student) - Maintains access permissions
+
+- Authentication tokens - Login sessions survive page refreshes
+- User role (admin/student) - Maintains access permissions
 
 **What Doesn't Persist (Mock Data):**
-- ❌ Event data - 1700+ events loaded from static mock API on each session
-- ❌ User profiles - No database; profiles reconstructed from tokens
-- ❌ Admin changes - Cannot create/edit/delete events (static dataset)
 
-**Current Architecture:** Frontend-only SPA with mock API. Backend integration planned for Q1 2026 (see [Roadmap](#️-roadmap)).
+- Event data - 1700+ events loaded from static mock API on each session
+- User profiles - No database; profiles reconstructed from tokens
+- Admin changes - Cannot create/edit/delete events (static dataset)
+
+**Current Architecture:** Frontend-only SPA with mock API. Backend integration planned for Q1 2026 (see [Roadmap](#roadmap)).
 
 ---
 
-## ⚠️ Known Limitations
+## Known Limitations
 
 - **Mock Backend** - No real API; all data is static and client-side
 - **No CRUD Operations** - Cannot create, edit, or delete events/users (admin UI is view-only)
@@ -158,16 +161,16 @@ npm run build
 
 ---
 
-## 🌐 Browser Support
+## Browser Support
 
-- **Chrome/Edge:** v90+ ✅
-- **Firefox:** v88+ ✅
-- **Safari:** v14+ ✅
-- **Mobile:** iOS Safari 14+, Chrome Android 90+ ✅
+- **Chrome/Edge:** v90+
+- **Firefox:** v88+
+- **Safari:** v14+
+- **Mobile:** iOS Safari 14+, Chrome Android 90+
 
 ---
 
-## 🧪 Testing
+## Testing
 
 **Manual Testing:**
 
@@ -190,7 +193,7 @@ npm run preview
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 1. Fork the repository
 2. Create a feature branch: `git checkout -b feature/your-feature`
@@ -206,30 +209,32 @@ npm run preview
 
 ---
 
-## 🗺️ Roadmap
+## Roadmap
 
 **Q1 2026:**
 
-1. **Backend Integration** - Node.js/Express + MongoDB API for real data persistence (in progress)
-   - User authentication with JWT
-   - Real-time event creation/management
-   - Database schema for users, events, and progress tracking
+- **Backend Integration** - Node.js/Express + MongoDB API for real data persistence (in progress)
+- User authentication with JWT
+- Real-time event creation/management
+- Database schema for users, events, and progress tracking
 
-**Q2 2026:** 2. **Progress Tracking** - Student analytics dashboard
+**Q2 2026:**
 
+- **Progress Tracking** - Student analytics dashboard
 - Training history with attendance tracking
 - Belt progression milestones and requirements
 - Performance metrics and achievement badges
 
-**Q3 2026:** 3. **Video Integration** - Embedded technique demonstrations
+**Q3 2026:**
 
+- **Video Integration** - Embedded technique demonstrations
 - YouTube API integration for learning modules
 - Technique videos organized by belt level
 - Progress tracking for video completion
 
 ---
 
-## 👨‍💻 Author
+## Author
 
 **Zackary Brown** - Full Stack Developer
 
@@ -237,7 +242,7 @@ npm run preview
 
 ---
 
-## 📄 License
+## License
 
 Developed for educational and community purposes. Please use responsibly.
 
