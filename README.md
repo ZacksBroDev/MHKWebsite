@@ -45,9 +45,8 @@ The app is a React + Vite single-page application with a mock data layer and rol
 ### Mobile Layout
 
 <p align="center">
-  <img src="./docs/imgs/mobile.png" alt="Mobile" width="85%" />
+  <img src="./docs/imgs/mobile.png" alt="Mobile Layout" width="320" />
 </p>
-
 ---
 
 ## Architecture
