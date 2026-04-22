@@ -39,7 +39,7 @@ The app is a React + Vite single-page application with a mock data layer and rol
 ### Schedule View
 
 <p align="center">
-  <img src="./docs/imgs/schedule.png" alt="Schedule" width="85%" />
+  <img src="./docs/imgs/calender.png" alt="Schedule" width="85%" />
 </p>
 
 ### Mobile Layout
