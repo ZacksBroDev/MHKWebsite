@@ -26,19 +26,27 @@ The app is a React + Vite single-page application with a mock data layer and rol
 
 ### Dashboard
 
-![Dashboard view](docs/imgs/dashboard.png)
+<p align="center">
+  <img src="./docs/imgs/dashboard.png" alt="Dashboard" width="85%" />
+</p>
 
 ### Training Experience
 
-![Training page](docs/imgs/training.png)
+<p align="center">
+  <img src="./docs/imgs/training.png" alt="Training" width="85%" />
+</p>
 
 ### Schedule View
 
-![Calendar and scheduling view](docs/imgs/calender.png)
+<p align="center">
+  <img src="./docs/imgs/schedule.png" alt="Schedule" width="85%" />
+</p>
 
 ### Mobile Layout
 
-![Mobile responsive view](docs/imgs/mobile.png)
+<p align="center">
+  <img src="./docs/imgs/mobile.png" alt="Mobile" width="85%" />
+</p>
 
 ---
 
